@@ -16,7 +16,12 @@
 
 <div class="searchbar-wrap">
   <div class="searchbar">
+    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+      <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
     <input type="text" id="searchInput" placeholder="Search rules — try &quot;MRP&quot;, &quot;net quantity&quot;, &quot;wholesale&quot;, &quot;penalty&quot;…" autocomplete="off">
+    <kbd class="kbd-hint">/</kbd>
     <span id="resultCount"></span>
   </div>
 </div>
@@ -325,6 +330,7 @@
   const noResults = document.getElementById('noResults');
   const resultCount = document.getElementById('resultCount');
   const toc = document.querySelector('.toc');
+  const layoutEl = document.querySelector('.layout');
   const headings = Array.from(document.querySelectorAll('.chapter-heading'));
 
   function clearHighlights(el){
@@ -360,8 +366,11 @@
     });
   }
 
+  const searchbarEl = document.querySelector('.searchbar');
+
   function runSearch(){
     const term = input.value.trim().toLowerCase();
+    searchbarEl.classList.toggle('has-value', term.length > 0);
     let visible = 0;
 
     rules.forEach(rule=>{
@@ -387,6 +396,7 @@
     });
 
     toc.style.display = term ? 'none' : '';
+    layoutEl.classList.toggle('searching', !!term);
     noResults.style.display = (visible === 0) ? 'block' : 'none';
     resultCount.textContent = term ? (visible + ' match' + (visible===1?'':'es')) : '';
   }

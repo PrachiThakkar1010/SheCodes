@@ -1058,6 +1058,8 @@ main.login-main {
 
 
 /* For rules.html */
+
+
 .masthead {
     padding: 60px 8% 40px;
     text-align: center;
@@ -1239,7 +1241,19 @@ main.login-main {
 /* ---------- Content column wrapper ---------- */
  
 .rules-content {
+    grid-column: 2;
     min-width: 0; /* prevents grid blowout with long text/tables */
+}
+ 
+/* When searching, the sidebar is hidden — collapse its column so
+   rule cards use the full width instead of leaving it blank */
+ 
+.layout.searching {
+    grid-template-columns: 1fr;
+}
+ 
+.layout.searching .rules-content {
+    grid-column: 1 / -1;
 }
  
 /* ---------- Chapter headings ---------- */
@@ -1405,6 +1419,10 @@ footer {
         gap: 30px;
     }
  
+    .rules-content {
+        grid-column: 1;
+    }
+ 
     .toc {
         position: static;
     }
@@ -1424,13 +1442,21 @@ footer {
     }
  
     .searchbar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
+        padding: 0 14px;
+    }
+ 
+    .searchbar input {
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+ 
+    .kbd-hint {
+        display: none;
     }
  
     .searchbar #resultCount {
-        text-align: right;
+        font-size: 12px;
+        padding-left: 8px;
     }
 }
  
