@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Parakh</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo-image">
+            <img src="../assets/Logo.png" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="index.html">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            <a href="scan.html">Scan</a>
+            <a href="rules.html">Rules Simplified</a>
+            <a href="dashboard.html" class="profile-icon active" aria-label="My Dashboard">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2"/>
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </a>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+
+        <!-- Greeting -->
+        <div class="dashboard-header">
+            <div>
+                <p class="eyebrow">Dashboard</p>
+                <h1 id="greetingText">Welcome back, Aneri25</h1>
+                <p class="dashboard-subtext" id="dashboardDate">Thursday, 27 August 2026</p>
+            </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-total">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 2H15M12 2V6M5 8H19L18 21H6L5 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-number">27</p>
+                    <p class="stat-label">Products Scanned</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-violation">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 9V13M12 17H12.01M10.29 3.86L1.82 18A2 2 0 0 0 3.54 21H20.46A2 2 0 0 0 22.18 18L13.71 3.86A2 2 0 0 0 10.29 3.86Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-number">14</p>
+                    <p class="stat-label">Total Violations Found</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-clean">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-number">63%</p>
+                    <p class="stat-label">Fully Compliant Products</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Main content: recent activity + sidebar -->
+        <div class="dashboard-layout">
+
+            <!-- Recent activity -->
+            <section class="dashboard-section">
+                <div class="dashboard-section-header">
+                    <h2>Recent Activity</h2>
+                    <a href="history.html" class="view-all-link">View All →</a>
+                </div>
+
+                <div class="recent-list">
+
+                    <a href="result.html" class="recent-card">
+                        <div class="recent-card-thumb">
+                            <img src="https://via.placeholder.com/60" alt="Lay's Classic Salted Chips">
+                        </div>
+                        <div class="recent-card-info">
+                            <h3>Lay's Classic Salted Chips</h3>
+                            <p class="recent-card-date">26 August 2026, 3:42 PM</p>
+                        </div>
+                        <div class="history-card-status status-violation">
+                            <span class="status-dot"></span>
+                            3 Violations
+                        </div>
+                    </a>
+
+                    <a href="result.html" class="recent-card">
+                        <div class="recent-card-thumb">
+                            <img src="https://via.placeholder.com/60" alt="Amul Butter">
+                        </div>
+                        <div class="recent-card-info">
+                            <h3>Amul Butter 500g</h3>
+                            <p class="recent-card-date">24 August 2026, 11:15 AM</p>
+                        </div>
+                        <div class="history-card-status status-clean">
+                            <span class="status-dot"></span>
+                            No Violations
+                        </div>
+                    </a>
+
+                    <a href="result.html" class="recent-card">
+                        <div class="recent-card-thumb">
+                            <img src="https://via.placeholder.com/60" alt="Maggi Noodles">
+                        </div>
+                        <div class="recent-card-info">
+                            <h3>Maggi 2-Minute Noodles</h3>
+                            <p class="recent-card-date">20 August 2026, 7:02 PM</p>
+                        </div>
+                        <div class="history-card-status status-violation">
+                            <span class="status-dot"></span>
+                            1 Violation
+                        </div>
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- Sidebar: scan CTA + profile -->
+            <aside class="dashboard-sidebar">
+
+                <div class="scan-cta-card">
+                    <div class="scan-cta-card-icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 7V5C3 3.89543 3.89543 3 5 3H7M17 3H19C20.1046 3 21 3.89543 21 5V7M21 17V19C21 20.1046 20.1046 21 19 21H17M7 21H5C3.89543 21 3 20.1046 3 19V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="7" y="7" width="10" height="10" rx="1" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3>Scan a New Product</h3>
+                    <p>Check compliance on your next purchase in seconds.</p>
+                    <a href="scan.html" class="btn-primary btn-block">Start Scanning</a>
+                </div>
+
+                <div class="profile-card">
+                    <h3 class="profile-card-heading">Account</h3>
+
+                    <div class="profile-field">
+                        <span class="profile-field-label">Username</span>
+                        <span class="profile-field-value" id="profileUsername">Aneri25</span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="profile-field-label">Email</span>
+                        <span class="profile-field-value" id="profileEmail">aneri@example.com</span>
+                    </div>
+
+                    <a href="edit-profile.html" class="profile-edit-link">Edit Profile</a>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Parakh. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
