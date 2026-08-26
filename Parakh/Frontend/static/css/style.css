@@ -1,6 +1,3 @@
-/* =========================================================
-   GLOBAL STYLES
-========================================================= */
 
 * {
     margin: 0;
@@ -430,8 +427,8 @@ section {
     position: relative;
     background-color: #073b70;
     text-align: left;
-    padding: 10px;
-    border-radius: 5%;
+    padding: 30px 25px;
+    border-radius: 14px;
 }
 
 .step-number {
@@ -555,60 +552,7 @@ section {
 }
 
 
-/* =========================================================
-   PARTNERS
-========================================================= */
 
-.partners {
-    padding: 90px 8% 100px;
-
-    background-color: #ffffff;
-
-    text-align: center;
-}
-
-.partners h2 {
-    margin-bottom: 50px;
-
-    font-size: 30px;
-
-    color: #073b70;
-}
-
-.partner-logos {
-    max-width: 900px;
-
-    margin: 0 auto;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 80px;
-}
-
-.partner-logo {
-    width: 180px;
-    height: 80px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 1px solid #e1e7ee;
-
-    border-radius: 8px;
-
-    color: #8a9aaa;
-
-    font-size: 14px;
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
 
 .footer {
     background-color: #062c52;
@@ -914,3 +858,199 @@ section {
         gap: 8px;
     }
 }
+
+/* For the login page */
+
+body:has(main.login-main) {
+    background-color: #f7f9fc;
+    min-height: 100vh;
+}
+
+header.page-header {
+    padding: 28px 8%;
+    background-color: #f7f9fc;   
+    /* border-bottom: 1px solid #dde8f5; */
+}
+
+header.page-header h1 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #073b70;
+    text-align: center;
+    margin-top: 3%;
+}
+
+main.login-main {
+    min-height: auto;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    padding: 30px 5% 60px;
+    margin-top: -30px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 460px;
+
+    background-color: #ffffff;
+
+    padding: 45px 40px;
+
+    border-radius: 16px;
+
+    box-shadow: 0 20px 50px rgba(7, 59, 112, 0.10);
+
+    border: 1px solid #e6ebf2;
+}
+
+.login-card h2 {
+    margin-bottom: 8px;
+    font-size: 26px;
+    font-weight: 800;
+    color: #073b70;
+    text-align: center;
+}
+
+.login-subtext {
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: #65788b;
+    text-align: center;
+}
+
+/* Form fields */
+.username,
+.password {
+    margin-bottom: 20px;
+}
+
+.username label,
+.password label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #35516d;
+}
+
+.username input,
+.password input {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    font-size: 15px;
+    font-family: inherit;
+    color: #0b2d4d;
+
+    background-color: #f7f9fc;
+
+    border: 1px solid #dbe4ee;
+    border-radius: 8px;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.username input:focus,
+.password input:focus {
+    outline: none;
+    border-color: #0b63ce;
+    box-shadow: 0 0 0 3px rgba(11, 99, 206, 0.12);
+}
+
+
+.username input::placeholder,
+.password input::placeholder {
+    color: #9aabbb;
+}
+
+.password a {
+    display: block;
+
+    margin-top: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+    text-align: right;
+
+    color: #0b63ce;
+
+    transition: color 0.2s ease;
+}
+
+.password a:hover {
+    color: #073b70;
+    text-decoration: underline;
+}
+
+.login-card button[type="submit"] {
+    width: 100%;
+
+    padding: 13px 20px;
+
+    margin-top: 10px;
+
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+
+    color: #ffffff;
+    background-color: #073b70;
+
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.login-card button[type="submit"]:hover {
+    background-color: #0b63ce;
+    transform: translateY(-1px);
+}
+
+.login-card button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* New user link */
+.new-user {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.new-user a {
+    font-size: 14px;
+    font-weight: 600;
+    color: #35516d;
+}
+
+.new-user a:hover {
+    color: #0b63ce;
+    text-decoration: underline;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin: 24px 0;
+
+    font-size: 12px;
+    color: #9aabbb;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #e6ebf2;
+}
+
+

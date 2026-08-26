@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel = "stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+    <header class="page-header">
+        <h1>Welcome to Parakh</h1>
+    </header>
+
+    <main class="login-main">
+
+        <div class="login-card">
+        <h2>Login</h2>
+        <p class="login-subtext">We promise this login is 100% preservative-free</p>
+
+        <form action="/login" method="POST" class="loginForm">
+            <div class="username">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="password">
+                <label for="password">Password</label>
+                <input type="password" id="password" name = "password" placeholder="Enter your password" required>
+                <a href="forgot-password.html">Forgot Password?</a>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+        <div class="new-user">
+            <a href="register.html">New to Parakh? Click to register</a>
+        </div>
+    </div>
+    </main>
+</body>
+
+</html>
