@@ -744,20 +744,23 @@ section {
 @media (max-width: 600px) {
 
     .navbar {
+        grid-template-columns: 1fr;      /* single column */
+        grid-template-rows: auto auto auto;
+        justify-items: center;            /* centers each item in its row */
         height: auto;
-
         padding: 18px 5%;
-
-        flex-direction: column;
-
         gap: 15px;
+    }
+
+    .logo-image,
+    .logo,
+    .nav-links {
+        justify-self: center;   /* override the desktop start/center/end values */
     }
 
     .nav-links {
         width: 100%;
-
         justify-content: center;
-
         gap: 15px;
     }
 
