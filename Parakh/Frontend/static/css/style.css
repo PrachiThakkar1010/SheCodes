@@ -1459,4 +1459,50 @@ footer {
         padding-left: 8px;
     }
 }
+
+/* for register.html */
+
+.email,
+.confirm-password {
+    margin-bottom: 20px;
+}
+ 
+.email label,
+.confirm-password label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #35516d;
+}
+ 
+.email input,
+.confirm-password input {
+    width: 100%;
+ 
+    padding: 12px 14px;
+ 
+    font-size: 15px;
+    font-family: inherit;
+    color: #0b2d4d;
+ 
+    background-color: #f7f9fc;
+ 
+    border: 1px solid #dbe4ee;
+    border-radius: 8px;
+ 
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+ 
+.email input:focus,
+.confirm-password input:focus {
+    outline: none;
+    border-color: #0b63ce;
+    box-shadow: 0 0 0 3px rgba(11, 99, 206, 0.12);
+}
+ 
+.email input::placeholder,
+.confirm-password input::placeholder {
+    color: #9aabbb;
+}
  

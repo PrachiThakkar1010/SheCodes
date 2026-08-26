@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+    <header class="page-header">
+        <h1>Begin your journey with Parakh</h1>
+    </header>
+
+    <main class="login-main">
+
+        <div class="login-card">
+            <h2>Create Account</h2>
+            <p class="login-subtext">Join Parakh in less time than it takes to make maggi!</p>
+
+            <form action="/register" method="POST" class="registerForm">
+                <div class="username">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                </div>
+
+                <div class="email">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="password">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Create a password" required>
+                </div>
+
+                <div class="confirm-password">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter your password" required>
+                </div>
+
+                <button type="submit">Register</button>
+            </form>
+
+            <div class="divider">or</div>
+
+            <div class="new-user">
+                <a href="login.html">Already have an account? Click to login</a>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
