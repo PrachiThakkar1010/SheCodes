@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan History - Parakh</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo-image">
+            <img src="../assets/Logo.png" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="index.html">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            <a href="scan.html">Scan</a>
+            <a href="rules.html">Rules</a>
+       <a href="dashboard.html" class="profile-icon" aria-label="My Dashboard">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2"/>
+        <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+</a>
+        </nav>
+    </header>
+
+    <main class="history-main">
+
+        <div class="history-header">
+            <div>
+                <p class="eyebrow">Your Activity</p>
+                <h1>Scan History</h1>
+                <p class="history-subtext">A record of every product you've scanned with Parakh.</p>
+            </div>
+        </div>
+
+        <!-- Filter / search bar -->
+        <div class="history-controls">
+            <div class="searchbar">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+                    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" id="historySearch" placeholder="Search by product name...">
+            </div>
+
+            <select id="verdictFilter" class="filter-select">
+                <option value="all">All Results</option>
+                <option value="violations">Violations Only</option>
+                <option value="clean">Compliant Only</option>
+            </select>
+        </div>
+
+        <!-- Scan history list -->
+        <div class="history-list" id="historyList">
+
+            <a href="result.html" class="history-card">
+                <div class="history-card-thumb">
+                    <img src="https://via.placeholder.com/80" alt="Lay's Classic Salted Chips">
+                </div>
+                <div class="history-card-info">
+                    <h3>Lay's Classic Salted Chips</h3>
+                    <p class="history-card-date">Scanned on 26 August 2026, 3:42 PM</p>
+                </div>
+                <div class="history-card-status status-violation">
+                    <span class="status-dot"></span>
+                    3 Violations
+                </div>
+            </a>
+
+            <a href="result.html" class="history-card">
+                <div class="history-card-thumb">
+                    <img src="https://via.placeholder.com/80" alt="Amul Butter">
+                </div>
+                <div class="history-card-info">
+                    <h3>Amul Butter 500g</h3>
+                    <p class="history-card-date">Scanned on 24 August 2026, 11:15 AM</p>
+                </div>
+                <div class="history-card-status status-clean">
+                    <span class="status-dot"></span>
+                    No Violations
+                </div>
+            </a>
+
+            <a href="result.html" class="history-card">
+                <div class="history-card-thumb">
+                    <img src="https://via.placeholder.com/80" alt="Maggi Noodles">
+                </div>
+                <div class="history-card-info">
+                    <h3>Maggi 2-Minute Noodles</h3>
+                    <p class="history-card-date">Scanned on 20 August 2026, 7:02 PM</p>
+                </div>
+                <div class="history-card-status status-violation">
+                    <span class="status-dot"></span>
+                    1 Violation
+                </div>
+            </a>
+
+            <a href="result.html" class="history-card">
+                <div class="history-card-thumb">
+                    <img src="https://via.placeholder.com/80" alt="Colgate Toothpaste">
+                </div>
+                <div class="history-card-info">
+                    <h3>Colgate Strong Teeth Toothpaste</h3>
+                    <p class="history-card-date">Scanned on 15 August 2026, 9:30 AM</p>
+                </div>
+                <div class="history-card-status status-clean">
+                    <span class="status-dot"></span>
+                    No Violations
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Empty state (shown when no scans exist / search + filter yields nothing) -->
+        <div class="history-empty" id="historyEmpty" style="display: none;">
+            <div class="history-empty-icon">🔍</div>
+            <h3>No scans found</h3>
+            <p>Try adjusting your search or filter, or scan a new product to get started.</p>
+            <a href="scan.html" class="btn-primary">Scan a Product</a>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Parakh. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const historySearch = document.getElementById('historySearch');
+        const verdictFilter = document.getElementById('verdictFilter');
+        const historyList = document.getElementById('historyList');
+        const historyEmpty = document.getElementById('historyEmpty');
+
+        const allCards = Array.from(historyList.querySelectorAll('.history-card'));
+
+        function applyFilters() {
+            const searchTerm = historySearch.value.trim().toLowerCase();
+            const verdictValue = verdictFilter.value; // 'all' | 'violations' | 'clean'
+
+            let visibleCount = 0;
+
+            allCards.forEach(card => {
+                const productName = card.querySelector('h3').textContent.toLowerCase();
+                const hasViolation = card.querySelector('.history-card-status').classList.contains('status-violation');
+
+                const matchesSearch = productName.includes(searchTerm);
+
+                const matchesVerdict =
+                    verdictValue === 'all' ||
+                    (verdictValue === 'violations' && hasViolation) ||
+                    (verdictValue === 'clean' && !hasViolation);
+
+                const shouldShow = matchesSearch && matchesVerdict;
+
+                card.style.display = shouldShow ? '' : 'none';
+
+                if (shouldShow) visibleCount++;
+            });
+
+            // Show empty state only if filters/search produce zero matches
+            historyEmpty.style.display = visibleCount === 0 ? 'flex' : 'none';
+            historyList.style.display = visibleCount === 0 ? 'none' : '';
+        }
+
+        historySearch.addEventListener('input', applyFilters);
+        verdictFilter.addEventListener('change', applyFilters);
+    </script>
+
+</body>
+</html>
