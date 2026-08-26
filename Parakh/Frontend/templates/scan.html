@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Product - Parakh</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo-image">
+            <img src="../assets/Logo.png" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="index.html">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            <a href="rules.html">Rules Simplified</a>
+            <a href="index.html#how-it-works-index">How it works</a>
+            <a href="login.html" class="login-link">Login</a>
+        </nav>
+    </header>
+
+    <main class="scan-main">
+
+        <div class="scan-header">
+            <h1>Scan Your Product</h1>
+            <p class="scan-subtext">Take a photo or upload images of the product label to check compliance.</p>
+        </div>
+
+        <!-- Mode toggle: Camera vs Upload -->
+        <div class="scan-mode-toggle">
+            <button type="button" class="mode-btn active" id="cameraModeBtn" data-mode="camera">
+                Use Camera
+            </button>
+            <button type="button" class="mode-btn" id="uploadModeBtn" data-mode="upload">
+                Upload Images
+            </button>
+        </div>
+
+        <!-- Camera Section -->
+        <section class="camera-section" id="cameraSection">
+            <div class="camera-view-wrapper">
+                <video id="cameraFeed" autoplay playsinline></video>
+                <canvas id="captureCanvas" style="display: none;"></canvas>
+            </div>
+
+            <div class="camera-controls">
+                <button type="button" class="btn-secondary" id="startCameraBtn">
+                    Start Camera
+                </button>
+                <button type="button" class="btn-primary" id="captureBtn" disabled>
+                    Capture Photo
+                </button>
+                <button type="button" class="btn-secondary" id="stopCameraBtn" disabled>
+                    Stop Camera
+                </button>
+            </div>
+        </section>
+
+        <!-- Upload Section -->
+        <section class="upload-section" id="uploadSection" style="display: none;">
+            <label for="fileInput" class="upload-dropzone" id="uploadDropzone">
+                <div class="upload-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 16V4M12 4L7 9M12 4L17 9" stroke="#073b70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 16V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V16" stroke="#073b70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <p class="upload-text">Click to upload or drag and drop</p>
+                <p class="upload-subtext">You can select multiple images of the same product</p>
+            </label>
+            <input type="file" id="fileInput" accept="image/*" multiple hidden>
+        </section>
+
+        <!-- Preview Section (shared by both camera + upload) -->
+        <section class="preview-section" id="previewSection">
+            <h3 class="preview-heading">Selected Images (<span id="imageCount">0</span>)</h3>
+            <div class="preview-grid" id="previewGrid">
+                <!-- Image thumbnails get injected here by JS -->
+            </div>
+        </section>
+
+        <!-- Action buttons -->
+        <div class="scan-actions">
+            <button type="button" class="btn-secondary" id="clearAllBtn">
+                Clear All
+            </button>
+            <button type="button" class="btn-primary btn-analyze" id="analyzeBtn" disabled>
+                Analyze Product →
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+
+    // STATE
+
+    let capturedImages = []; // { id, dataUrl, file (optional) }
+    let cameraStream = null;
+    let imageIdCounter = 0;
+
+
+    // ELEMENT REFERENCES
+
+    const cameraModeBtn = document.getElementById('cameraModeBtn');
+    const uploadModeBtn = document.getElementById('uploadModeBtn');
+    const cameraSection = document.getElementById('cameraSection');
+    const uploadSection = document.getElementById('uploadSection');
+
+    const cameraFeed = document.getElementById('cameraFeed');
+    const captureCanvas = document.getElementById('captureCanvas');
+    const startCameraBtn = document.getElementById('startCameraBtn');
+    const captureBtn = document.getElementById('captureBtn');
+    const stopCameraBtn = document.getElementById('stopCameraBtn');
+
+    const uploadDropzone = document.getElementById('uploadDropzone');
+    const fileInput = document.getElementById('fileInput');
+
+    const previewGrid = document.getElementById('previewGrid');
+    const imageCount = document.getElementById('imageCount');
+
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+
+
+    // MODE TOGGLE (Camera <-> Upload)
+
+    function switchMode(mode) {
+        if (mode === 'camera') {
+            cameraModeBtn.classList.add('active');
+            uploadModeBtn.classList.remove('active');
+            cameraSection.style.display = '';
+            uploadSection.style.display = 'none';
+        } else {
+            uploadModeBtn.classList.add('active');
+            cameraModeBtn.classList.remove('active');
+            uploadSection.style.display = '';
+            cameraSection.style.display = 'none';
+
+            // Stop camera if user switches away from it
+            stopCamera();
+        }
+    }
+
+    cameraModeBtn.addEventListener('click', () => switchMode('camera'));
+    uploadModeBtn.addEventListener('click', () => switchMode('upload'));
+
+    // CAMERA HANDLING
+
+    async function startCamera() {
+        try {
+            cameraStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: 'environment' }, // prefer back camera on mobile
+                audio: false
+            });
+
+            cameraFeed.srcObject = cameraStream;
+
+            startCameraBtn.disabled = true;
+            captureBtn.disabled = false;
+            stopCameraBtn.disabled = false;
+
+        } catch (err) {
+            console.error('Camera access error:', err);
+            alert('Could not access camera. Please check permissions or try uploading images instead.');
+        }
+    }
+
+    function stopCamera() {
+        if (cameraStream) {
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
+            cameraFeed.srcObject = null;
+        }
+
+        startCameraBtn.disabled = false;
+        captureBtn.disabled = true;
+        stopCameraBtn.disabled = true;
+    }
+
+    function capturePhoto() {
+        if (!cameraStream) return;
+
+        const width = cameraFeed.videoWidth;
+        const height = cameraFeed.videoHeight;
+
+        captureCanvas.width = width;
+        captureCanvas.height = height;
+
+        const ctx = captureCanvas.getContext('2d');
+        ctx.drawImage(cameraFeed, 0, 0, width, height);
+
+        const dataUrl = captureCanvas.toDataURL('image/jpeg', 0.9);
+
+        addImage(dataUrl);
+    }
+
+    startCameraBtn.addEventListener('click', startCamera);
+    stopCameraBtn.addEventListener('click', stopCamera);
+    captureBtn.addEventListener('click', capturePhoto);
+
+
+    // FILE UPLOAD HANDLING
+
+    fileInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+        fileInput.value = ''; // reset so selecting the same file again still fires 'change'
+    });
+
+    // Drag and drop support
+    uploadDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadDropzone.classList.add('dragover');
+    });
+
+    uploadDropzone.addEventListener('dragleave', () => {
+        uploadDropzone.classList.remove('dragover');
+    });
+
+    uploadDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadDropzone.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    function handleFiles(fileList) {
+        const files = Array.from(fileList).filter(file => file.type.startsWith('image/'));
+
+        if (files.length === 0) return;
+
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                addImage(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // IMAGE STATE MANAGEMENT (shared by camera + upload)
+
+    function addImage(dataUrl) {
+        const id = `img-${imageIdCounter++}`;
+        capturedImages.push({ id, dataUrl });
+        renderPreview();
+    }
+
+    function removeImage(id) {
+        capturedImages = capturedImages.filter(img => img.id !== id);
+        renderPreview();
+    }
+
+    function clearAllImages() {
+        capturedImages = [];
+        renderPreview();
+    }
+
+    function renderPreview() {
+        previewGrid.innerHTML = '';
+
+        capturedImages.forEach(img => {
+            const item = document.createElement('div');
+            item.className = 'preview-item';
+
+            item.innerHTML = `
+                <img src="${img.dataUrl}" alt="Captured product image">
+                <button type="button" class="preview-remove" data-id="${img.id}" aria-label="Remove image">×</button>
+            `;
+
+            previewGrid.appendChild(item);
+        });
+
+        // Wire up remove buttons (re-attached each render since elements are recreated)
+        document.querySelectorAll('.preview-remove').forEach(btn => {
+            btn.addEventListener('click', () => removeImage(btn.dataset.id));
+        });
+
+        imageCount.textContent = capturedImages.length;
+        analyzeBtn.disabled = capturedImages.length === 0;
+    }
+
+    clearAllBtn.addEventListener('click', clearAllImages);
+
+
+    // ANALYZE ACTION (placeholder — hook up to backend later)
+
+    analyzeBtn.addEventListener('click', () => {
+        if (capturedImages.length === 0) return;
+
+        console.log(`Analyzing ${capturedImages.length} image(s)...`);
+        // TODO: send capturedImages (dataUrls or converted Blobs) to backend API
+
+        alert(`Ready to analyze ${capturedImages.length} image(s). Backend integration pending.`);
+    });
+
+
+    // CLEANUP: stop camera if user navigates away
+
+    window.addEventListener('beforeunload', stopCamera);
+</script>
+</body>
+</html>
