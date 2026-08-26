@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Report - Parakh</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar no-print">
+        <div class="logo-image">
+            <img src="../assets/Logo.png" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="index.html">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            <a href="scan.html">Scan</a>
+            <a href="rules.html">Rules Simplified</a>
+            <a href="login.html" class="login-link">Login</a>
+        </nav>
+    </header>
+
+    <main class="result-main">
+
+        <!-- Report header with print action -->
+        <div class="result-header">
+            <div class="result-header-text">
+                <p class="eyebrow">Report</p>
+                <h1>Lay's Classic Salted Chips</h1>
+                <p class="result-subtext">Analyzed on 26 August 2026, 3:42 PM</p>
+            </div>
+
+            <button type="button" class="btn-secondary btn-print no-print" id="printBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 9V2H18V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 18H4C3.44772 18 3 17.5523 3 17V11C3 10.4477 3.44772 10 4 10H20C20.5523 10 21 10.4477 21 11V17C21 17.5523 20.5523 18 20 18H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="6" y="14" width="12" height="8" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                </svg>
+                Print Report
+            </button>
+        </div>
+
+        <!-- Overall verdict banner -->
+        <section class="verdict-banner verdict-warning">
+            <div class="verdict-icon">⚠</div>
+            <div class="verdict-text">
+                <h2>3 Violations Found</h2>
+                <p>This product does not fully comply with Legal Metrology labeling requirements.</p>
+            </div>
+        </section>
+
+        <!-- ============================= -->
+        <!-- VIOLATIONS SECTION -->
+        <!-- ============================= -->
+        <section class="report-section">
+            <h2 class="report-section-title">Violations</h2>
+
+            <div class="violation-card">
+                <div class="violation-header">
+                    <span class="violation-badge">Violation 1</span>
+                    <h3>MRP Font Size Too Small</h3>
+                </div>
+                <p class="violation-what">
+                    The Maximum Retail Price printed on the package is displayed in a font size smaller than
+                    what is legally required for a package of this size.
+                </p>
+                <div class="violation-rule">
+                    <span class="rule-label">Violated Rule</span>
+                    <p>Legal Metrology (Packaged Commodities) Rules, 2011 — Rule 6, sub-rule (1)(f): Minimum font size for MRP declaration based on package area.</p>
+                </div>
+            </div>
+
+            <div class="violation-card">
+                <div class="violation-header">
+                    <span class="violation-badge">Violation 2</span>
+                    <h3>Missing Manufacturer Address</h3>
+                </div>
+                <p class="violation-what">
+                    The package does not display the complete name and address of the manufacturer or
+                    packer, only a brand name is shown.
+                </p>
+                <div class="violation-rule">
+                    <span class="rule-label">Violated Rule</span>
+                    <p>Legal Metrology (Packaged Commodities) Rules, 2011 — Rule 6, sub-rule (1)(a): Mandatory declaration of manufacturer's name and complete address.</p>
+                </div>
+            </div>
+
+            <div class="violation-card">
+                <div class="violation-header">
+                    <span class="violation-badge">Violation 3</span>
+                    <h3>Net Quantity Not in Standard Unit</h3>
+                </div>
+                <p class="violation-what">
+                    Net quantity is declared as "approx. 50g" — an approximate value is not permitted;
+                    the exact net quantity in standard metric units must be stated.
+                </p>
+                <div class="violation-rule">
+                    <span class="rule-label">Violated Rule</span>
+                    <p>Legal Metrology (Packaged Commodities) Rules, 2011 — Rule 6, sub-rule (1)(b): Net quantity must be declared in exact standard units (grams, millilitres, etc.), not approximated.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================= -->
+        <!-- NUTRITIONAL VALUES SECTION -->
+        <!-- ============================= -->
+        <section class="report-section">
+            <h2 class="report-section-title">Nutritional Values</h2>
+            <p class="report-section-subtext">Per 100g serving, as declared on the package label.</p>
+
+            <table class="nutrition-table">
+                <thead>
+                    <tr>
+                        <th>Nutrient</th>
+                        <th>Amount</th>
+                        <th>% Daily Value*</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Energy</td>
+                        <td>536 kcal</td>
+                        <td>27%</td>
+                    </tr>
+                    <tr>
+                        <td>Total Fat</td>
+                        <td>34.8 g</td>
+                        <td>50%</td>
+                    </tr>
+                    <tr>
+                        <td>Saturated Fat</td>
+                        <td>16.2 g</td>
+                        <td class="nutrition-flag">81%</td>
+                    </tr>
+                    <tr>
+                        <td>Trans Fat</td>
+                        <td>0.2 g</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Total Carbohydrate</td>
+                        <td>53 g</td>
+                        <td>18%</td>
+                    </tr>
+                    <tr>
+                        <td>Sugars</td>
+                        <td>0.9 g</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Protein</td>
+                        <td>6.6 g</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Sodium</td>
+                        <td>560 mg</td>
+                        <td class="nutrition-flag">37%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="nutrition-footnote">*% Daily Values are based on a 2,000 kcal reference diet. Values in <span class="nutrition-flag-dot"></span> indicate nutrients present in high amounts.</p>
+        </section>
+
+        <!-- ============================= -->
+        <!-- INGREDIENTS / PRESERVATIVES SECTION -->
+        <!-- ============================= -->
+        <section class="report-section">
+            <h2 class="report-section-title">Preservatives & Chemical Additives</h2>
+
+            <div class="ingredient-flag ingredient-caution">
+                <div class="ingredient-flag-icon">!</div>
+                <div class="ingredient-flag-text">
+                    <h4>INS 320 (Butylated Hydroxyanisole - BHA)</h4>
+                    <p>An antioxidant preservative used to prevent oxidation of fats. Some studies have raised
+                    concerns about long-term consumption; permitted in India within specified limits.</p>
+                </div>
+            </div>
+
+            <div class="ingredient-flag ingredient-caution">
+                <div class="ingredient-flag-icon">!</div>
+                <div class="ingredient-flag-text">
+                    <h4>INS 621 (Monosodium Glutamate - MSG)</h4>
+                    <p>A flavor enhancer. Generally recognized as safe by FSSAI, though some individuals report
+                    sensitivity with symptoms like headaches when consumed in large amounts.</p>
+                </div>
+            </div>
+
+            <div class="ingredient-flag ingredient-safe">
+                <div class="ingredient-flag-icon">✓</div>
+                <div class="ingredient-flag-text">
+                    <h4>No banned substances detected</h4>
+                    <p>None of the ingredients listed match substances banned under FSSAI regulations.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer no-print">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Parakh. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

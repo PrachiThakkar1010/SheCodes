@@ -1839,3 +1839,449 @@ main.scan-main {
         width: 100%;
     }
 }
+
+/* =========================================================
+   RESULT / REPORT PAGE
+========================================================= */
+
+body:has(main.result-main) {
+    background-color: #f7f9fc;
+}
+
+main.result-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 5% 90px;
+}
+
+/* Header row: title + print button */
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.result-header-text .eyebrow {
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #0b63ce;
+}
+
+.result-header-text h1 {
+    margin-bottom: 6px;
+    font-size: clamp(26px, 3.5vw, 34px);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #073b70;
+}
+
+.result-subtext {
+    font-size: 14px;
+    color: #65788b;
+}
+
+.btn-print {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    flex-shrink: 0;
+
+    padding: 12px 20px;
+}
+
+/* Verdict banner */
+
+.verdict-banner {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    margin-bottom: 40px;
+    padding: 24px 28px;
+
+    border-radius: 14px;
+}
+
+.verdict-warning {
+    background-color: #fff4e5;
+    border: 1px solid #ffdca8;
+}
+
+.verdict-safe {
+    background-color: #e7f7ec;
+    border: 1px solid #b8e6c5;
+}
+
+.verdict-icon {
+    flex-shrink: 0;
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+
+    background-color: #ffffff;
+    border-radius: 50%;
+}
+
+.verdict-warning .verdict-icon {
+    color: #b8720b;
+}
+
+.verdict-text h2 {
+    margin-bottom: 4px;
+    font-size: 19px;
+    font-weight: 800;
+    color: #073b70;
+}
+
+.verdict-text p {
+    font-size: 14px;
+    color: #65788b;
+}
+
+/* Shared section styling */
+
+.report-section {
+    margin-bottom: 45px;
+}
+
+.report-section-title {
+    margin-bottom: 6px;
+    padding-bottom: 12px;
+
+    font-size: 21px;
+    font-weight: 800;
+    color: #073b70;
+
+    border-bottom: 2px solid #e6ebf2;
+}
+
+.report-section-subtext {
+    margin: 12px 0 18px;
+    font-size: 13px;
+    color: #65788b;
+}
+
+/* Violation cards */
+
+.violation-card {
+    margin-top: 18px;
+    padding: 22px 26px;
+
+    background-color: #ffffff;
+
+    border: 1px solid #e6ebf2;
+    border-left: 4px solid #d9534f;
+    border-radius: 12px;
+
+    transition: box-shadow 0.25s ease;
+}
+
+.violation-card:hover {
+    box-shadow: 0 12px 30px rgba(7, 59, 112, 0.08);
+}
+
+.violation-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 12px;
+}
+
+.violation-badge {
+    flex-shrink: 0;
+
+    padding: 4px 11px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+
+    color: #ffffff;
+    background-color: #d9534f;
+
+    border-radius: 20px;
+}
+
+.violation-header h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #073b70;
+}
+
+.violation-what {
+    margin-bottom: 14px;
+
+    font-size: 15px;
+    line-height: 1.7;
+
+    color: #35516d;
+}
+
+.violation-rule {
+    padding: 12px 16px;
+
+    background-color: #f7f9fc;
+    border-left: 3px solid #0b63ce;
+    border-radius: 6px;
+}
+
+.rule-label {
+    display: block;
+    margin-bottom: 4px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    color: #0b63ce;
+}
+
+.violation-rule p {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #5d7185;
+}
+
+/* Nutrition table */
+
+.nutrition-table {
+    width: 100%;
+    margin-top: 18px;
+
+    background-color: #ffffff;
+
+    border: 1px solid #e6ebf2;
+    border-radius: 12px;
+    border-collapse: separate;
+    border-spacing: 0;
+
+    overflow: hidden;
+}
+
+.nutrition-table th,
+.nutrition-table td {
+    padding: 13px 20px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.nutrition-table thead th {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    color: #65788b;
+    background-color: #f3f7fb;
+}
+
+.nutrition-table tbody td {
+    color: #35516d;
+    border-top: 1px solid #eef2f7;
+}
+
+.nutrition-table tbody tr:first-child td {
+    border-top: none;
+}
+
+.nutrition-table tbody tr td:first-child {
+    font-weight: 600;
+    color: #073b70;
+}
+
+.nutrition-flag {
+    font-weight: 700;
+    color: #b8720b;
+}
+
+.nutrition-footnote {
+    margin-top: 12px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #9aabbb;
+}
+
+.nutrition-flag-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+
+    background-color: #b8720b;
+    border-radius: 50%;
+}
+
+/* Ingredient / preservative flags */
+
+.ingredient-flag {
+    display: flex;
+    gap: 16px;
+
+    margin-top: 14px;
+    padding: 18px 22px;
+
+    border-radius: 12px;
+}
+
+.ingredient-caution {
+    background-color: #fff4e5;
+    border: 1px solid #ffdca8;
+}
+
+.ingredient-safe {
+    background-color: #e7f7ec;
+    border: 1px solid #b8e6c5;
+}
+
+.ingredient-flag-icon {
+    flex-shrink: 0;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    background-color: #ffffff;
+    border-radius: 50%;
+}
+
+.ingredient-caution .ingredient-flag-icon {
+    color: #b8720b;
+}
+
+.ingredient-safe .ingredient-flag-icon {
+    color: #2e8b4f;
+}
+
+.ingredient-flag-text h4 {
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #073b70;
+}
+
+.ingredient-flag-text p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: #5d7185;
+}
+
+/* =========================================================
+   PRINT STYLES
+========================================================= */
+
+@media print {
+
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background-color: #ffffff;
+    }
+
+    main.result-main {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .result-header {
+        margin-bottom: 20px;
+    }
+
+    .verdict-banner,
+    .violation-card,
+    .ingredient-flag {
+        break-inside: avoid;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+
+    .report-section {
+        margin-bottom: 25px;
+    }
+
+    .nutrition-table {
+        border: 1px solid #ccc;
+    }
+
+    .nutrition-table thead th {
+        background-color: #f0f0f0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .verdict-warning,
+    .ingredient-caution {
+        background-color: #fff4e5 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .verdict-safe,
+    .ingredient-safe {
+        background-color: #e7f7ec !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    a[href]::after {
+        content: none !important;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    main.result-main {
+        padding: 35px 5% 60px;
+    }
+
+    .result-header {
+        flex-direction: column;
+    }
+
+    .btn-print {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .verdict-banner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nutrition-table th,
+    .nutrition-table td {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .ingredient-flag {
+        flex-direction: column;
+    }
+}
