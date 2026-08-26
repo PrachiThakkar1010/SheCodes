@@ -1057,3 +1057,380 @@ main.login-main {
 }
 
 
+/* For rules.html */
+.masthead {
+    padding: 60px 8% 40px;
+    text-align: center;
+    background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+    border-bottom: 1px solid #e6ebf2;
+}
+ 
+.masthead .eyebrow {
+    margin-bottom: 14px;
+}
+ 
+.masthead h1 {
+    max-width: 900px;
+    margin: 0 auto 15px;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #073b70;
+}
+ 
+.masthead p {
+    font-size: 15px;
+    color: #5d7185;
+}
+ 
+/* ---------- Search bar ---------- */
+ 
+.searchbar-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    padding: 16px 8%;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e6ebf2;
+}
+ 
+.searchbar {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+ 
+/* Pill-shaped input group, echoing the .rule-num badge shape */
+ 
+.searchbar {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    background-color: #f7f9fc;
+    border: 1px solid #dbe4ee;
+    border-radius: 999px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+ 
+.searchbar:focus-within {
+    background-color: #ffffff;
+    border-color: #0b63ce;
+    box-shadow: 0 0 0 4px rgba(11, 99, 206, 0.12), 0 8px 20px rgba(7, 59, 112, 0.08);
+}
+ 
+.search-icon {
+    flex-shrink: 0;
+    color: #9aabbb;
+    transition: color 0.2s ease;
+}
+ 
+.searchbar:focus-within .search-icon {
+    color: #0b63ce;
+}
+ 
+.searchbar input {
+    flex: 1;
+    padding: 13px 12px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #0b2d4d;
+    background: none;
+    border: none;
+}
+ 
+.searchbar input::placeholder {
+    color: #9aabbb;
+}
+ 
+.searchbar input:focus {
+    outline: none;
+}
+ 
+.kbd-hint {
+    flex-shrink: 0;
+    padding: 3px 8px;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 700;
+    color: #65788b;
+    background-color: #ffffff;
+    border: 1px solid #dbe4ee;
+    border-radius: 6px;
+    box-shadow: 0 1px 0 #dbe4ee;
+    transition: opacity 0.15s ease;
+}
+ 
+.searchbar:focus-within .kbd-hint,
+.searchbar.has-value .kbd-hint {
+    display: none;
+}
+ 
+.searchbar #resultCount {
+    flex-shrink: 0;
+    margin-left: 4px;
+    padding-left: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0b63ce;
+    white-space: nowrap;
+    border-left: 1px solid #e6ebf2;
+}
+ 
+.searchbar #resultCount:empty {
+    border-left: none;
+    padding-left: 0;
+}
+ 
+/* ---------- Layout ---------- */
+ 
+.layout {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 45px 4% 90px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 50px;
+    align-items: start;
+}
+ 
+/* ---------- Table of contents ---------- */
+ 
+.toc {
+    position: sticky;
+    top: 90px;
+    padding: 24px;
+    background-color: #ffffff;
+    border: 1px solid #e6ebf2;
+    border-radius: 12px;
+}
+ 
+.toc h2 {
+    margin-bottom: 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #0b63ce;
+}
+ 
+.toc ul {
+    list-style: none;
+}
+ 
+.toc li + li {
+    margin-top: 10px;
+}
+ 
+.toc a {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #35516d;
+    line-height: 1.4;
+    transition: color 0.2s ease;
+}
+ 
+.toc a:hover {
+    color: #0b63ce;
+}
+ 
+/* ---------- Content column wrapper ---------- */
+ 
+.rules-content {
+    min-width: 0; /* prevents grid blowout with long text/tables */
+}
+ 
+/* ---------- Chapter headings ---------- */
+ 
+.chapter-heading {
+    margin: 40px 0 18px;
+    padding-bottom: 10px;
+    font-size: 22px;
+    font-weight: 800;
+    color: #073b70;
+    border-bottom: 2px solid #e6ebf2;
+}
+ 
+.chapter-heading:first-of-type {
+    margin-top: 0;
+}
+ 
+.chapter-heading span {
+    font-weight: 500;
+    font-size: 16px;
+    color: #65788b;
+}
+ 
+/* ---------- Rule cards ---------- */
+ 
+.rule {
+    margin-bottom: 16px;
+    padding: 22px 26px;
+    background-color: #ffffff;
+    border: 1px solid #e6ebf2;
+    border-radius: 12px;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+ 
+.rule:hover {
+    box-shadow: 0 12px 30px rgba(7, 59, 112, 0.08);
+    transform: translateY(-2px);
+}
+ 
+.rule.hidden {
+    display: none;
+}
+ 
+.rule-num {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #0b63ce;
+    background-color: #e8f2ff;
+    border-radius: 20px;
+}
+ 
+.rule-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #073b70;
+}
+ 
+.rule-body {
+    max-width: 760px;
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #35516d;
+}
+ 
+.rule-body ul,
+.rule-body table.mini {
+    max-width: none;
+}
+ 
+.rule-body ul {
+    margin: 10px 0 10px 20px;
+}
+ 
+.rule-body li {
+    margin-bottom: 6px;
+}
+ 
+.rule-body strong {
+    color: #073b70;
+}
+ 
+.rule-body .note {
+    display: block;
+    margin-top: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #65788b;
+    background-color: #f3f7fb;
+    border-left: 3px solid #0b63ce;
+    border-radius: 4px;
+}
+ 
+/* Mini reference tables inside rules */
+ 
+table.mini {
+    width: 100%;
+    max-width: 420px;
+    margin-top: 14px;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+ 
+table.mini th,
+table.mini td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #e6ebf2;
+}
+ 
+table.mini th {
+    font-weight: 700;
+    color: #073b70;
+    background-color: #f3f7fb;
+}
+ 
+table.mini td {
+    color: #35516d;
+}
+ 
+/* Search highlighting */
+ 
+mark {
+    padding: 0 2px;
+    background-color: #ffe58a;
+    color: #0b2d4d;
+    border-radius: 3px;
+}
+ 
+/* No results state */
+ 
+#noResults {
+    display: none;
+    padding: 40px 0;
+    text-align: center;
+    font-size: 15px;
+    color: #65788b;
+}
+ 
+/* ---------- Footer (simple text variant) ---------- */
+ 
+footer {
+    padding: 30px 8% 50px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #91a9bf;
+    background-color: #062c52;
+}
+ 
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+ 
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: 1fr;
+        padding: 35px 6% 70px;
+        gap: 30px;
+    }
+ 
+    .toc {
+        position: static;
+    }
+ 
+    .searchbar-wrap {
+        padding: 14px 6%;
+    }
+}
+ 
+@media (max-width: 600px) {
+    .masthead {
+        padding: 45px 6% 30px;
+    }
+ 
+    .rule {
+        padding: 18px 20px;
+    }
+ 
+    .searchbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+ 
+    .searchbar #resultCount {
+        text-align: right;
+    }
+}
+ 
