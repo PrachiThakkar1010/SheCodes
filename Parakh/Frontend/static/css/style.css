@@ -1088,11 +1088,17 @@ main.login-main {
     color: #5d7185;
 }
  
+#defs,
+.chapter-heading[id] {
+    scroll-margin-top: var(--search-offset, 160px);
+}
+
 /* ---------- Search bar ---------- */
  
+
 .searchbar-wrap {
     position: sticky;
-    top: 0;
+    top: var(--navbar-height, 94px); /* fallback for no-JS */
     z-index: 900;
     padding: 16px 8%;
     background-color: #ffffff;
@@ -1203,13 +1209,13 @@ main.login-main {
  
 .toc {
     position: sticky;
-    top: 90px;
+    top: var(--search-offset, 160px);
     padding: 24px;
     background-color: #ffffff;
     border: 1px solid #e6ebf2;
     border-radius: 12px;
 }
- 
+
 .toc h2 {
     margin-bottom: 14px;
     font-size: 12px;

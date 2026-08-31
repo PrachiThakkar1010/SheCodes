@@ -8,6 +8,25 @@
 </head>
 <body>
 
+    <header class="navbar">
+
+        <div class="logo-image">
+            <img src="../assets/Logo.png">
+        </div>
+        <div class="logo">
+            <a href="/">PARAKH</a>
+        </div>
+
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="/scan">Scan</a>
+            <a href="/rules">Rules</a>
+            <a href="#how-it-works-index">How it works</a>
+            <a href="/login" class="login-link">Login</a>
+            
+        </nav>
+
+</header>
 <div class="masthead">
   <div class="eyebrow">Ministry of Consumer Affairs, Food &amp; Public Distribution</div>
   <h1>The Legal Metrology (Packaged Commodities) Rules, 2011</h1>
@@ -325,6 +344,31 @@
 
 <script>
 (function(){
+  // ---------- Sticky offsets (navbar height, search offset) ----------
+  function setStickyOffsets() {
+    const navbar = document.querySelector('.navbar');
+    const searchbarWrap = document.querySelector('.searchbar-wrap');
+
+    if (navbar) {
+      document.documentElement.style.setProperty(
+        '--navbar-height',
+        navbar.offsetHeight + 'px'
+      );
+    }
+
+    if (searchbarWrap) {
+      document.documentElement.style.setProperty(
+        '--search-offset',
+        (navbar ? navbar.offsetHeight : 0) + searchbarWrap.offsetHeight + 'px'
+      );
+    }
+  }
+
+  setStickyOffsets();
+  window.addEventListener('resize', setStickyOffsets);
+  window.addEventListener('load', setStickyOffsets); // catches logo image load shifting height
+
+  // ---------- Rules search ----------
   const input = document.getElementById('searchInput');
   const rules = Array.from(document.querySelectorAll('.rule'));
   const noResults = document.getElementById('noResults');
