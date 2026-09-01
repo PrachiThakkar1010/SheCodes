@@ -19,7 +19,7 @@
         <h2>Login</h2>
         <p class="login-subtext">We promise this login is 100% preservative-free</p>
 
-        <form action="/login" method="POST" class="loginForm">
+        <form action="/login/" method="POST" class="loginForm">
             {% csrf_token %}
             <div class="username">
                 <label for="username">Username</label>
@@ -33,7 +33,7 @@
             </div>
 
             <button type="submit">Login</button>
-        </form>
+            </form>
         <div class="new-user">
             <a href="/register">New to Parakh? Click to register</a>
         </div>

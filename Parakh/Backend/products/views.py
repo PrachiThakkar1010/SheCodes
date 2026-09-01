@@ -10,12 +10,13 @@ def home_view(request):
     return render(request, 'index.html')
 
 
-@login_required(login_url='login')
 def scan_view(request):
     if request.method == 'POST' and request.FILES.get('image'):
         image = request.FILES.get('image')
         product_name = request.POST.get('product_name', '')
         category = request.POST.get('category', '')
+
+        user = request.user if request.user.is_authenticated else None
 
         scan = ProductScan.objects.create(
             user=request.user,
@@ -29,7 +30,6 @@ def scan_view(request):
     return render(request, 'scan.html')
 
 
-@login_required(login_url='login')
 def result_view(request, scan_id):
     scan = get_object_or_404(ProductScan, id=scan_id, user=request.user)
     return render(request, 'result.html', {'scan': scan})

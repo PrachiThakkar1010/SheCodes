@@ -12,7 +12,7 @@ class ProductScan(models.Model):
         ('FAILED', 'Failed'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='scans')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='scans', null=True, blank=True)
     product_name = models.CharField(max_length=255, blank=True, null=True)
     category = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField(upload_to='product_scans/')
@@ -20,6 +20,7 @@ class ProductScan(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
 
     def __str__(self):
+        username = self.user.username if self.user else "Guest"
         return f"{self.product_name or 'Unnamed Product'} - {self.user.username} ({self.scanned_at.strftime('%Y-%m-%d %H:%M')})"
 
 
