@@ -10,7 +10,9 @@
 
 <body>
     <header class="page-header">
+        
         <h1>Begin your journey with Parakh</h1>
+
     </header>
 
     <main class="login-main">
@@ -20,29 +22,59 @@
             <p class="login-subtext">Join Parakh in less time than it takes to make maggi!</p>
 
             <form action="/register" method="POST" class="registerForm" id="registerForm">
-                <div class="username">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+
+                <!-- Step 1: Basic details -->
+                <div class="form-step" id="step1">
+
+                    <div class="username">
+                        <label for="username">Username<span class="required-asterisk">*</span></label>
+                        <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                    </div>
+
+                    <div class="email">
+                        <label for="email">Email<span class="required-asterisk">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="name">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name">
+                    </div>
+
+                    <div class="mobile">
+                        <label for="mobile">Mobile Number</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number"
+                            pattern="[0-9]{10}" title="Enter a valid 10-digit mobile number">
+                    </div>
+
+                    <p class="form-error" id="step1Error" style="display: none;"></p>
+
+                    <button type="button" id="nextBtn">Next</button>
                 </div>
 
-                <div class="email">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <!-- Step 2: Password -->
+                <div class="form-step" id="step2" style="display: none;">
+
+                    <div class="password">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Create a password"
+                            minlength="8" required>
+                    </div>
+
+                    <div class="confirm-password">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password"
+                            placeholder="Re-enter your password" minlength="8" required>
+                    </div>
+
+                    <p class="form-error" id="passwordError" style="display: none;"></p>
+
+                    <div class="form-step-actions">
+                        <button type="button" id="backBtn">Back</button>
+                        <button type="submit">Register</button>
+                    </div>
                 </div>
 
-                <div class="password">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Create a password" minlength="8" required>
-                </div>
-
-                <div class="confirm-password">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter your password" minlength="8" required>
-                </div>
-
-                <p class="form-error" id="passwordError" style="display: none;"></p>
-
-                <button type="submit">Register</button>
             </form>
 
             <div class="divider">or</div>
@@ -55,7 +87,43 @@
 
     <script>
         const registerForm = document.getElementById("registerForm");
+
+        const step1 = document.getElementById("step1");
+        const step2 = document.getElementById("step2");
+        const step1Error = document.getElementById("step1Error");
         const passwordError = document.getElementById("passwordError");
+
+        const nextBtn = document.getElementById("nextBtn");
+        const backBtn = document.getElementById("backBtn");
+
+        const usernameInput = document.getElementById("username");
+        const emailInput = document.getElementById("email");
+
+        nextBtn.addEventListener("click", function () {
+            // Only username and email are required to move to step 2
+            if (!usernameInput.value.trim()) {
+                step1Error.textContent = "Username is required.";
+                step1Error.style.display = "block";
+                usernameInput.focus();
+                return;
+            }
+
+            if (!emailInput.checkValidity()) {
+                step1Error.textContent = "Please enter a valid email address.";
+                step1Error.style.display = "block";
+                emailInput.focus();
+                return;
+            }
+
+            step1Error.style.display = "none";
+            step1.style.display = "none";
+            step2.style.display = "block";
+        });
+
+        backBtn.addEventListener("click", function () {
+            step2.style.display = "none";
+            step1.style.display = "block";
+        });
 
         registerForm.addEventListener("submit", function (event) {
 

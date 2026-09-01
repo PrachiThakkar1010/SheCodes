@@ -1470,12 +1470,18 @@ footer {
 
 /* for register.html */
 
+/* for register.html */
+
 .email,
+.name,
+.mobile,
 .confirm-password {
     margin-bottom: 20px;
 }
- 
+
 .email label,
+.name label,
+.mobile label,
 .confirm-password label {
     display: block;
     margin-bottom: 8px;
@@ -1483,37 +1489,163 @@ footer {
     font-weight: 600;
     color: #35516d;
 }
- 
+
+.optional-tag {
+    font-weight: 400;
+    color: #9aabbb;
+}
+
 .email input,
+.name input,
+.mobile input,
 .confirm-password input {
     width: 100%;
- 
+
     padding: 12px 14px;
- 
+
     font-size: 15px;
     font-family: inherit;
     color: #0b2d4d;
- 
+
     background-color: #f7f9fc;
- 
+
     border: 1px solid #dbe4ee;
     border-radius: 8px;
- 
+
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
- 
+
 .email input:focus,
+.name input:focus,
+.mobile input:focus,
 .confirm-password input:focus {
     outline: none;
     border-color: #0b63ce;
     box-shadow: 0 0 0 3px rgba(11, 99, 206, 0.12);
 }
- 
+
 .email input::placeholder,
+.name input::placeholder,
+.mobile input::placeholder,
 .confirm-password input::placeholder {
     color: #9aabbb;
 }
- 
+
+.email input:invalid:not(:placeholder-shown),
+.mobile input:invalid:not(:placeholder-shown) {
+    border-color: #d9534f;
+}
+
+/* Step container */
+
+.form-step {
+    animation: fadeInStep 0.25s ease;
+}
+
+@keyframes fadeInStep {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Next / Back buttons */
+
+#nextBtn {
+    width: 100%;
+
+    padding: 13px 20px;
+
+    margin-top: 10px;
+
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+
+    color: #ffffff;
+    background-color: #073b70;
+
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#nextBtn:hover {
+    background-color: #0b63ce;
+    transform: translateY(-1px);
+}
+
+#nextBtn:active {
+    transform: translateY(0);
+}
+
+.form-step-actions {
+    display: flex;
+    gap: 12px;
+
+    margin-top: 10px;
+}
+
+.form-step-actions #backBtn {
+    flex: 1;
+
+    padding: 13px 20px;
+
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+
+    color: #073b70;
+    background-color: #eef2f7;
+
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.form-step-actions #backBtn:hover {
+    background-color: #dde8f5;
+}
+
+.form-step-actions button[type="submit"] {
+    flex: 2;
+
+    margin-top: 0;
+}
+
+/* Step error text */
+
+.form-error {
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #d9534f;
+}
+
+@media (max-width: 600px) {
+
+    .login-card {
+        padding: 32px 22px;
+    }
+
+    .form-step-actions {
+        flex-direction: column;
+    }
+
+    .form-step-actions #backBtn,
+    .form-step-actions button[type="submit"] {
+        flex: none;
+        width: 100%;
+    }
+}
 
 /* For scan page */
 
