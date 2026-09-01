@@ -1490,9 +1490,9 @@ footer {
     color: #35516d;
 }
 
-.optional-tag {
-    font-weight: 400;
-    color: #9aabbb;
+.required-asterisk {
+    font-weight: 700;
+    color: #d9534f;
 }
 
 .email input,
