@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Parakh</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo-image">
+            <img src="../assets/Logo.png" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="/">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="/scan">Scan</a>
+            <a href="/rules">Rules</a>
+            <a href="/#how-it-works">How it works</a>
+            <a href="/dashboard" class="profile-icon active" aria-label="My Dashboard">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2"/>
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </a>
+        </nav>
+    </header>
+
+    <main class="profile-main">
+
+        <div class="profile-header">
+            <p class="eyebrow">My Account</p>
+            <h1>Your Profile</h1>
+            <p class="profile-subtext">View and manage your account details.</p>
+        </div>
+
+        <div class="profile-page-card">
+
+            <!-- ================= VIEW MODE ================= -->
+            <div id="viewMode">
+
+                <div class="profile-view-header">
+                    <div class="profile-avatar">A</div>
+                    <div>
+                        <h2 id="viewName">Aneri Thakkar</h2>
+                        <p class="profile-view-username">@<span id="viewUsername">Aneri25</span></p>
+                    </div>
+                </div>
+
+                <div class="profile-fields-grid profile-fields-grid-wide">
+
+                    <div class="profile-field">
+                        <span class="profile-field-label">Username</span>
+                        <span class="profile-field-value" id="viewUsername2">Aneri25</span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="profile-field-label">Name</span>
+                        <span class="profile-field-value" id="viewName2">Aneri Thakkar</span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="profile-field-label">Email</span>
+                        <span class="profile-field-value" id="viewEmail">aneri@example.com</span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="profile-field-label">Mobile Number</span>
+                        <span class="profile-field-value" id="viewMobile">+91 98765 43210</span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="profile-field-label">Password</span>
+                        <span class="profile-field-value password-mask-row">
+                            <span id="viewPasswordMask">••••••••••</span>
+                            <button type="button" class="password-toggle-btn" id="togglePasswordView" aria-label="Show password">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </span>
+                    </div>
+
+                </div>
+
+                <button type="button" class="btn-primary" id="editProfileBtn">Edit Profile</button>
+            </div>
+
+            <!-- ================= EDIT MODE ================= -->
+            <div id="editMode" style="display: none;">
+
+                <form id="editProfileForm">
+
+                    <div class="profile-fields-grid profile-fields-grid-wide profile-edit-grid">
+
+                        <div class="username">
+                            <label for="editUsername">Username</label>
+                            <input type="text" id="editUsername" name="username" value="Aneri25" required>
+                        </div>
+
+                        <div class="name">
+                            <label for="editName">Name</label>
+                            <input type="text" id="editName" name="name" value="Aneri Patel">
+                        </div>
+
+                        <div class="email">
+                            <label for="editEmail">Email</label>
+                            <input type="email" id="editEmail" name="email" value="aneri@example.com" required>
+                        </div>
+
+                        <div class="mobile">
+                            <label for="editMobile">Mobile Number</label>
+                            <input type="tel" id="editMobile" name="mobile" value="9876543210" pattern="[0-9]{10}" title="Enter a valid 10-digit mobile number">
+                        </div>
+
+                    </div>
+
+                    <!-- Change password: collapsible sub-section -->
+                    <div class="password-change-section">
+                        <button type="button" class="password-change-toggle" id="passwordChangeToggle">
+                            <span>Change Password</span>
+                            <svg width="14" height="14" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="passwordChevron">
+                                <path d="M1 1L6 6L11 1" stroke="#0b63ce" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <div class="password-change-fields" id="passwordChangeFields" style="display: none;">
+
+                            <div class="password">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" name="current_password" placeholder="Enter current password">
+                            </div>
+
+                            <div class="password">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" name="new_password" placeholder="Enter new password" minlength="8">
+                            </div>
+
+                            <div class="confirm-password">
+                                <label for="confirmNewPassword">Confirm New Password</label>
+                                <input type="password" id="confirmNewPassword" name="confirm_new_password" placeholder="Re-enter new password" minlength="8">
+                            </div>
+
+                            <p class="form-error" id="editPasswordError" style="display: none;"></p>
+                        </div>
+                    </div>
+
+                    <p class="form-error" id="editFormError" style="display: none;"></p>
+
+                    <div class="form-step-actions">
+                        <button type="button" class="btn-secondary" id="cancelEditBtn">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Parakh. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const viewMode = document.getElementById("viewMode");
+        const editMode = document.getElementById("editMode");
+        const editProfileBtn = document.getElementById("editProfileBtn");
+        const cancelEditBtn = document.getElementById("cancelEditBtn");
+        const editProfileForm = document.getElementById("editProfileForm");
+        const editFormError = document.getElementById("editFormError");
+        const editPasswordError = document.getElementById("editPasswordError");
+
+        // Toggle password mask in view mode (masked by default)
+        const togglePasswordView = document.getElementById("togglePasswordView");
+        const viewPasswordMask = document.getElementById("viewPasswordMask");
+        let passwordVisible = false;
+
+        togglePasswordView.addEventListener("click", function () {
+            // NOTE: replace "actualPasswordPlaceholder" with a real value fetched
+            // from the backend only at the moment of reveal, not rendered on load.
+            passwordVisible = !passwordVisible;
+            viewPasswordMask.textContent = passwordVisible ? "actualPasswordPlaceholder" : "••••••••••";
+            togglePasswordView.setAttribute("aria-label", passwordVisible ? "Hide password" : "Show password");
+        });
+
+        // Switch to edit mode
+        editProfileBtn.addEventListener("click", function () {
+            viewMode.style.display = "none";
+            editMode.style.display = "block";
+        });
+
+        // Cancel edit -> back to view mode
+        cancelEditBtn.addEventListener("click", function () {
+            editProfileForm.reset();
+            editFormError.style.display = "none";
+            editPasswordError.style.display = "none";
+            document.getElementById("passwordChangeFields").style.display = "none";
+            document.getElementById("passwordChevron").style.transform = "rotate(0deg)";
+            editMode.style.display = "none";
+            viewMode.style.display = "block";
+        });
+
+        // Collapsible "Change Password" section
+        const passwordChangeToggle = document.getElementById("passwordChangeToggle");
+        const passwordChangeFields = document.getElementById("passwordChangeFields");
+        const passwordChevron = document.getElementById("passwordChevron");
+
+        passwordChangeToggle.addEventListener("click", function () {
+            const isOpen = passwordChangeFields.style.display === "block";
+            passwordChangeFields.style.display = isOpen ? "none" : "block";
+            passwordChevron.style.transform = isOpen ? "rotate(0deg)" : "rotate(180deg)";
+        });
+
+        // Submit validation
+        editProfileForm.addEventListener("submit", function (event) {
+            editFormError.style.display = "none";
+            editPasswordError.style.display = "none";
+
+            const currentPassword = document.getElementById("currentPassword").value;
+            const newPassword = document.getElementById("newPassword").value;
+            const confirmNewPassword = document.getElementById("confirmNewPassword").value;
+
+            const attemptingPasswordChange = currentPassword || newPassword || confirmNewPassword;
+
+            if (attemptingPasswordChange) {
+                if (!currentPassword) {
+                    event.preventDefault();
+                    editPasswordError.textContent = "Enter your current password to change it.";
+                    editPasswordError.style.display = "block";
+                    return;
+                }
+                if (newPassword.length < 8) {
+                    event.preventDefault();
+                    editPasswordError.textContent = "New password must be at least 8 characters long.";
+                    editPasswordError.style.display = "block";
+                    return;
+                }
+                if (newPassword !== confirmNewPassword) {
+                    event.preventDefault();
+                    editPasswordError.textContent = "New passwords do not match.";
+                    editPasswordError.style.display = "block";
+                    return;
+                }
+            }
+
+            // Form submits normally to backend from here (e.g. POST /edit-profile)
+        });
+    </script>
+
+</body>
+</html>

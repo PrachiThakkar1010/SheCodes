@@ -3180,3 +3180,226 @@ main.dashboard-main {
         gap: 14px;
     }
 }
+
+/* =========================================================
+   PROFILE PAGE
+========================================================= */
+
+body:has(main.profile-main) {
+    background-color: #f7f9fc;
+}
+
+main.profile-main {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 50px 5% 90px;
+}
+
+.profile-header {
+    margin-bottom: 30px;
+}
+
+.profile-header .eyebrow {
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #0b63ce;
+}
+
+.profile-header h1 {
+    margin-bottom: 6px;
+    font-size: clamp(26px, 3.5vw, 34px);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #073b70;
+}
+
+.profile-subtext {
+    font-size: 14px;
+    color: #65788b;
+}
+
+.profile-page-card {
+    padding: 40px;
+
+    background-color: #ffffff;
+
+    border: 1px solid #e6ebf2;
+    border-radius: 16px;
+
+    box-shadow: 0 20px 50px rgba(7, 59, 112, 0.08);
+}
+
+/* View mode header */
+
+.profile-view-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+
+    border-bottom: 1px solid #e6ebf2;
+}
+
+.profile-avatar {
+    flex-shrink: 0;
+
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+
+    background-color: #073b70;
+
+    border-radius: 50%;
+}
+
+.profile-view-header h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #073b70;
+}
+
+.profile-view-username {
+    font-size: 13.5px;
+    color: #9aabbb;
+}
+
+/* Wider grid variant for the profile page (vs. dashboard sidebar card) */
+
+.profile-fields-grid-wide {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 24px;
+
+    margin-bottom: 32px;
+}
+
+.password-mask-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.password-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2px;
+
+    color: #9aabbb;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.password-toggle-btn:hover {
+    color: #0b63ce;
+}
+
+#viewMode > .btn-primary {
+    width: 100%;
+}
+
+/* Edit mode grid: reuse .username/.email/.name/.mobile field styles,
+   just place them in the wide 2-col grid */
+
+.profile-edit-grid .username,
+.profile-edit-grid .name,
+.profile-edit-grid .email,
+.profile-edit-grid .mobile {
+    margin-bottom: 0;
+}
+
+/* Change password collapsible section */
+
+.password-change-section {
+    margin-bottom: 24px;
+    padding-top: 8px;
+}
+
+.password-change-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    color: #0b63ce;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.password-change-toggle svg {
+    transition: transform 0.2s ease;
+}
+
+.password-change-fields {
+    margin-top: 18px;
+    padding: 20px;
+
+    background-color: #f7f9fc;
+    border: 1px solid #e6ebf2;
+    border-radius: 10px;
+}
+
+.password-change-fields .password,
+.password-change-fields .confirm-password {
+    margin-bottom: 16px;
+}
+
+.password-change-fields .password:last-of-type {
+    margin-bottom: 0;
+}
+
+/* Reuse .form-step-actions for Cancel / Save, but swap the ratio */
+
+.profile-page-card .form-step-actions button {
+    flex: 1;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    main.profile-main {
+        padding: 35px 5% 60px;
+    }
+
+    .profile-page-card {
+        padding: 26px 22px;
+    }
+
+    .profile-fields-grid-wide {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .profile-view-header {
+        gap: 14px;
+    }
+
+    .profile-avatar {
+        width: 52px;
+        height: 52px;
+        font-size: 21px;
+    }
+}
