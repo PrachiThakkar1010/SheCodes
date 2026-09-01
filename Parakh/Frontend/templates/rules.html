@@ -1,461 +1,575 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simplified rules</title>
-<link rel="stylesheet" href="../static/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simplified rules</title>
+  
+  <link rel="stylesheet" href="../static/css/style.css">
 </head>
+
 <body>
 
-    <header class="navbar">
+<header class="navbar">
 
-        <div class="logo-image">
-            <img src="../assets/Logo.png">
+    <div class="logo-image">
+      <img src="../assets/Logo.png">
+    </div>
+    <div class="logo">
+      <a href="/">PARAKH</a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="/">Home</a>
+      <a href="/scan">Scan</a>
+      <a href="/rules">Rules</a>
+      <a href="/#how-it-works-index">How it works</a>
+      <a href="/login" class="login-link">Login</a>
+
+    </nav>
+
+  </header>
+  <div class="masthead">
+    <div class="eyebrow">Ministry of Consumer Affairs, Food &amp; Public Distribution</div>
+    <h1>The Legal Metrology (Packaged Commodities) Rules, 2011</h1>
+    <p>Simplified reference · G.S.R. 202(E) · in force from 1 April 2011</p>
+  </div>
+
+  <div class="searchbar-wrap">
+    <div class="searchbar">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+        <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+      <input type="text" id="searchInput"
+        placeholder="Search rules — try &quot;MRP&quot;, &quot;net quantity&quot;, &quot;wholesale&quot;, &quot;penalty&quot;…"
+        autocomplete="off">
+      <kbd class="kbd-hint">/</kbd>
+      <span id="resultCount"></span>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <div class="toc">
+      <h2>Jump to</h2>
+      <ul>
+        <li><a href="#defs">Definitions (Rule 2)</a></li>
+        <li><a href="#ch2">Ch. II — Retail packages (3–23)</a></li>
+        <li><a href="#ch3">Ch. III — Wholesale packages (24)</a></li>
+        <li><a href="#ch4">Ch. IV — Export packages (25)</a></li>
+        <li><a href="#ch5">Ch. V — Exemptions (26)</a></li>
+        <li><a href="#ch6">Ch. VI — Registration (27–30)</a></li>
+        <li><a href="#ch7">Ch. VII — General &amp; penalties (31–34)</a></li>
+        <li><a href="#schedules">Schedules (I–VII)</a></li>
+      </ul>
+    </div>
+
+    <div class="rules-content">
+
+      <!-- RULE 1 -->
+      <div class="chapter-heading">Preliminary</div>
+      <div class="rule" data-text="short title commencement applicability date 1 april 2011">
+        <span class="rule-num">R.1</span><span class="rule-title">Short title &amp; commencement</span>
+        <div class="rule-body">Called the Legal Metrology (Packaged Commodities) Rules, 2011. Came into force on
+          <strong>1 April 2011</strong>.</div>
+      </div>
+
+      <!-- DEFINITIONS -->
+      <div id="defs" class="rule"
+        data-text="definitions dealer lot manufacturer maximum permissible error net quantity packer principal display panel quantity retail dealer retail package retail sale retail sale price mrp wholesale dealer wholesale package">
+        <span class="rule-num">R.2</span><span class="rule-title">Definitions</span>
+        <div class="rule-body">
+          <ul>
+            <li><strong>Dealer</strong> — anyone buying/selling/supplying a packaged commodity (excludes a manufacturer
+              selling only to dealers).</li>
+            <li><strong>Lot</strong> — total packages stored, or the maximum hourly output on a packing line.</li>
+            <li><strong>Manufacturer</strong> — who makes/produces the commodity, or whose brand mark claims it as
+              theirs.</li>
+            <li><strong>Maximum permissible error</strong> — allowed deficiency in a package's quantity, per the First
+              Schedule.</li>
+            <li><strong>Net quantity</strong> — quantity of commodity in a package, excluding packaging/wrappers.</li>
+            <li><strong>Packer</strong> — who pre-packs a commodity into sale-ready units.</li>
+            <li><strong>Principal display panel</strong> — the surface of a package where required declarations appear.
+            </li>
+            <li><strong>Retail dealer</strong> — sells directly to the end consumer.</li>
+            <li><strong>Retail package</strong> — meant for sale to the ultimate consumer (excludes
+              industrial/institutional buyers).</li>
+            <li><strong>Retail sale price (MRP)</strong> — the maximum price at which the package may be sold, printed
+              inclusive of all taxes.</li>
+            <li><strong>Wholesale dealer</strong> — sells only through intermediaries, not directly to consumers.</li>
+            <li><strong>Wholesale package</strong> — a package of multiple retail packages, or bulk sold to an
+              intermediary, or a pack of 10+ retail packages.</li>
+          </ul>
         </div>
-        <div class="logo">
-            <a href="/">PARAKH</a>
+      </div>
+
+      <!-- CHAPTER II -->
+      <div id="ch2" class="chapter-heading">Chapter II <span>— Provisions applicable to packages for retail sale</span>
+      </div>
+
+      <div class="rule"
+        data-text="applicability chapter exclusions above 25 kg 25 litre cement fertilizer 50 kg industrial institutional consumers">
+        <span class="rule-num">R.3</span><span class="rule-title">Applicability of the Chapter</span>
+        <div class="rule-body">Does NOT apply to: packages &gt;25 kg/25 litre (except cement &amp; fertiliser bags up to
+          50 kg), and commodities meant for industrial or institutional consumers (airlines, hotels, hospitals, etc.
+          buying direct from the manufacturer for their own use).</div>
+      </div>
+
+      <div class="rule" data-text="regulation pre-packing sale declarations must bear label">
+        <span class="rule-num">R.4</span><span class="rule-title">Regulation for pre-packing &amp; sale</span>
+        <div class="rule-body">No one may pre-pack a commodity for sale unless the package bears (or has a label with)
+          all declarations required under these rules. Packages inside the manufacturer's own premises need not yet show
+          MRP — but must before leaving for their destination.</div>
+      </div>
+
+      <div class="rule"
+        data-text="standard packages recommended quantities second schedule non standard size declaration">
+        <span class="rule-num">R.5</span><span class="rule-title">Standard package sizes</span>
+        <div class="rule-body">Commodities listed in the <strong>Second Schedule</strong> (e.g. baby food, biscuits,
+          edible oil, salt, cement, soft drinks) must be packed in the specified standard quantities. If packed in a
+          different size, the label must say "Not a standard pack size" / "non-standard size" under these Rules.</div>
+      </div>
+
+      <div class="rule"
+        data-text="declarations every package must bear name address manufacturer packer importer common generic name net quantity month year manufactured retail sale price dimensions">
+        <span class="rule-num">R.6</span><span class="rule-title">Declarations on every package</span>
+        <div class="rule-body">
+          Every retail package must declare:
+          <ul>
+            <li>Name &amp; address of the manufacturer/packer (and importer, if imported)</li>
+            <li>Common/generic name of the commodity</li>
+            <li>Net quantity (standard unit of weight/measure/number)</li>
+            <li>Month &amp; year of manufacture/pre-packing/import</li>
+            <li>Retail sale price (MRP), inclusive of all taxes</li>
+            <li>Dimensions of the commodity, if relevant</li>
+            <li>Consumer-care contact: name, address, phone, email of the complaints contact</li>
+          </ul>
+          <span class="note">Exceptions: bidi/incense sticks and PSU domestic LPG cylinders need no month/year; bidis
+            and price-controlled LPG cylinders need no MRP. Food articles follow the Prevention of Food Adulteration Act
+            instead. Stickers cannot cover a declaration, except to lower MRP.</span>
         </div>
+      </div>
 
-        <nav class="nav-links">
-            <a href="/">Home</a>
-            <a href="/scan">Scan</a>
-            <a href="/rules">Rules</a>
-            <a href="#how-it-works-index">How it works</a>
-            <a href="/login" class="login-link">Login</a>
-            
-        </nav>
+      <div class="rule" data-text="principal display panel area size letter height numeral table minimum height mm">
+        <span class="rule-num">R.7</span><span class="rule-title">Principal display panel — size &amp; letter
+          height</span>
+        <div class="rule-body">
+          Sets minimum numeral/letter heights based on net quantity or panel area (from 1 mm up to 6 mm for larger
+          packages/areas). Letters must be at least 1 mm tall (2 mm if moulded/embossed), with width ≥ ⅓ of height.
+          <table class="mini">
+            <tr>
+              <th>Net qty</th>
+              <th>Min height (normal)</th>
+            </tr>
+            <tr>
+              <td>Up to 200 g/ml</td>
+              <td>1 mm</td>
+            </tr>
+            <tr>
+              <td>200–500 g/ml</td>
+              <td>2 mm</td>
+            </tr>
+            <tr>
+              <td>Above 500 g/ml</td>
+              <td>4 mm</td>
+            </tr>
+          </table>
+        </div>
+      </div>
 
-</header>
-<div class="masthead">
-  <div class="eyebrow">Ministry of Consumer Affairs, Food &amp; Public Distribution</div>
-  <h1>The Legal Metrology (Packaged Commodities) Rules, 2011</h1>
-  <p>Simplified reference · G.S.R. 202(E) · in force from 1 April 2011</p>
-</div>
+      <div class="rule"
+        data-text="declaration where appear principal display panel soft drink returnable bottle crown cap">
+        <span class="rule-num">R.8</span><span class="rule-title">Where the declaration must appear</span>
+        <div class="rule-body">All declarations must be on the principal display panel, with clear space around the
+          quantity figure. For returnable soft-drink bottles, MRP may instead be on the crown cap.</div>
+      </div>
 
-<div class="searchbar-wrap">
-  <div class="searchbar">
-    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
-      <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    </svg>
-    <input type="text" id="searchInput" placeholder="Search rules — try &quot;MRP&quot;, &quot;net quantity&quot;, &quot;wholesale&quot;, &quot;penalty&quot;…" autocomplete="off">
-    <kbd class="kbd-hint">/</kbd>
-    <span id="resultCount"></span>
-  </div>
-</div>
+      <div class="rule" data-text="manner declaration legible prominent contrasting colour hindi english language">
+        <span class="rule-num">R.9</span><span class="rule-title">Manner of declaration</span>
+        <div class="rule-body">Declarations must be legible, prominent, and (for price/quantity) in a colour contrasting
+          with the background. Language: Hindi (Devnagri) or English (other languages may be added too). Outer wrappers
+          must repeat all declarations unless transparent.</div>
+      </div>
 
-<div class="layout">
+      <div class="rule" data-text="name address manufacturer packer importer complete address corporate name">
+        <span class="rule-num">R.10</span><span class="rule-title">Name &amp; address of manufacturer</span>
+        <div class="rule-body">Every package must conspicuously show the manufacturer's (or packer's/importer's)
+          complete postal address — enough for a consumer to locate them (city, state, and PIN code at minimum). Must be
+          the actual registered/corporate name.</div>
+      </div>
 
-  <div class="toc">
-    <h2>Jump to</h2>
-    <ul>
-      <li><a href="#defs">Definitions (Rule 2)</a></li>
-      <li><a href="#ch2">Ch. II — Retail packages (3–23)</a></li>
-      <li><a href="#ch3">Ch. III — Wholesale packages (24)</a></li>
-      <li><a href="#ch4">Ch. IV — Export packages (25)</a></li>
-      <li><a href="#ch5">Ch. V — Exemptions (26)</a></li>
-      <li><a href="#ch6">Ch. VI — Registration (27–30)</a></li>
-      <li><a href="#ch7">Ch. VII — General &amp; penalties (31–34)</a></li>
-      <li><a href="#schedules">Schedules (I–VII)</a></li>
-    </ul>
-  </div>
+      <div class="rule" data-text="general provisions declaration quantity when packed environmental variation">
+        <span class="rule-num">R.11</span><span class="rule-title">General rules for declaring quantity</span>
+        <div class="rule-body">Net quantity excludes wrapper weight. If quantity doesn't vary with environment, no "when
+          packed" qualifier is allowed. Commodities that do vary significantly (Third Schedule — soaps, lotions, creams)
+          may use "when packed."</div>
+      </div>
 
-  <div class="rules-content">
+      <div class="rule"
+        data-text="manner declaration quantity unit weight measure number mass length area volume fourth schedule dozen score gross">
+        <span class="rule-num">R.12</span><span class="rule-title">Manner of declaring quantity</span>
+        <div class="rule-body">Unit must match commodity type: mass (solids), length (linear-sold goods), area, volume
+          (liquids), or number. "Dozen," "score," "gross" etc. may never be used as the unit.</div>
+      </div>
 
-  <!-- RULE 1 -->
-  <div class="chapter-heading">Preliminary</div>
-  <div class="rule" data-text="short title commencement applicability date 1 april 2011">
-    <span class="rule-num">R.1</span><span class="rule-title">Short title &amp; commencement</span>
-    <div class="rule-body">Called the Legal Metrology (Packaged Commodities) Rules, 2011. Came into force on <strong>1 April 2011</strong>.</div>
-  </div>
+      <div class="rule"
+        data-text="statement units weight measure number gram kilogram metre litre millilitre si system">
+        <span class="rule-num">R.13</span><span class="rule-title">Units of weight/measure/number</span>
+        <div class="rule-body">Below 1 kg/1 m/1 litre → use grams/centimetres/millilitres. At or above →
+          kilogram/metre/litre, with fractions in decimals. Only SI units allowed; number-sold items use symbol "N" or
+          "U."</div>
+      </div>
 
-  <!-- DEFINITIONS -->
-  <div id="defs" class="rule" data-text="definitions dealer lot manufacturer maximum permissible error net quantity packer principal display panel quantity retail dealer retail package retail sale retail sale price mrp wholesale dealer wholesale package">
-    <span class="rule-num">R.2</span><span class="rule-title">Definitions</span>
-    <div class="rule-body">
-      <ul>
-        <li><strong>Dealer</strong> — anyone buying/selling/supplying a packaged commodity (excludes a manufacturer selling only to dealers).</li>
-        <li><strong>Lot</strong> — total packages stored, or the maximum hourly output on a packing line.</li>
-        <li><strong>Manufacturer</strong> — who makes/produces the commodity, or whose brand mark claims it as theirs.</li>
-        <li><strong>Maximum permissible error</strong> — allowed deficiency in a package's quantity, per the First Schedule.</li>
-        <li><strong>Net quantity</strong> — quantity of commodity in a package, excluding packaging/wrappers.</li>
-        <li><strong>Packer</strong> — who pre-packs a commodity into sale-ready units.</li>
-        <li><strong>Principal display panel</strong> — the surface of a package where required declarations appear.</li>
-        <li><strong>Retail dealer</strong> — sells directly to the end consumer.</li>
-        <li><strong>Retail package</strong> — meant for sale to the ultimate consumer (excludes industrial/institutional buyers).</li>
-        <li><strong>Retail sale price (MRP)</strong> — the maximum price at which the package may be sold, printed inclusive of all taxes.</li>
-        <li><strong>Wholesale dealer</strong> — sells only through intermediaries, not directly to consumers.</li>
-        <li><strong>Wholesale package</strong> — a package of multiple retail packages, or bulk sold to an intermediary, or a pack of 10+ retail packages.</li>
-      </ul>
-    </div>
-  </div>
+      <div class="rule"
+        data-text="dimensions bed sheets fabric dhoties sarees napkins pillow covers towels table cloths">
+        <span class="rule-num">R.14</span><span class="rule-title">Dimensions of certain commodities</span>
+        <div class="rule-body">Bed-sheets, dhoties, sarees, towels, table-cloths etc. must declare the number of pieces
+          and finished dimensions; if pieces differ in size, each size and its price must be shown.</div>
+      </div>
 
-  <!-- CHAPTER II -->
-  <div id="ch2" class="chapter-heading">Chapter II <span>— Provisions applicable to packages for retail sale</span></div>
+      <div class="rule" data-text="dimensions weight relationship price">
+        <span class="rule-num">R.15</span><span class="rule-title">Dimensions &amp; weight tied to price</span>
+        <div class="rule-body">If a commodity's price depends on its size/weight, that dimension or weight must also be
+          declared alongside the quantity.</div>
+      </div>
 
-  <div class="rule" data-text="applicability chapter exclusions above 25 kg 25 litre cement fertilizer 50 kg industrial institutional consumers">
-    <span class="rule-num">R.3</span><span class="rule-title">Applicability of the Chapter</span>
-    <div class="rule-body">Does NOT apply to: packages &gt;25 kg/25 litre (except cement &amp; fertiliser bags up to 50 kg), and commodities meant for industrial or institutional consumers (airlines, hotels, hospitals, etc. buying direct from the manufacturer for their own use).</div>
-  </div>
+      <div class="rule" data-text="usable sheets aluminium foil facial tissues toilet paper number">
+        <span class="rule-num">R.16</span><span class="rule-title">Number of usable sheets</span>
+        <div class="rule-body">Foil, tissues, toilet paper and similar sheet products must state the number of usable
+          sheets and the dimensions of each.</div>
+      </div>
 
-  <div class="rule" data-text="regulation pre-packing sale declarations must bear label">
-    <span class="rule-num">R.4</span><span class="rule-title">Regulation for pre-packing &amp; sale</span>
-    <div class="rule-body">No one may pre-pack a commodity for sale unless the package bears (or has a label with) all declarations required under these rules. Packages inside the manufacturer's own premises need not yet show MRP — but must before leaving for their destination.</div>
-  </div>
+      <div class="rule" data-text="dimensions container type bags boxes cups pans diameter depth">
+        <span class="rule-num">R.17</span><span class="rule-title">Container-type commodities</span>
+        <div class="rule-body">Bags, boxes, cups, pans etc. sold as containers must declare number + linear dimensions
+          (or diameter/depth for round containers).</div>
+      </div>
 
-  <div class="rule" data-text="standard packages recommended quantities second schedule non standard size declaration">
-    <span class="rule-num">R.5</span><span class="rule-title">Standard package sizes</span>
-    <div class="rule-body">Commodities listed in the <strong>Second Schedule</strong> (e.g. baby food, biscuits, edible oil, salt, cement, soft drinks) must be packed in the specified standard quantities. If packed in a different size, the label must say "Not a standard pack size" / "non-standard size" under these Rules.</div>
-  </div>
+      <div class="rule" data-text="wholesale dealer retail dealer provisions comply not exceed mrp revised price tax">
+        <span class="rule-num">R.18</span><span class="rule-title">Provisions for wholesale &amp; retail dealers</span>
+        <div class="rule-body">Dealers may only sell compliant packages, never above MRP. If tax changes after packing,
+          the revised MRP must be publicised (2 newspaper ads + notices to dealers &amp; Legal Metrology authorities)
+          and the increase can't exceed the actual tax hike. VAT-registered retailers selling by weight/volume must keep
+          a class-III accuracy electronic weighing scale with printed receipts for consumers to verify.</div>
+      </div>
 
-  <div class="rule" data-text="declarations every package must bear name address manufacturer packer importer common generic name net quantity month year manufactured retail sale price dimensions">
-    <span class="rule-num">R.6</span><span class="rule-title">Declarations on every package</span>
-    <div class="rule-body">
-      Every retail package must declare:
-      <ul>
-        <li>Name &amp; address of the manufacturer/packer (and importer, if imported)</li>
-        <li>Common/generic name of the commodity</li>
-        <li>Net quantity (standard unit of weight/measure/number)</li>
-        <li>Month &amp; year of manufacture/pre-packing/import</li>
-        <li>Retail sale price (MRP), inclusive of all taxes</li>
-        <li>Dimensions of the commodity, if relevant</li>
-        <li>Consumer-care contact: name, address, phone, email of the complaints contact</li>
-      </ul>
-      <span class="note">Exceptions: bidi/incense sticks and PSU domestic LPG cylinders need no month/year; bidis and price-controlled LPG cylinders need no MRP. Food articles follow the Prevention of Food Adulteration Act instead. Stickers cannot cover a declaration, except to lower MRP.</span>
-    </div>
-  </div>
+      <div class="rule"
+        data-text="inspection quantity error manufacturer packer premises sample lot fifth schedule sixth schedule seventh schedule fee 2500">
+        <span class="rule-num">R.19</span><span class="rule-title">Inspection at manufacturer/packer's premises</span>
+        <div class="rule-body">A Director/Controller/Legal Metrology Officer may inspect and sample packages per the
+          Fifth Schedule (32 samples if lot &lt;4000, 80 if more), test per the Sixth Schedule, and record results
+          (Seventh Schedule Form A/B). Fresh tests cost ₹2,500. A lot passes only if the average quantity ≥ declared, no
+          package exceeds max permissible error, and all declarations are present.</div>
+      </div>
 
-  <div class="rule" data-text="principal display panel area size letter height numeral table minimum height mm">
-    <span class="rule-num">R.7</span><span class="rule-title">Principal display panel — size &amp; letter height</span>
-    <div class="rule-body">
-      Sets minimum numeral/letter heights based on net quantity or panel area (from 1 mm up to 6 mm for larger packages/areas). Letters must be at least 1 mm tall (2 mm if moulded/embossed), with width ≥ ⅓ of height.
-      <table class="mini">
-        <tr><th>Net qty</th><th>Min height (normal)</th></tr>
-        <tr><td>Up to 200 g/ml</td><td>1 mm</td></tr>
-        <tr><td>200–500 g/ml</td><td>2 mm</td></tr>
-        <tr><td>Above 500 g/ml</td><td>4 mm</td></tr>
-      </table>
-    </div>
-  </div>
+      <div class="rule" data-text="action completion inspection seize evidence court">
+        <span class="rule-num">R.20</span><span class="rule-title">Action after inspection</span>
+        <div class="rule-body">If a package fails the test, the officer seizes samples as evidence and initiates action
+          — unless a valid retest (Rule 19(4)) was already carried out.</div>
+      </div>
 
-  <div class="rule" data-text="declaration where appear principal display panel soft drink returnable bottle crown cap">
-    <span class="rule-num">R.8</span><span class="rule-title">Where the declaration must appear</span>
-    <div class="rule-body">All declarations must be on the principal display panel, with clear space around the quantity figure. For returnable soft-drink bottles, MRP may instead be on the crown cap.</div>
-  </div>
+      <div class="rule" data-text="inspection wholesale retail dealer premises complaint tampered pilferage leakage">
+        <span class="rule-num">R.21</span><span class="rule-title">Inspection at dealer's premises</span>
+        <div class="rule-body">Testing here only happens if: a complaint is received, tampering/pilferage is suspected,
+          or declarations seem missing. Packages marked "when packed" are protected if any deficiency is due to genuine
+          environmental conditions.</div>
+      </div>
 
-  <div class="rule" data-text="manner declaration legible prominent contrasting colour hindi english language">
-    <span class="rule-num">R.9</span><span class="rule-title">Manner of declaration</span>
-    <div class="rule-body">Declarations must be legible, prominent, and (for price/quantity) in a colour contrasting with the background. Language: Hindi (Devnagri) or English (other languages may be added too). Outer wrappers must repeat all declarations unless transparent.</div>
-  </div>
+      <div class="rule"
+        data-text="maximum permissible error establishment first schedule causes variation weighing climate transport">
+        <span class="rule-num">R.22</span><span class="rule-title">Establishing maximum permissible error</span>
+        <div class="rule-body">Permissible error accounts for unavoidable weighing/counting deviation, normal
+          transport/storage/climate exposure, and packaging-material variation. Specified in the First Schedule.</div>
+      </div>
 
-  <div class="rule" data-text="name address manufacturer packer importer complete address corporate name">
-    <span class="rule-num">R.10</span><span class="rule-title">Name &amp; address of manufacturer</span>
-    <div class="rule-body">Every package must conspicuously show the manufacturer's (or packer's/importer's) complete postal address — enough for a consumer to locate them (city, state, and PIN code at minimum). Must be the actual registered/corporate name.</div>
-  </div>
+      <div class="rule"
+        data-text="deceptive packages repacked seized exaggerated misleading impression bigger dimensions justified protection filling machine">
+        <span class="rule-num">R.23</span><span class="rule-title">Deceptive packages</span>
+        <div class="rule-body">A package that's oversized purely to mislead the consumer about quantity ("deceptive
+          package") must be repacked/relabelled by the manufacturer, or else seized — unless the larger size is
+          genuinely needed to protect the commodity or fit filling-machine requirements.</div>
+      </div>
 
-  <div class="rule" data-text="general provisions declaration quantity when packed environmental variation">
-    <span class="rule-num">R.11</span><span class="rule-title">General rules for declaring quantity</span>
-    <div class="rule-body">Net quantity excludes wrapper weight. If quantity doesn't vary with environment, no "when packed" qualifier is allowed. Commodities that do vary significantly (Third Schedule — soaps, lotions, creams) may use "when packed."</div>
-  </div>
+      <!-- CHAPTER III -->
+      <div id="ch3" class="chapter-heading">Chapter III <span>— Wholesale packages</span></div>
+      <div class="rule"
+        data-text="wholesale package declarations name address identity commodity total number retail packages net quantity">
+        <span class="rule-num">R.24</span><span class="rule-title">Declarations on wholesale packages</span>
+        <div class="rule-body">Every wholesale package must legibly declare: name/address of manufacturer or importer
+          (or packer), the commodity's identity, and either the number of retail packages inside or the total net
+          quantity.</div>
+      </div>
 
-  <div class="rule" data-text="manner declaration quantity unit weight measure number mass length area volume fourth schedule dozen score gross">
-    <span class="rule-num">R.12</span><span class="rule-title">Manner of declaring quantity</span>
-    <div class="rule-body">Unit must match commodity type: mass (solids), length (linear-sold goods), area, volume (liquids), or number. "Dozen," "score," "gross" etc. may never be used as the unit.</div>
-  </div>
+      <!-- CHAPTER IV -->
+      <div id="ch4" class="chapter-heading">Chapter IV <span>— Export of packaged commodities</span></div>
+      <div class="rule" data-text="export package restrictions sale india repacked relabeled seized">
+        <span class="rule-num">R.25</span><span class="rule-title">Restrictions on selling export packages in
+          India</span>
+        <div class="rule-body">A package made for export cannot be sold in India unless it's re-packed/re-labelled to
+          comply with Chapter II — otherwise it's liable to seizure.</div>
+      </div>
 
-  <div class="rule" data-text="statement units weight measure number gram kilogram metre litre millilitre si system">
-    <span class="rule-num">R.13</span><span class="rule-title">Units of weight/measure/number</span>
-    <div class="rule-body">Below 1 kg/1 m/1 litre → use grams/centimetres/millilitres. At or above → kilogram/metre/litre, with fractions in decimals. Only SI units allowed; number-sold items use symbol "N" or "U."</div>
-  </div>
+      <!-- CHAPTER V -->
+      <div id="ch5" class="chapter-heading">Chapter V <span>— Exemptions</span></div>
+      <div class="rule"
+        data-text="exemption certain packages 10 gram 10 millilitre fast food scheduled formulations agricultural produce 50 kg">
+        <span class="rule-num">R.26</span><span class="rule-title">Exempted packages</span>
+        <div class="rule-body">
+          These rules don't apply to:
+          <ul>
+            <li>Packages of 10 g/10 ml or less (though 10–20 g/ml still needs MRP + net quantity)</li>
+            <li>Fast-food packed by a restaurant/hotel</li>
+            <li>Drug formulations under the Drugs (Price Control) Order, 1995</li>
+            <li>Agricultural produce packed above 50 kg</li>
+          </ul>
+        </div>
+      </div>
 
-  <div class="rule" data-text="dimensions bed sheets fabric dhoties sarees napkins pillow covers towels table cloths">
-    <span class="rule-num">R.14</span><span class="rule-title">Dimensions of certain commodities</span>
-    <div class="rule-body">Bed-sheets, dhoties, sarees, towels, table-cloths etc. must declare the number of pieces and finished dimensions; if pieces differ in size, each size and its price must be shown.</div>
-  </div>
+      <!-- CHAPTER VI -->
+      <div id="ch6" class="chapter-heading">Chapter VI <span>— Registration of manufacturers, packers &amp;
+          importers</span></div>
 
-  <div class="rule" data-text="dimensions weight relationship price">
-    <span class="rule-num">R.15</span><span class="rule-title">Dimensions &amp; weight tied to price</span>
-    <div class="rule-body">If a commodity's price depends on its size/weight, that dimension or weight must also be declared alongside the quantity.</div>
-  </div>
+      <div class="rule"
+        data-text="registration manufacturers packers importers application fee 500 director controller 90 days">
+        <span class="rule-num">R.27</span><span class="rule-title">Registration requirement</span>
+        <div class="rule-body">Anyone pre-packing or importing a commodity must register (name + complete address) with
+          the Director/Controller, paying a ₹500 fee, within 90 days of starting such business. Amending a registration
+          certificate costs ₹100. Incomplete applications are returned within 7 working days.</div>
+      </div>
 
-  <div class="rule" data-text="usable sheets aluminium foil facial tissues toilet paper number">
-    <span class="rule-num">R.16</span><span class="rule-title">Number of usable sheets</span>
-    <div class="rule-body">Foil, tissues, toilet paper and similar sheet products must state the number of usable sheets and the dimensions of each.</div>
-  </div>
+      <div class="rule" data-text="registration shorter address permissible manufacturer packer">
+        <span class="rule-num">R.28</span><span class="rule-title">Shorter address registration</span>
+        <div class="rule-body">Manufacturers/packers may separately register a shorter address, if the
+          Director/Controller is satisfied it's still sufficient for consumer identification.</div>
+      </div>
 
-  <div class="rule" data-text="dimensions container type bags boxes cups pans diameter depth">
-    <span class="rule-num">R.17</span><span class="rule-title">Container-type commodities</span>
-    <div class="rule-body">Bags, boxes, cups, pans etc. sold as containers must declare number + linear dimensions (or diameter/depth for round containers).</div>
-  </div>
+      <div class="rule" data-text="registration register public inspection free">
+        <span class="rule-num">R.29</span><span class="rule-title">Public register</span>
+        <div class="rule-body">The Director/Controller maintains a register of all registered manufacturers/packers,
+          open to public inspection free of charge.</div>
+      </div>
 
-  <div class="rule" data-text="wholesale dealer retail dealer provisions comply not exceed mrp revised price tax">
-    <span class="rule-num">R.18</span><span class="rule-title">Provisions for wholesale &amp; retail dealers</span>
-    <div class="rule-body">Dealers may only sell compliant packages, never above MRP. If tax changes after packing, the revised MRP must be publicised (2 newspaper ads + notices to dealers &amp; Legal Metrology authorities) and the increase can't exceed the actual tax hike. VAT-registered retailers selling by weight/volume must keep a class-III accuracy electronic weighing scale with printed receipts for consumers to verify.</div>
-  </div>
+      <div class="rule" data-text="compilation lists manufacturers packers circulation state wise">
+        <span class="rule-num">R.30</span><span class="rule-title">Compilation &amp; circulation of lists</span>
+        <div class="rule-body">A state-wise list of registered manufacturers/packers is compiled and circulated to State
+          Controllers, to enable sampling at their premises.</div>
+      </div>
 
-  <div class="rule" data-text="inspection quantity error manufacturer packer premises sample lot fifth schedule sixth schedule seventh schedule fee 2500">
-    <span class="rule-num">R.19</span><span class="rule-title">Inspection at manufacturer/packer's premises</span>
-    <div class="rule-body">A Director/Controller/Legal Metrology Officer may inspect and sample packages per the Fifth Schedule (32 samples if lot &lt;4000, 80 if more), test per the Sixth Schedule, and record results (Seventh Schedule Form A/B). Fresh tests cost ₹2,500. A lot passes only if the average quantity ≥ declared, no package exceeds max permissible error, and all declarations are present.</div>
-  </div>
+      <!-- CHAPTER VII -->
+      <div id="ch7" class="chapter-heading">Chapter VII <span>— General &amp; penalties</span></div>
 
-  <div class="rule" data-text="action completion inspection seize evidence court">
-    <span class="rule-num">R.20</span><span class="rule-title">Action after inspection</span>
-    <div class="rule-body">If a package fails the test, the officer seizes samples as evidence and initiates action — unless a valid retest (Rule 19(4)) was already carried out.</div>
-  </div>
+      <div class="rule" data-text="advertisement retail sale price net quantity font size same">
+        <span class="rule-num">R.31</span><span class="rule-title">Advertisements</span>
+        <div class="rule-body">Any ad quoting the MRP must also state net quantity/number, in the same font size as the
+          price.</div>
+      </div>
 
-  <div class="rule" data-text="inspection wholesale retail dealer premises complaint tampered pilferage leakage">
-    <span class="rule-num">R.21</span><span class="rule-title">Inspection at dealer's premises</span>
-    <div class="rule-body">Testing here only happens if: a complaint is received, tampering/pilferage is suspected, or declarations seem missing. Packages marked "when packed" are protected if any deficiency is due to genuine environmental conditions.</div>
-  </div>
+      <div class="rule" data-text="penalty contravention fine four thousand rupees two thousand rupees rules 27 to 31">
+        <span class="rule-num">R.32</span><span class="rule-title">Penalty for contravention</span>
+        <div class="rule-body">Breach of Rules 27–31 (registration/advertising): fine of <strong>₹4,000</strong>. Breach
+          of any other rule with no specified punishment: fine of <strong>₹2,000</strong>.</div>
+      </div>
 
-  <div class="rule" data-text="maximum permissible error establishment first schedule causes variation weighing climate transport">
-    <span class="rule-num">R.22</span><span class="rule-title">Establishing maximum permissible error</span>
-    <div class="rule-body">Permissible error accounts for unavoidable weighing/counting deviation, normal transport/storage/climate exposure, and packaging-material variation. Specified in the First Schedule.</div>
-  </div>
+      <div class="rule" data-text="power relax central government compounding court decision reasonable period">
+        <span class="rule-num">R.33</span><span class="rule-title">Power to relax</span>
+        <div class="rule-body">The Central Government may relax specific provisions for a reasonable period, after
+          verifying a genuine compounding/court decision, with suitable corrective measures.</div>
+      </div>
 
-  <div class="rule" data-text="deceptive packages repacked seized exaggerated misleading impression bigger dimensions justified protection filling machine">
-    <span class="rule-num">R.23</span><span class="rule-title">Deceptive packages</span>
-    <div class="rule-body">A package that's oversized purely to mislead the consumer about quantity ("deceptive package") must be repacked/relabelled by the manufacturer, or else seized — unless the larger size is genuinely needed to protect the commodity or fit filling-machine requirements.</div>
-  </div>
+      <div class="rule"
+        data-text="repeal savings 1977 rules previous operations rights obligations pending proceedings">
+        <span class="rule-num">R.34</span><span class="rule-title">Repeal &amp; savings</span>
+        <div class="rule-body">Repeals the Standards of Weights and Measures (Packaged Commodities) Rules, 1977 — but
+          past actions, rights, penalties, registrations and pending proceedings under the old rules remain
+          valid/continue under these new Rules.</div>
+      </div>
 
-  <!-- CHAPTER III -->
-  <div id="ch3" class="chapter-heading">Chapter III <span>— Wholesale packages</span></div>
-  <div class="rule" data-text="wholesale package declarations name address identity commodity total number retail packages net quantity">
-    <span class="rule-num">R.24</span><span class="rule-title">Declarations on wholesale packages</span>
-    <div class="rule-body">Every wholesale package must legibly declare: name/address of manufacturer or importer (or packer), the commodity's identity, and either the number of retail packages inside or the total net quantity.</div>
-  </div>
+      <!-- SCHEDULES -->
+      <div id="schedules" class="chapter-heading">Schedules</div>
 
-  <!-- CHAPTER IV -->
-  <div id="ch4" class="chapter-heading">Chapter IV <span>— Export of packaged commodities</span></div>
-  <div class="rule" data-text="export package restrictions sale india repacked relabeled seized">
-    <span class="rule-num">R.25</span><span class="rule-title">Restrictions on selling export packages in India</span>
-    <div class="rule-body">A package made for export cannot be sold in India unless it's re-packed/re-labelled to comply with Chapter II — otherwise it's liable to seizure.</div>
-  </div>
+      <div class="rule"
+        data-text="first schedule maximum permissible errors weight volume length area number table percentage">
+        <span class="rule-num">Sch. I</span><span class="rule-title">Maximum permissible errors</span>
+        <div class="rule-body">Tables of allowed deficiency by declared quantity — e.g. up to 50 g/ml: 9%; 100–200 g:
+          4.5%; 1000–10000 g: 1.5%; above 15000 g: 1.0%. Separate table for length/area/number (2–4%).</div>
+      </div>
 
-  <!-- CHAPTER V -->
-  <div id="ch5" class="chapter-heading">Chapter V <span>— Exemptions</span></div>
-  <div class="rule" data-text="exemption certain packages 10 gram 10 millilitre fast food scheduled formulations agricultural produce 50 kg">
-    <span class="rule-num">R.26</span><span class="rule-title">Exempted packages</span>
-    <div class="rule-body">
-      These rules don't apply to:
-      <ul>
-        <li>Packages of 10 g/10 ml or less (though 10–20 g/ml still needs MRP + net quantity)</li>
-        <li>Fast-food packed by a restaurant/hotel</li>
-        <li>Drug formulations under the Drugs (Price Control) Order, 1995</li>
-        <li>Agricultural produce packed above 50 kg</li>
-      </ul>
-    </div>
-  </div>
+      <div class="rule"
+        data-text="second schedule commodities specified standard quantities baby food biscuits bread butter cereals coffee tea milk powder salt soap aerated drinks mineral water cement paint">
+        <span class="rule-num">Sch. II</span><span class="rule-title">Commodities with mandated standard pack
+          sizes</span>
+        <div class="rule-body">Lists fixed pack sizes for baby food, weaning food, biscuits, bread, butter/margarine,
+          cereals &amp; pulses, coffee, tea, milk powder, detergents, atta/rice/rawa, salt, soaps, aerated/soft drinks,
+          mineral water, cement, and paints/varnish.</div>
+      </div>
 
-  <!-- CHAPTER VI -->
-  <div id="ch6" class="chapter-heading">Chapter VI <span>— Registration of manufacturers, packers &amp; importers</span></div>
+      <div class="rule" data-text="third schedule when packed soaps lotions creams">
+        <span class="rule-num">Sch. III</span><span class="rule-title">Commodities allowed "when packed"
+          qualifier</span>
+        <div class="rule-body">All soaps, lotions, and creams (other than cream of milk) — since their weight can vary
+          after packing.</div>
+      </div>
 
-  <div class="rule" data-text="registration manufacturers packers importers application fee 500 director controller 90 days">
-    <span class="rule-num">R.27</span><span class="rule-title">Registration requirement</span>
-    <div class="rule-body">Anyone pre-packing or importing a commodity must register (name + complete address) with the Director/Controller, paying a ₹500 fee, within 90 days of starting such business. Amending a registration certificate costs ₹100. Incomplete applications are returned within 7 working days.</div>
-  </div>
+      <div class="rule"
+        data-text="fourth schedule exceptions weight measure number aerosol acids curd electric cables wire fencing wire fruits furnace oil ice cream liquefied petroleum gas nails paints tyres yarn cosmetics">
+        <span class="rule-num">Sch. IV</span><span class="rule-title">Exceptions to the standard unit rule</span>
+        <div class="rule-body">Commodities that may be declared by weight OR another unit instead of the default:
+          aerosols, curd, electric cable/wire (length or weight), fencing wire (number or weight), fruits, LPG (weight),
+          nails/screws (number or weight), paints, ready-made garments (number), tyres (number), yarn (weight or
+          length), cosmetics (weight or measure).</div>
+      </div>
 
-  <div class="rule" data-text="registration shorter address permissible manufacturer packer">
-    <span class="rule-num">R.28</span><span class="rule-title">Shorter address registration</span>
-    <div class="rule-body">Manufacturers/packers may separately register a shorter address, if the Director/Controller is satisfied it's still sufficient for consumer identification.</div>
-  </div>
+      <div class="rule" data-text="fifth schedule sample selection lot size 32 80 random">
+        <span class="rule-num">Sch. V</span><span class="rule-title">Sample selection manner</span>
+        <div class="rule-body">Sample size: <strong>32</strong> packages for a lot under 4,000; <strong>80</strong> for
+          a lot of 4,000 or more. Samples are drawn at random from various points of the stock (top, bottom, centre,
+          sides, front, rear).</div>
+      </div>
 
-  <div class="rule" data-text="registration register public inspection free">
-    <span class="rule-num">R.29</span><span class="rule-title">Public register</span>
-    <div class="rule-body">The Director/Controller maintains a register of all registered manufacturers/packers, open to public inspection free of charge.</div>
-  </div>
+      <div class="rule"
+        data-text="sixth schedule determination net quantity equipment working standards tare weight gross weight liquid volume length number">
+        <span class="rule-num">Sch. VI</span><span class="rule-title">Method for determining net quantity</span>
+        <div class="rule-body">Details the equipment, working standards, and step-by-step tare/gross weighing procedure
+          (also for liquids by volume, and length/number counts) used to verify a package's actual contents.</div>
+      </div>
 
-  <div class="rule" data-text="compilation lists manufacturers packers circulation state wise">
-    <span class="rule-num">R.30</span><span class="rule-title">Compilation &amp; circulation of lists</span>
-    <div class="rule-body">A state-wise list of registered manufacturers/packers is compiled and circulated to State Controllers, to enable sampling at their premises.</div>
-  </div>
+      <div class="rule"
+        data-text="seventh schedule form a form b weight checking data sheet volume length checking data sheet">
+        <span class="rule-num">Sch. VII</span><span class="rule-title">Data-sheet forms (A &amp; B)</span>
+        <div class="rule-body"><strong>Form A</strong> — Weight-checking data sheet. <strong>Form B</strong> —
+          Volume/length-checking data sheet. Both record package particulars, sample results, and signatures of the
+          manufacturer/packer and inspecting officer.</div>
+      </div>
 
-  <!-- CHAPTER VII -->
-  <div id="ch7" class="chapter-heading">Chapter VII <span>— General &amp; penalties</span></div>
+      <p id="noResults">No rules match your search. Try a different term.</p>
 
-  <div class="rule" data-text="advertisement retail sale price net quantity font size same">
-    <span class="rule-num">R.31</span><span class="rule-title">Advertisements</span>
-    <div class="rule-body">Any ad quoting the MRP must also state net quantity/number, in the same font size as the price.</div>
-  </div>
+    </div><!-- /.rules-content -->
 
-  <div class="rule" data-text="penalty contravention fine four thousand rupees two thousand rupees rules 27 to 31">
-    <span class="rule-num">R.32</span><span class="rule-title">Penalty for contravention</span>
-    <div class="rule-body">Breach of Rules 27–31 (registration/advertising): fine of <strong>₹4,000</strong>. Breach of any other rule with no specified punishment: fine of <strong>₹2,000</strong>.</div>
-  </div>
-
-  <div class="rule" data-text="power relax central government compounding court decision reasonable period">
-    <span class="rule-num">R.33</span><span class="rule-title">Power to relax</span>
-    <div class="rule-body">The Central Government may relax specific provisions for a reasonable period, after verifying a genuine compounding/court decision, with suitable corrective measures.</div>
-  </div>
-
-  <div class="rule" data-text="repeal savings 1977 rules previous operations rights obligations pending proceedings">
-    <span class="rule-num">R.34</span><span class="rule-title">Repeal &amp; savings</span>
-    <div class="rule-body">Repeals the Standards of Weights and Measures (Packaged Commodities) Rules, 1977 — but past actions, rights, penalties, registrations and pending proceedings under the old rules remain valid/continue under these new Rules.</div>
-  </div>
-
-  <!-- SCHEDULES -->
-  <div id="schedules" class="chapter-heading">Schedules</div>
-
-  <div class="rule" data-text="first schedule maximum permissible errors weight volume length area number table percentage">
-    <span class="rule-num">Sch. I</span><span class="rule-title">Maximum permissible errors</span>
-    <div class="rule-body">Tables of allowed deficiency by declared quantity — e.g. up to 50 g/ml: 9%; 100–200 g: 4.5%; 1000–10000 g: 1.5%; above 15000 g: 1.0%. Separate table for length/area/number (2–4%).</div>
-  </div>
-
-  <div class="rule" data-text="second schedule commodities specified standard quantities baby food biscuits bread butter cereals coffee tea milk powder salt soap aerated drinks mineral water cement paint">
-    <span class="rule-num">Sch. II</span><span class="rule-title">Commodities with mandated standard pack sizes</span>
-    <div class="rule-body">Lists fixed pack sizes for baby food, weaning food, biscuits, bread, butter/margarine, cereals &amp; pulses, coffee, tea, milk powder, detergents, atta/rice/rawa, salt, soaps, aerated/soft drinks, mineral water, cement, and paints/varnish.</div>
-  </div>
-
-  <div class="rule" data-text="third schedule when packed soaps lotions creams">
-    <span class="rule-num">Sch. III</span><span class="rule-title">Commodities allowed "when packed" qualifier</span>
-    <div class="rule-body">All soaps, lotions, and creams (other than cream of milk) — since their weight can vary after packing.</div>
-  </div>
-
-  <div class="rule" data-text="fourth schedule exceptions weight measure number aerosol acids curd electric cables wire fencing wire fruits furnace oil ice cream liquefied petroleum gas nails paints tyres yarn cosmetics">
-    <span class="rule-num">Sch. IV</span><span class="rule-title">Exceptions to the standard unit rule</span>
-    <div class="rule-body">Commodities that may be declared by weight OR another unit instead of the default: aerosols, curd, electric cable/wire (length or weight), fencing wire (number or weight), fruits, LPG (weight), nails/screws (number or weight), paints, ready-made garments (number), tyres (number), yarn (weight or length), cosmetics (weight or measure).</div>
   </div>
 
-  <div class="rule" data-text="fifth schedule sample selection lot size 32 80 random">
-    <span class="rule-num">Sch. V</span><span class="rule-title">Sample selection manner</span>
-    <div class="rule-body">Sample size: <strong>32</strong> packages for a lot under 4,000; <strong>80</strong> for a lot of 4,000 or more. Samples are drawn at random from various points of the stock (top, bottom, centre, sides, front, rear).</div>
-  </div>
+  <footer>
+    Simplified for quick reference from G.S.R. 202(E), Gazette of India, 7 March 2011 — always verify against the
+    official notification for compliance purposes.
+  </footer>
 
-  <div class="rule" data-text="sixth schedule determination net quantity equipment working standards tare weight gross weight liquid volume length number">
-    <span class="rule-num">Sch. VI</span><span class="rule-title">Method for determining net quantity</span>
-    <div class="rule-body">Details the equipment, working standards, and step-by-step tare/gross weighing procedure (also for liquids by volume, and length/number counts) used to verify a package's actual contents.</div>
-  </div>
+  <script>
+    (function () {
+      // ---------- Sticky offsets (navbar height, search offset) ----------
+      function setStickyOffsets() {
+        const navbar = document.querySelector('.navbar');
+        const searchbarWrap = document.querySelector('.searchbar-wrap');
 
-  <div class="rule" data-text="seventh schedule form a form b weight checking data sheet volume length checking data sheet">
-    <span class="rule-num">Sch. VII</span><span class="rule-title">Data-sheet forms (A &amp; B)</span>
-    <div class="rule-body"><strong>Form A</strong> — Weight-checking data sheet. <strong>Form B</strong> — Volume/length-checking data sheet. Both record package particulars, sample results, and signatures of the manufacturer/packer and inspecting officer.</div>
-  </div>
+        if (navbar) {
+          document.documentElement.style.setProperty(
+            '--navbar-height',
+            navbar.offsetHeight + 'px'
+          );
+        }
 
-  <p id="noResults">No rules match your search. Try a different term.</p>
-
-  </div><!-- /.rules-content -->
-
-</div>
-
-<footer>
-  Simplified for quick reference from G.S.R. 202(E), Gazette of India, 7 March 2011 — always verify against the official notification for compliance purposes.
-</footer>
-
-<script>
-(function(){
-  // ---------- Sticky offsets (navbar height, search offset) ----------
-  function setStickyOffsets() {
-    const navbar = document.querySelector('.navbar');
-    const searchbarWrap = document.querySelector('.searchbar-wrap');
-
-    if (navbar) {
-      document.documentElement.style.setProperty(
-        '--navbar-height',
-        navbar.offsetHeight + 'px'
-      );
-    }
-
-    if (searchbarWrap) {
-      document.documentElement.style.setProperty(
-        '--search-offset',
-        (navbar ? navbar.offsetHeight : 0) + searchbarWrap.offsetHeight + 'px'
-      );
-    }
-  }
-
-  setStickyOffsets();
-  window.addEventListener('resize', setStickyOffsets);
-  window.addEventListener('load', setStickyOffsets); // catches logo image load shifting height
-
-  // ---------- Rules search ----------
-  const input = document.getElementById('searchInput');
-  const rules = Array.from(document.querySelectorAll('.rule'));
-  const noResults = document.getElementById('noResults');
-  const resultCount = document.getElementById('resultCount');
-  const toc = document.querySelector('.toc');
-  const layoutEl = document.querySelector('.layout');
-  const headings = Array.from(document.querySelectorAll('.chapter-heading'));
-
-  function clearHighlights(el){
-    el.querySelectorAll('mark').forEach(m=>{
-      const parent = m.parentNode;
-      parent.replaceChild(document.createTextNode(m.textContent), m);
-      parent.normalize();
-    });
-  }
-
-  function highlight(el, term){
-    if(!term) return;
-    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-    const nodes = [];
-    let node;
-    while(node = walker.nextNode()){ nodes.push(node); }
-    const re = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'ig');
-    nodes.forEach(n=>{
-      if(!re.test(n.nodeValue)) return;
-      re.lastIndex = 0;
-      const frag = document.createDocumentFragment();
-      let lastIndex = 0;
-      let m;
-      while(m = re.exec(n.nodeValue)){
-        frag.appendChild(document.createTextNode(n.nodeValue.slice(lastIndex, m.index)));
-        const mark = document.createElement('mark');
-        mark.textContent = m[0];
-        frag.appendChild(mark);
-        lastIndex = m.index + m[0].length;
+        if (searchbarWrap) {
+          document.documentElement.style.setProperty(
+            '--search-offset',
+            (navbar ? navbar.offsetHeight : 0) + searchbarWrap.offsetHeight + 'px'
+          );
+        }
       }
-      frag.appendChild(document.createTextNode(n.nodeValue.slice(lastIndex)));
-      n.parentNode.replaceChild(frag, n);
-    });
-  }
 
-  const searchbarEl = document.querySelector('.searchbar');
+      setStickyOffsets();
+      window.addEventListener('resize', setStickyOffsets);
+      window.addEventListener('load', setStickyOffsets); // catches logo image load shifting height
 
-  function runSearch(){
-    const term = input.value.trim().toLowerCase();
-    searchbarEl.classList.toggle('has-value', term.length > 0);
-    let visible = 0;
+      // ---------- Rules search ----------
+      const input = document.getElementById('searchInput');
+      const rules = Array.from(document.querySelectorAll('.rule'));
+      const noResults = document.getElementById('noResults');
+      const resultCount = document.getElementById('resultCount');
+      const toc = document.querySelector('.toc');
+      const layoutEl = document.querySelector('.layout');
+      const headings = Array.from(document.querySelectorAll('.chapter-heading'));
 
-    rules.forEach(rule=>{
-      clearHighlights(rule);
-      const haystack = (rule.dataset.text + ' ' + rule.textContent).toLowerCase();
-      const match = term === '' || haystack.includes(term);
-      rule.classList.toggle('hidden', !match);
-      if(match){
-        visible++;
-        if(term) highlight(rule, term);
+      function clearHighlights(el) {
+        el.querySelectorAll('mark').forEach(m => {
+          const parent = m.parentNode;
+          parent.replaceChild(document.createTextNode(m.textContent), m);
+          parent.normalize();
+        });
       }
-    });
 
-    // hide chapter headings if no visible rule follows before the next heading
-    headings.forEach(h=>{
-      let el = h.nextElementSibling;
-      let anyVisible = false;
-      while(el && !el.classList.contains('chapter-heading')){
-        if(el.classList.contains('rule') && !el.classList.contains('hidden')){ anyVisible = true; break; }
-        el = el.nextElementSibling;
+      function highlight(el, term) {
+        if (!term) return;
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+        const nodes = [];
+        let node;
+        while (node = walker.nextNode()) { nodes.push(node); }
+        const re = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+        nodes.forEach(n => {
+          if (!re.test(n.nodeValue)) return;
+          re.lastIndex = 0;
+          const frag = document.createDocumentFragment();
+          let lastIndex = 0;
+          let m;
+          while (m = re.exec(n.nodeValue)) {
+            frag.appendChild(document.createTextNode(n.nodeValue.slice(lastIndex, m.index)));
+            const mark = document.createElement('mark');
+            mark.textContent = m[0];
+            frag.appendChild(mark);
+            lastIndex = m.index + m[0].length;
+          }
+          frag.appendChild(document.createTextNode(n.nodeValue.slice(lastIndex)));
+          n.parentNode.replaceChild(frag, n);
+        });
       }
-      h.style.display = anyVisible ? '' : 'none';
-    });
 
-    toc.style.display = term ? 'none' : '';
-    layoutEl.classList.toggle('searching', !!term);
-    noResults.style.display = (visible === 0) ? 'block' : 'none';
-    resultCount.textContent = term ? (visible + ' match' + (visible===1?'':'es')) : '';
-  }
+      const searchbarEl = document.querySelector('.searchbar');
 
-  input.addEventListener('input', runSearch);
+      function runSearch() {
+        const term = input.value.trim().toLowerCase();
+        searchbarEl.classList.toggle('has-value', term.length > 0);
+        let visible = 0;
 
-  // quick keyboard focus: "/" jumps to search
-  document.addEventListener('keydown', (e)=>{
-    if(e.key === '/' && document.activeElement !== input){
-      e.preventDefault();
-      input.focus();
-    }
-  });
-})();
-</script>
+        rules.forEach(rule => {
+          clearHighlights(rule);
+          const haystack = (rule.dataset.text + ' ' + rule.textContent).toLowerCase();
+          const match = term === '' || haystack.includes(term);
+          rule.classList.toggle('hidden', !match);
+          if (match) {
+            visible++;
+            if (term) highlight(rule, term);
+          }
+        });
+
+        // hide chapter headings if no visible rule follows before the next heading
+        headings.forEach(h => {
+          let el = h.nextElementSibling;
+          let anyVisible = false;
+          while (el && !el.classList.contains('chapter-heading')) {
+            if (el.classList.contains('rule') && !el.classList.contains('hidden')) { anyVisible = true; break; }
+            el = el.nextElementSibling;
+          }
+          h.style.display = anyVisible ? '' : 'none';
+        });
+
+        toc.style.display = term ? 'none' : '';
+        layoutEl.classList.toggle('searching', !!term);
+        noResults.style.display = (visible === 0) ? 'block' : 'none';
+        resultCount.textContent = term ? (visible + ' match' + (visible === 1 ? '' : 'es')) : '';
+      }
+
+      input.addEventListener('input', runSearch);
+
+      // quick keyboard focus: "/" jumps to search
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== input) {
+          e.preventDefault();
+          input.focus();
+        }
+      });
+    })();
+  </script>
 
 </body>
+
 </html>
