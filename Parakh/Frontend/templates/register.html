@@ -1,31 +1,40 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Register - Parakh</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
-    <header class="page-header">
-        
-        <h1>Begin your journey with Parakh</h1>
+    <!-- Toast Popup Notifications -->
+    {% if messages %}
+    <div id="toast-container" class="toast-container">
+        {% for message in messages %}
+        <div class="toast-popup toast-{{ message.tags }}">
+            <span>{{ message }}</span>
+            <button type="button" class="toast-close" onclick="this.parentElement.remove();">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
+    <header class="page-header">
+        <h1>Begin your journey with Parakh</h1>
     </header>
 
     <main class="login-main">
-
         <div class="login-card">
             <h2>Create Account</h2>
             <p class="login-subtext">Join Parakh in less time than it takes to make maggi!</p>
 
-            <form action="/register/" method="POST" class="registerForm" id="registerForm">
-
+            <form action="{% url 'register' %}" method="POST" class="registerForm" id="registerForm">
+                {% csrf_token %}
                 <!-- Step 1: Basic details -->
                 <div class="form-step" id="step1">
-
                     <div class="username">
                         <label for="username">Username<span class="required-asterisk">*</span></label>
                         <input type="text" id="username" name="username" placeholder="Choose a username" required>
@@ -54,15 +63,14 @@
 
                 <!-- Step 2: Password -->
                 <div class="form-step" id="step2" style="display: none;">
-
                     <div class="password">
-                        <label for="password">Password</label>
+                        <label for="password">Password<span class="required-asterisk">*</span></label>
                         <input type="password" id="password" name="password" placeholder="Create a password"
                             minlength="8" required>
                     </div>
 
                     <div class="confirm-password">
-                        <label for="confirm_password">Confirm Password</label>
+                        <label for="confirm_password">Confirm Password<span class="required-asterisk">*</span></label>
                         <input type="password" id="confirm_password" name="confirm_password"
                             placeholder="Re-enter your password" minlength="8" required>
                     </div>
@@ -74,20 +82,19 @@
                         <button type="submit">Register</button>
                     </div>
                 </div>
-
             </form>
 
             <div class="divider">or</div>
 
             <div class="new-user">
-                <a href="/login">Already have an account? Click to login</a>
+                <a href="{% url 'login' %}">Already have an account? Click to login</a>
             </div>
         </div>
     </main>
 
+    <script src="{% static 'js/script.js' %}"></script>
     <script>
         const registerForm = document.getElementById("registerForm");
-
         const step1 = document.getElementById("step1");
         const step2 = document.getElementById("step2");
         const step1Error = document.getElementById("step1Error");
@@ -100,7 +107,6 @@
         const emailInput = document.getElementById("email");
 
         nextBtn.addEventListener("click", function () {
-            // Only username and email are required to move to step 2
             if (!usernameInput.value.trim()) {
                 step1Error.textContent = "Username is required.";
                 step1Error.style.display = "block";
@@ -126,7 +132,6 @@
         });
 
         registerForm.addEventListener("submit", function (event) {
-
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirm_password").value;
 
@@ -145,10 +150,7 @@
             }
 
             passwordError.style.display = "none";
-            // Form submits normally to /register from here
         });
     </script>
-
 </body>
-
 </html>

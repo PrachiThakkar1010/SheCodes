@@ -9,6 +9,16 @@
 </head>
 
 <body>
+{% if messages %}
+<div id="toast-container" class="toast-container">
+    {% for message in messages %}
+    <div class="toast-popup toast-{{ message.tags }}">
+        <span>{{ message }}</span>
+        <button type="button" class="toast-close" onclick="this.parentElement.remove();">&times;</button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
     <header class="page-header">
         <h1>Welcome to Parakh</h1>
     </header>

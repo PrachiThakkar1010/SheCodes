@@ -3403,3 +3403,59 @@ main.profile-main {
         font-size: 21px;
     }
 }
+.toast-container {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toast-popup {
+    min-width: 280px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-success {
+    background-color: #16a34a; /* Green */
+}
+
+.toast-info {
+    background-color: #0284c7; /* Blue */
+}
+
+.toast-error {
+    background-color: #dc2626; /* Red */
+}
+
+.toast-close {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 12px;
+    line-height: 1;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

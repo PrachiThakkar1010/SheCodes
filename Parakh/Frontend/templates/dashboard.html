@@ -11,6 +11,16 @@
 
 <body>
 
+    {% if messages %}
+    <div id="toast-container" class="toast-container">
+        {% for message in messages %}
+        <div class="toast-popup toast-{{ message.tags }}">
+            <span>{{ message }}</span>
+            <button type="button" class="toast-close" onclick="this.parentElement.remove();">&times;</button>
+        </div>
+    {% endfor %}
+    </div>
+{% endif %}
     <header class="navbar">
         <div class="logo-image">
             <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
@@ -19,7 +29,6 @@
             <a href="{% url 'home' %}">PARAKH</a>
         </div>
         <nav class="nav-links">
-            <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'scan' %}">Scan</a>
             <a href="{% url 'rules' %}">Rules</a>
             <a href="{% url 'dashboard' %}" class="profile-icon active" aria-label="My Dashboard">
