@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan Product - Parakh</title>
+    <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
@@ -24,10 +25,14 @@
             <a href="{% url 'rules' %}">Rules</a>
 
             {% if user.is_authenticated %}
-                <a href="{% url 'dashboard' %}">Dashboard</a>
-                <a href="{% url 'logout' %}" class="btn-logout" style="margin-left: 10px;">Logout</a>
+            <a href="{% url 'dashboard' %}" class="profile-icon active" aria-label="My Dashboard">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2" />
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </a>
             {% else %}
-                <a href="{% url 'login' %}" class="login-link">Login</a>
+            <a href="{% url 'login' %}" class="login-link">Login</a>
             {% endif %}
         </nav>
     </header>
@@ -74,8 +79,10 @@
             <label for="fileInput" class="upload-dropzone" id="uploadDropzone">
                 <div class="upload-icon">
                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 16V4M12 4L7 9M12 4L17 9" stroke="#073b70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M4 16V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V16" stroke="#073b70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 16V4M12 4L7 9M12 4L17 9" stroke="#073b70" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M4 16V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V16" stroke="#073b70"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
                 <p class="upload-text">Click to upload or drag and drop</p>
@@ -105,250 +112,251 @@
     </main>
 
     <script>
-    // STATE
-    let capturedImages = []; // { id, dataUrl, file (optional) }
-    let cameraStream = null;
-    let imageIdCounter = 0;
+        // STATE
+        let capturedImages = []; // { id, dataUrl, file (optional) }
+        let cameraStream = null;
+        let imageIdCounter = 0;
 
-    // ELEMENT REFERENCES
-    const cameraModeBtn = document.getElementById('cameraModeBtn');
-    const uploadModeBtn = document.getElementById('uploadModeBtn');
-    const cameraSection = document.getElementById('cameraSection');
-    const uploadSection = document.getElementById('uploadSection');
+        // ELEMENT REFERENCES
+        const cameraModeBtn = document.getElementById('cameraModeBtn');
+        const uploadModeBtn = document.getElementById('uploadModeBtn');
+        const cameraSection = document.getElementById('cameraSection');
+        const uploadSection = document.getElementById('uploadSection');
 
-    const cameraFeed = document.getElementById('cameraFeed');
-    const captureCanvas = document.getElementById('captureCanvas');
-    const startCameraBtn = document.getElementById('startCameraBtn');
-    const captureBtn = document.getElementById('captureBtn');
-    const stopCameraBtn = document.getElementById('stopCameraBtn');
+        const cameraFeed = document.getElementById('cameraFeed');
+        const captureCanvas = document.getElementById('captureCanvas');
+        const startCameraBtn = document.getElementById('startCameraBtn');
+        const captureBtn = document.getElementById('captureBtn');
+        const stopCameraBtn = document.getElementById('stopCameraBtn');
 
-    const uploadDropzone = document.getElementById('uploadDropzone');
-    const fileInput = document.getElementById('fileInput');
+        const uploadDropzone = document.getElementById('uploadDropzone');
+        const fileInput = document.getElementById('fileInput');
 
-    const previewGrid = document.getElementById('previewGrid');
-    const imageCount = document.getElementById('imageCount');
+        const previewGrid = document.getElementById('previewGrid');
+        const imageCount = document.getElementById('imageCount');
 
-    const clearAllBtn = document.getElementById('clearAllBtn');
-    const analyzeBtn = document.getElementById('analyzeBtn');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const analyzeBtn = document.getElementById('analyzeBtn');
 
-    // Helper to get Django CSRF Token
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+        // Helper to get Django CSRF Token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                 }
             }
-        }
-        return cookieValue;
-    }
-
-    // Convert base64 dataUrl to Blob
-    function dataURLtoBlob(dataurl) {
-        const arr = dataurl.split(',');
-        const mime = arr[0].match(/:(.*?);/)[1];
-        const bstr = atob(arr[1]);
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new Blob([u8arr], { type: mime });
-    }
-
-    // MODE TOGGLE (Camera <-> Upload)
-    function switchMode(mode) {
-        if (mode === 'camera') {
-            cameraModeBtn.classList.add('active');
-            uploadModeBtn.classList.remove('active');
-            cameraSection.style.display = '';
-            uploadSection.style.display = 'none';
-        } else {
-            uploadModeBtn.classList.add('active');
-            cameraModeBtn.classList.remove('active');
-            uploadSection.style.display = '';
-            cameraSection.style.display = 'none';
-            stopCamera();
-        }
-    }
-
-    cameraModeBtn.addEventListener('click', () => switchMode('camera'));
-    uploadModeBtn.addEventListener('click', () => switchMode('upload'));
-
-    // CAMERA HANDLING
-    async function startCamera() {
-        try {
-            cameraStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: 'environment' },
-                audio: false
-            });
-
-            cameraFeed.srcObject = cameraStream;
-            startCameraBtn.disabled = true;
-            captureBtn.disabled = false;
-            stopCameraBtn.disabled = false;
-
-        } catch (err) {
-            console.error('Camera access error:', err);
-            alert('Could not access camera. Please check permissions or try uploading images instead.');
-        }
-    }
-
-    function stopCamera() {
-        if (cameraStream) {
-            cameraStream.getTracks().forEach(track => track.stop());
-            cameraStream = null;
-            cameraFeed.srcObject = null;
+            return cookieValue;
         }
 
-        startCameraBtn.disabled = false;
-        captureBtn.disabled = true;
-        stopCameraBtn.disabled = true;
-    }
+        // Convert base64 dataUrl to Blob
+        function dataURLtoBlob(dataurl) {
+            const arr = dataurl.split(',');
+            const mime = arr[0].match(/:(.*?);/)[1];
+            const bstr = atob(arr[1]);
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        }
 
-    function capturePhoto() {
-        if (!cameraStream) return;
+        // MODE TOGGLE (Camera <-> Upload)
+        function switchMode(mode) {
+            if (mode === 'camera') {
+                cameraModeBtn.classList.add('active');
+                uploadModeBtn.classList.remove('active');
+                cameraSection.style.display = '';
+                uploadSection.style.display = 'none';
+            } else {
+                uploadModeBtn.classList.add('active');
+                cameraModeBtn.classList.remove('active');
+                uploadSection.style.display = '';
+                cameraSection.style.display = 'none';
+                stopCamera();
+            }
+        }
 
-        const width = cameraFeed.videoWidth;
-        const height = cameraFeed.videoHeight;
+        cameraModeBtn.addEventListener('click', () => switchMode('camera'));
+        uploadModeBtn.addEventListener('click', () => switchMode('upload'));
 
-        captureCanvas.width = width;
-        captureCanvas.height = height;
+        // CAMERA HANDLING
+        async function startCamera() {
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment' },
+                    audio: false
+                });
 
-        const ctx = captureCanvas.getContext('2d');
-        ctx.drawImage(cameraFeed, 0, 0, width, height);
+                cameraFeed.srcObject = cameraStream;
+                startCameraBtn.disabled = true;
+                captureBtn.disabled = false;
+                stopCameraBtn.disabled = false;
 
-        const dataUrl = captureCanvas.toDataURL('image/jpeg', 0.9);
-        addImage(dataUrl);
-    }
+            } catch (err) {
+                console.error('Camera access error:', err);
+                alert('Could not access camera. Please check permissions or try uploading images instead.');
+            }
+        }
 
-    startCameraBtn.addEventListener('click', startCamera);
-    stopCameraBtn.addEventListener('click', stopCamera);
-    captureBtn.addEventListener('click', capturePhoto);
+        function stopCamera() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+                cameraFeed.srcObject = null;
+            }
 
-    // FILE UPLOAD HANDLING
-    fileInput.addEventListener('change', (e) => {
-        handleFiles(e.target.files);
-        fileInput.value = '';
-    });
+            startCameraBtn.disabled = false;
+            captureBtn.disabled = true;
+            stopCameraBtn.disabled = true;
+        }
 
-    uploadDropzone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadDropzone.classList.add('dragover');
-    });
+        function capturePhoto() {
+            if (!cameraStream) return;
 
-    uploadDropzone.addEventListener('dragleave', () => {
-        uploadDropzone.classList.remove('dragover');
-    });
+            const width = cameraFeed.videoWidth;
+            const height = cameraFeed.videoHeight;
 
-    uploadDropzone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadDropzone.classList.remove('dragover');
-        handleFiles(e.dataTransfer.files);
-    });
+            captureCanvas.width = width;
+            captureCanvas.height = height;
 
-    function handleFiles(fileList) {
-        const files = Array.from(fileList).filter(file => file.type.startsWith('image/'));
-        if (files.length === 0) return;
+            const ctx = captureCanvas.getContext('2d');
+            ctx.drawImage(cameraFeed, 0, 0, width, height);
 
-        files.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                addImage(e.target.result);
-            };
-            reader.readAsDataURL(file);
+            const dataUrl = captureCanvas.toDataURL('image/jpeg', 0.9);
+            addImage(dataUrl);
+        }
+
+        startCameraBtn.addEventListener('click', startCamera);
+        stopCameraBtn.addEventListener('click', stopCamera);
+        captureBtn.addEventListener('click', capturePhoto);
+
+        // FILE UPLOAD HANDLING
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+            fileInput.value = '';
         });
-    }
 
-    // IMAGE STATE MANAGEMENT
-    function addImage(dataUrl) {
-        const id = `img-${imageIdCounter++}`;
-        capturedImages.push({ id, dataUrl });
-        renderPreview();
-    }
+        uploadDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadDropzone.classList.add('dragover');
+        });
 
-    function removeImage(id) {
-        capturedImages = capturedImages.filter(img => img.id !== id);
-        renderPreview();
-    }
+        uploadDropzone.addEventListener('dragleave', () => {
+            uploadDropzone.classList.remove('dragover');
+        });
 
-    function clearAllImages() {
-        capturedImages = [];
-        renderPreview();
-    }
+        uploadDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadDropzone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
 
-    function renderPreview() {
-        previewGrid.innerHTML = '';
+        function handleFiles(fileList) {
+            const files = Array.from(fileList).filter(file => file.type.startsWith('image/'));
+            if (files.length === 0) return;
 
-        capturedImages.forEach(img => {
-            const item = document.createElement('div');
-            item.className = 'preview-item';
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    addImage(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
 
-            item.innerHTML = `
+        // IMAGE STATE MANAGEMENT
+        function addImage(dataUrl) {
+            const id = `img-${imageIdCounter++}`;
+            capturedImages.push({ id, dataUrl });
+            renderPreview();
+        }
+
+        function removeImage(id) {
+            capturedImages = capturedImages.filter(img => img.id !== id);
+            renderPreview();
+        }
+
+        function clearAllImages() {
+            capturedImages = [];
+            renderPreview();
+        }
+
+        function renderPreview() {
+            previewGrid.innerHTML = '';
+
+            capturedImages.forEach(img => {
+                const item = document.createElement('div');
+                item.className = 'preview-item';
+
+                item.innerHTML = `
                 <img src="${img.dataUrl}" alt="Captured product image">
                 <button type="button" class="preview-remove" data-id="${img.id}" aria-label="Remove image">×</button>
             `;
 
-            previewGrid.appendChild(item);
-        });
-
-        document.querySelectorAll('.preview-remove').forEach(btn => {
-            btn.addEventListener('click', () => removeImage(btn.dataset.id));
-        });
-
-        imageCount.textContent = capturedImages.length;
-        analyzeBtn.disabled = capturedImages.length === 0;
-    }
-
-    clearAllBtn.addEventListener('click', clearAllImages);
-
-    // ANALYZE ACTION: Sends payload to Django backend
-    analyzeBtn.addEventListener('click', async () => {
-        if (capturedImages.length === 0) return;
-
-        analyzeBtn.disabled = true;
-        analyzeBtn.textContent = 'Processing...';
-
-        const formData = new FormData();
-        const primaryImageBlob = dataURLtoBlob(capturedImages[0].dataUrl);
-        formData.append('image', primaryImageBlob, 'product_scan.jpg');
-        formData.append('product_name', 'Scanned Product');
-        formData.append('category', 'Packaged Goods');
-
-        try {
-            const response = await fetch("{% url 'scan' %}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: formData
+                previewGrid.appendChild(item);
             });
 
-            if (response.redirected) {
-                window.location.href = response.url;
-            } else if (response.ok) {
-                const data = await response.json();
-                if (data.redirect_url) {
-                    window.location.href = data.redirect_url;
+            document.querySelectorAll('.preview-remove').forEach(btn => {
+                btn.addEventListener('click', () => removeImage(btn.dataset.id));
+            });
+
+            imageCount.textContent = capturedImages.length;
+            analyzeBtn.disabled = capturedImages.length === 0;
+        }
+
+        clearAllBtn.addEventListener('click', clearAllImages);
+
+        // ANALYZE ACTION: Sends payload to Django backend
+        analyzeBtn.addEventListener('click', async () => {
+            if (capturedImages.length === 0) return;
+
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = 'Processing...';
+
+            const formData = new FormData();
+            const primaryImageBlob = dataURLtoBlob(capturedImages[0].dataUrl);
+            formData.append('image', primaryImageBlob, 'product_scan.jpg');
+            formData.append('product_name', 'Scanned Product');
+            formData.append('category', 'Packaged Goods');
+
+            try {
+                const response = await fetch("{% url 'scan' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: formData
+                });
+
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else if (response.ok) {
+                    const data = await response.json();
+                    if (data.redirect_url) {
+                        window.location.href = data.redirect_url;
+                    }
+                } else {
+                    alert('Scan upload failed. Please try again.');
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.textContent = 'Analyze Product →';
                 }
-            } else {
-                alert('Scan upload failed. Please try again.');
+            } catch (error) {
+                console.error('Error uploading scan:', error);
+                alert('A network error occurred. Check your server connection.');
                 analyzeBtn.disabled = false;
                 analyzeBtn.textContent = 'Analyze Product →';
             }
-        } catch (error) {
-            console.error('Error uploading scan:', error);
-            alert('A network error occurred. Check your server connection.');
-            analyzeBtn.disabled = false;
-            analyzeBtn.textContent = 'Analyze Product →';
-        }
-    });
+        });
 
-    window.addEventListener('beforeunload', stopCamera);
+        window.addEventListener('beforeunload', stopCamera);
     </script>
 </body>
+
 </html>
