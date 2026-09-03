@@ -19,29 +19,38 @@
             <span>{{ message }}</span>
             <button type="button" class="toast-close" onclick="this.parentElement.remove();">&times;</button>
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
-{% endif %}
+    {% endif %}
+
     <header class="navbar">
-        <div class="logo-image">
-            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
-        </div>
-        <div class="logo">
-            <a href="{% url 'home' %}">PARAKH</a>
-        </div>
-        <nav class="nav-links">
+    <div class="logo-image">
+        <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+    </div>
+    <div class="logo">
+        <a href="{% url 'home' %}">PARAKH</a>
+    </div>
+    <nav class="nav-links">
+        {% if request.user.is_authenticated %}
+            <!-- Logged-in view: Home and Login are hidden; Scan, Rules, and Dashboard profile icon are visible -->
             <a href="{% url 'scan' %}">Scan</a>
             <a href="{% url 'rules' %}">Rules</a>
-            <a href="{% url 'dashboard' %}" class="profile-icon active" aria-label="My Dashboard">
+            <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+            <a href="{% url 'dashboard' %}" class="profile-icon" aria-label="My Dashboard">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2"/>
                     <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round"/>
                 </svg>
             </a>
-            <!-- Direct Navbar Logout Button -->
-            <a href="{% url 'logout' %}" class="btn-logout" style="margin-left: 10px;">Logout</a>
-        </nav>
-    </header>
+        {% else %}
+            <!-- Guest view: Home, Scan, Rules, and Login are visible; Profile icon is hidden -->
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+            <a href="{% url 'login' %}" class="login-link">Login</a>
+        {% endif %}
+    </nav>
+</header>
 
     <main class="dashboard-main">
 
@@ -56,7 +65,6 @@
 
         <!-- Stat cards -->
         <div class="stats-grid">
-
             <div class="stat-card">
                 <div class="stat-icon stat-icon-total">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -144,7 +152,12 @@
 
                         <div class="profile-field">
                             <span class="profile-field-label">Name</span>
-                            <span class="profile-field-value">{{ request.user.get_full_name|default:"Not provided" }}</span>
+                            <span class="profile-field-value">{{ request.user.first_name|default:"Not provided" }}</span>
+                        </div>
+
+                        <div class="profile-field">
+                            <span class="profile-field-label">Mobile Number</span>
+                            <span class="profile-field-value">{{ request.user.profile.mobile_number|default:"Not provided" }}</span>
                         </div>
 
                         <div class="profile-field">
@@ -153,10 +166,10 @@
                         </div>
                     </div>
 
-                    <!-- Sidebar Card Logout Action -->
+                    <!-- Sidebar Card View Profile Action -->
                     <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
-                        <a href="{% url 'logout' %}" style="color: #dc3545; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
-                            Sign Out →
+                        <a href="{% url 'profile' %}" class="profile-link" style="color: #073b70; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+                            View Profile →
                         </a>
                     </div>
                 </div>

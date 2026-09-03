@@ -1,29 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - Parakh</title>
+    <title>My Profile - Parakh</title>
     <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
 
+    <!-- Toast Notifications -->
+    {% if messages %}
+    <div id="toast-container" class="toast-container">
+        {% for message in messages %}
+        <div class="toast-popup toast-{{ message.tags }}">
+            <span>{{ message }}</span>
+            <button type="button" class="toast-close" onclick="this.parentElement.remove();">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Logged-in Navbar -->
     <header class="navbar">
         <div class="logo-image">
-            <img src="../assets/Logo.png" alt="Parakh Logo">
+            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
         </div>
         <div class="logo">
-            <a href="/">PARAKH</a>
+            <a href="{% url 'home' %}">PARAKH</a>
         </div>
         <nav class="nav-links">
-            <a href="/">Home</a>
-            <a href="/scan">Scan</a>
-            <a href="/rules">Rules</a>
-            <a href="/#how-it-works">How it works</a>
-            <a href="/dashboard" class="profile-icon active" aria-label="My Dashboard">
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+            <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+            <a href="{% url 'dashboard' %}" class="profile-icon" aria-label="My Dashboard">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2"/>
                     <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round"/>
@@ -32,136 +45,58 @@
         </nav>
     </header>
 
-    <main class="profile-main">
+    <main class="dashboard-main" style="max-width: 650px; margin: 2rem auto; padding: 0 1rem;">
 
-        <div class="profile-header">
-            
-            <h1>My Profile</h1>
-            <p class="profile-subtext">View and manage your account details.</p>
+        <div class="dashboard-header" style="margin-bottom: 1.5rem;">
+            <p class="eyebrow">Account Settings</p>
+            <h1>User Profile</h1>
+            <p class="dashboard-subtext">Manage your personal account information.</p>
         </div>
 
-        <div class="profile-page-card">
+        <div class="profile-card" style="background: #ffffff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
 
-            <!-- ================= VIEW MODE ================= -->
-            <div id="viewMode">
+            <form method="POST" action="{% url 'profile' %}">
+                {% csrf_token %}
 
-                <div class="profile-view-header">
-                    <div class="profile-avatar">A</div>
-                    <div>
-                        <h2 id="viewName">Aneri Thakkar</h2>
-                        <p class="profile-view-username">@<span id="viewUsername">Aneri25</span></p>
-                    </div>
+                <!-- Username (Read-Only) -->
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.35rem; color: #1e293b;">Username</label>
+                    <input type="text" value="{{ request.user.username }}" disabled
+                           style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; background-color: #f1f5f9; cursor: not-allowed; box-sizing: border-box;">
+                    <small style="color: #64748b;">Username cannot be changed.</small>
                 </div>
 
-                <div class="profile-fields-grid profile-fields-grid-wide">
-
-                    <div class="profile-field">
-                        <span class="profile-field-label">Username</span>
-                        <span class="profile-field-value" id="viewUsername2">Aneri25</span>
-                    </div>
-
-                    <div class="profile-field">
-                        <span class="profile-field-label">Name</span>
-                        <span class="profile-field-value" id="viewName2">Aneri Thakkar</span>
-                    </div>
-
-                    <div class="profile-field">
-                        <span class="profile-field-label">Email</span>
-                        <span class="profile-field-value" id="viewEmail">aneri@example.com</span>
-                    </div>
-
-                    <div class="profile-field">
-                        <span class="profile-field-label">Mobile Number</span>
-                        <span class="profile-field-value" id="viewMobile">+91 98765 43210</span>
-                    </div>
-
-                    <div class="profile-field">
-                        <span class="profile-field-label">Password</span>
-                        <span class="profile-field-value password-mask-row">
-                            <span id="viewPasswordMask">••••••••••</span>
-                            <button type="button" class="password-toggle-btn" id="togglePasswordView" aria-label="Show password">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="currentColor" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
-                                </svg>
-                            </button>
-                        </span>
-                    </div>
-
+                <!-- Full Name -->
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label for="first_name" style="display: block; font-weight: 600; margin-bottom: 0.35rem; color: #1e293b;">Full Name</label>
+                    <input type="text" id="first_name" name="first_name" value="{{ request.user.first_name }}"
+                           class="form-input" placeholder="Enter your full name"
+                           style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
                 </div>
 
-                <button type="button" class="btn-primary" id="editProfileBtn">Edit Profile</button>
-            </div>
+                <!-- Email Address -->
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label for="email" style="display: block; font-weight: 600; margin-bottom: 0.35rem; color: #1e293b;">Email Address</label>
+                    <input type="email" id="email" name="email" value="{{ request.user.email }}"
+                           class="form-input" placeholder="Enter your email"
+                           style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;" required>
+                </div>
 
-            <!-- ================= EDIT MODE ================= -->
-            <div id="editMode" style="display: none;">
+                <!-- Mobile Number -->
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                    <label for="mobile_number" style="display: block; font-weight: 600; margin-bottom: 0.35rem; color: #1e293b;">Mobile Number</label>
+                    <input type="tel" id="mobile_number" name="mobile_number" value="{{ profile.mobile_number|default:'' }}"
+                           class="form-input" placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}"
+                           style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+                </div>
 
-                <form id="editProfileForm">
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 12px; justify-content: flex-end; align-items: center;">
+                    <a href="{% url 'dashboard' %}" style="text-decoration: none; color: #64748b; font-weight: 600; padding: 0.6rem 1.2rem;">Cancel</a>
+                    <button type="submit" class="btn-primary" style="padding: 0.65rem 1.4rem; border-radius: 8px;">Save Changes</button>
+                </div>
 
-                    <div class="profile-fields-grid profile-fields-grid-wide profile-edit-grid">
-
-                        <div class="username">
-                            <label for="editUsername">Username</label>
-                            <input type="text" id="editUsername" name="username" value="Aneri25" required>
-                        </div>
-
-                        <div class="name">
-                            <label for="editName">Name</label>
-                            <input type="text" id="editName" name="name" value="Aneri Patel">
-                        </div>
-
-                        <div class="email">
-                            <label for="editEmail">Email</label>
-                            <input type="email" id="editEmail" name="email" value="aneri@example.com" required>
-                        </div>
-
-                        <div class="mobile">
-                            <label for="editMobile">Mobile Number</label>
-                            <input type="tel" id="editMobile" name="mobile" value="9876543210" pattern="[0-9]{10}" title="Enter a valid 10-digit mobile number">
-                        </div>
-
-                    </div>
-
-                    <!-- Change password: collapsible sub-section -->
-                    <div class="password-change-section">
-                        <button type="button" class="password-change-toggle" id="passwordChangeToggle">
-                            <span>Change Password</span>
-                            <svg width="14" height="14" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="passwordChevron">
-                                <path d="M1 1L6 6L11 1" stroke="#0b63ce" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-
-                        <div class="password-change-fields" id="passwordChangeFields" style="display: none;">
-
-                            <div class="password">
-                                <label for="currentPassword">Current Password</label>
-                                <input type="password" id="currentPassword" name="current_password" placeholder="Enter current password">
-                            </div>
-
-                            <div class="password">
-                                <label for="newPassword">New Password</label>
-                                <input type="password" id="newPassword" name="new_password" placeholder="Enter new password" minlength="8">
-                            </div>
-
-                            <div class="confirm-password">
-                                <label for="confirmNewPassword">Confirm New Password</label>
-                                <input type="password" id="confirmNewPassword" name="confirm_new_password" placeholder="Re-enter new password" minlength="8">
-                            </div>
-
-                            <p class="form-error" id="editPasswordError" style="display: none;"></p>
-                        </div>
-                    </div>
-
-                    <p class="form-error" id="editFormError" style="display: none;"></p>
-
-                    <div class="form-step-actions">
-                        <button type="button" class="btn-secondary" id="cancelEditBtn">Cancel</button>
-                        <button type="submit" class="btn-primary">Save Changes</button>
-                    </div>
-
-                </form>
-            </div>
-
+            </form>
         </div>
 
     </main>
@@ -172,91 +107,6 @@
         </div>
     </footer>
 
-    <script>
-        const viewMode = document.getElementById("viewMode");
-        const editMode = document.getElementById("editMode");
-        const editProfileBtn = document.getElementById("editProfileBtn");
-        const cancelEditBtn = document.getElementById("cancelEditBtn");
-        const editProfileForm = document.getElementById("editProfileForm");
-        const editFormError = document.getElementById("editFormError");
-        const editPasswordError = document.getElementById("editPasswordError");
-
-        // Toggle password mask in view mode (masked by default)
-        const togglePasswordView = document.getElementById("togglePasswordView");
-        const viewPasswordMask = document.getElementById("viewPasswordMask");
-        let passwordVisible = false;
-
-        togglePasswordView.addEventListener("click", function () {
-            // NOTE: replace "actualPasswordPlaceholder" with a real value fetched
-            // from the backend only at the moment of reveal, not rendered on load.
-            passwordVisible = !passwordVisible;
-            viewPasswordMask.textContent = passwordVisible ? "actualPasswordPlaceholder" : "••••••••••";
-            togglePasswordView.setAttribute("aria-label", passwordVisible ? "Hide password" : "Show password");
-        });
-
-        // Switch to edit mode
-        editProfileBtn.addEventListener("click", function () {
-            viewMode.style.display = "none";
-            editMode.style.display = "block";
-        });
-
-        // Cancel edit -> back to view mode
-        cancelEditBtn.addEventListener("click", function () {
-            editProfileForm.reset();
-            editFormError.style.display = "none";
-            editPasswordError.style.display = "none";
-            document.getElementById("passwordChangeFields").style.display = "none";
-            document.getElementById("passwordChevron").style.transform = "rotate(0deg)";
-            editMode.style.display = "none";
-            viewMode.style.display = "block";
-        });
-
-        // Collapsible "Change Password" section
-        const passwordChangeToggle = document.getElementById("passwordChangeToggle");
-        const passwordChangeFields = document.getElementById("passwordChangeFields");
-        const passwordChevron = document.getElementById("passwordChevron");
-
-        passwordChangeToggle.addEventListener("click", function () {
-            const isOpen = passwordChangeFields.style.display === "block";
-            passwordChangeFields.style.display = isOpen ? "none" : "block";
-            passwordChevron.style.transform = isOpen ? "rotate(0deg)" : "rotate(180deg)";
-        });
-
-        // Submit validation
-        editProfileForm.addEventListener("submit", function (event) {
-            editFormError.style.display = "none";
-            editPasswordError.style.display = "none";
-
-            const currentPassword = document.getElementById("currentPassword").value;
-            const newPassword = document.getElementById("newPassword").value;
-            const confirmNewPassword = document.getElementById("confirmNewPassword").value;
-
-            const attemptingPasswordChange = currentPassword || newPassword || confirmNewPassword;
-
-            if (attemptingPasswordChange) {
-                if (!currentPassword) {
-                    event.preventDefault();
-                    editPasswordError.textContent = "Enter your current password to change it.";
-                    editPasswordError.style.display = "block";
-                    return;
-                }
-                if (newPassword.length < 8) {
-                    event.preventDefault();
-                    editPasswordError.textContent = "New password must be at least 8 characters long.";
-                    editPasswordError.style.display = "block";
-                    return;
-                }
-                if (newPassword !== confirmNewPassword) {
-                    event.preventDefault();
-                    editPasswordError.textContent = "New passwords do not match.";
-                    editPasswordError.style.display = "block";
-                    return;
-                }
-            }
-
-            // Form submits normally to backend from here (e.g. POST /edit-profile)
-        });
-    </script>
-
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

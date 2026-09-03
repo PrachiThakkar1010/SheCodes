@@ -21,7 +21,19 @@
         {% endfor %}
     </div>
     {% endif %}
-
+    <header class="navbar">
+        <div class="logo-image">
+            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="{% url 'home' %}">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+        </nav>
+    </header>
     <header class="page-header">
         <h1>Begin your journey with Parakh</h1>
     </header>

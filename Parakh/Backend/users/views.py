@@ -99,3 +99,45 @@ def dashboard_view(request):
         'compliant_scans': compliant_scans,
     }
     return render(request, 'dashboard.html', context)
+
+@login_required(login_url='login')
+def profile_view(request):
+    user = request.user
+    # Ensure profile exists
+    profile, _ = UserProfile.objects.get_or_create(user=user)
+
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name', '').strip()
+        email = request.POST.get('email', '').strip()
+        mobile = request.POST.get('mobile_number', '').strip()
+
+        # Update User model
+        user.first_name = first_name
+        user.email = email
+        user.save()
+
+        # Update UserProfile model
+        profile.mobile_number = mobile
+        profile.save()
+
+        messages.success(request, 'Profile updated successfully!')
+        return redirect('profile')
+
+    return render(request, 'profile.html', {'profile': profile})
+
+
+@login_required(login_url='login')
+def history_view(request):
+    status_filter = request.GET.get('status', '').strip()
+
+    scans = ProductScan.objects.filter(user=request.user).order_by('-scanned_at')
+
+    if status_filter:
+        scans = scans.filter(status=status_filter)
+
+    context = {
+        'scans': scans,
+        'selected_status': status_filter,
+        'total_scans_count': ProductScan.objects.filter(user=request.user).count(),
+    }
+    return render(request, 'history.html', context)
