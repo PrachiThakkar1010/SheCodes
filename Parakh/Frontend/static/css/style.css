@@ -121,7 +121,79 @@ section {
     transform: translateY(-1px);
 }
 
+/* Profile menu (account dropdown) */
 
+.profile-menu {
+    position: relative;
+}
+
+.profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.profile-icon:hover {
+    background-color: #eef3fb;
+}
+
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+
+    min-width: 170px;
+    padding: 8px;
+
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+
+    z-index: 100;
+}
+
+.profile-menu:hover .profile-dropdown,
+.profile-menu:focus-within .profile-dropdown {
+    display: block;
+}
+
+.profile-dropdown a {
+    display: block;
+    padding: 9px 12px;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #35516d;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.profile-dropdown a:hover {
+    background-color: #f1f5f9;
+    color: #0b63ce;
+}
+
+.profile-dropdown .btn-logout-dropdown {
+    margin-top: 4px;
+    color: #ffffff;
+    background-color: #dc2626;
+    text-align: center;
+}
+
+.profile-dropdown .btn-logout-dropdown:hover {
+    background-color: #b91c1c;
+    color: #ffffff;
+}
 
 /* =========================================================
    HERO SECTION
@@ -428,6 +500,17 @@ section {
     text-align: left;
     padding: 30px 25px;
     border-radius: 14px;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 12px 30px rgba(120, 171, 230, 0.338);
 }
 
 .step-number {

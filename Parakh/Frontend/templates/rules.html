@@ -12,35 +12,42 @@
 
 <body>
 
-<header class="navbar">
-    <div class="logo-image">
-        <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
-    </div>
-    <div class="logo">
-        <a href="{% url 'home' %}">PARAKH</a>
-    </div>
-    <nav class="nav-links">
-        {% if request.user.is_authenticated %}
+    <header class="navbar">
+        <div class="logo-image">
+            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="{% url 'home' %}">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            {% if request.user.is_authenticated %}
             <!-- Logged-in view: Login is hidden; Home, Scan, Rules, and Dashboard profile icon are visible -->
             <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'scan' %}">Scan</a>
             <a href="{% url 'rules' %}">Rules</a>
-            <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
-            <a href="{% url 'dashboard' %}" class="profile-icon" aria-label="My Dashboard">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2"/>
-                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-            </a>
-        {% else %}
+            <div class="profile-menu">
+                <button type="button" class="profile-icon" aria-haspopup="true" aria-expanded="false"
+                    aria-label="Account menu">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2" />
+                        <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+                <div class="profile-dropdown">
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <a href="{% url 'logout' %}" class="btn-logout-dropdown">Logout</a>
+                </div>
+            </div>
+            {% else %}
             <!-- Guest view: Home, Scan, Rules, and Login are visible; Profile icon is hidden -->
             <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'scan' %}">Scan</a>
             <a href="{% url 'rules' %}">Rules</a>
             <a href="{% url 'login' %}" class="login-link">Login</a>
-        {% endif %}
-    </nav>
-</header>
+            {% endif %}
+        </nav>
+    </header>
   <div class="masthead">
     <div class="eyebrow">Ministry of Consumer Affairs, Food &amp; Public Distribution</div>
     <h1>The Legal Metrology (Packaged Commodities) Rules, 2011</h1>

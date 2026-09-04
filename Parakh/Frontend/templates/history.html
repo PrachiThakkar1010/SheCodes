@@ -24,13 +24,19 @@
             <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'scan' %}">Scan</a>
             <a href="{% url 'rules' %}">Rules</a>
-            <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
-            <a href="{% url 'dashboard' %}" class="profile-icon" aria-label="My Dashboard">
+            <div class="profile-menu">
+            <button type="button" class="profile-icon" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2"/>
-                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round"/>
+                <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-            </a>
+            </button>
+            <div class="profile-dropdown">
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'logout' %}" class="btn-logout-dropdown">Logout</a>
+            </div>
+        </div>
         </nav>
     </header>
 
