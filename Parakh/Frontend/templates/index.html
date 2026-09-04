@@ -1,0 +1,452 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parakh | See Beyond the Label</title>
+    <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+
+<body>
+    {% if messages %}
+    <div id="toast-container" class="toast-container">
+        {% for message in messages %}
+        <div class="toast-popup toast-{{ message.tags }}">
+            <span>{{ message }}</span>
+            <button type="button" class="toast-close" onclick="this.parentElement.remove();">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <header class="navbar">
+        <div class="logo-image">
+            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="{% url 'home' %}">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            {% if request.user.is_authenticated %}
+            <!-- Logged-in view: Login is hidden; Home, Scan, Rules, and Dashboard profile icon are visible -->
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+            <div class="profile-menu">
+                <button type="button" class="profile-icon" aria-haspopup="true" aria-expanded="false"
+                    aria-label="Account menu">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2" />
+                        <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+                <div class="profile-dropdown">
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <a href="{% url 'logout' %}" class="btn-logout-dropdown">Logout</a>
+                </div>
+            </div>
+            {% else %}
+            <!-- Guest view: Home, Scan, Rules, and Login are visible; Profile icon is hidden -->
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+            <a href="{% url 'login' %}" class="login-link">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="hero">
+
+
+            <div class="hero-content">
+
+                <p class="eyebrow">
+                    SEE BEYOND THE LABEL
+                </p>
+
+                <h1>
+                    Verify Before<br>
+                    You Trust.
+                </h1>
+
+                <p class="hero-description">
+                    Parakh helps you check packaged products for
+                    compliance with Legal Metrology requirements —
+                    simply, quickly and transparently.
+                </p>
+
+            </div>
+
+
+            <a href="/scan" class="scan-cta">
+
+
+                <div class="scan-icon">
+
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                        <path d="M4 7V5C4 4.44772 4.44772 4 5 4H7" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" />
+
+                        <path d="M17 4H19C19.5523 4 20 4.44772 20 5V7" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" />
+
+                        <path d="M20 17V19C20 19.5523 19.5523 20 19 20H17" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" />
+
+                        <path d="M7 20H5C4.44772 20 4 19.5523 4 19V17" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" />
+
+                        <path d="M7 12H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+
+                    </svg>
+
+                </div>
+
+
+
+
+                <div class="scan-cta-content">
+
+                    <p class="scan-label">
+                        CHECK A PRODUCT
+                    </p>
+
+                    <h2>
+                        Scan. Verify. Understand.
+                    </h2>
+
+                    <p>
+                        Upload a product label or take a photo
+                        to check its compliance.
+                    </p>
+
+                </div>
+
+
+                <div class="scan-cta-button">
+
+                    Scan a Product
+
+                    <span>→</span>
+
+                </div>
+
+            </a>
+
+        </section>
+
+
+        <section class="how-it-works" id="how-it-works-index">
+
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    HOW IT WORKS
+                </p>
+
+                <h2>
+                    Compliance made simple.
+                </h2>
+
+                <p>
+                    Parakh turns a product label into an
+                    easy-to-understand compliance report.
+                </p>
+
+            </div>
+
+
+            <div class="steps">
+
+
+                <!-- STEP 01 -->
+
+                <div class="step">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <h3>
+                        Scan
+                    </h3>
+
+                    <p>
+                        Upload or capture an image of the
+                        packaged product label.
+                    </p>
+
+                </div>
+
+
+                <!-- STEP 02 -->
+
+                <div class="step">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <h3>
+                        Verify
+                    </h3>
+
+                    <p>
+                        Extract product information and check
+                        it against applicable requirements.
+                    </p>
+
+                </div>
+
+
+                <!-- STEP 03 -->
+
+                <div class="step">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <h3>
+                        Understand
+                    </h3>
+
+                    <p>
+                        See compliance status, violations,
+                        evidence and explanations.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <section class="why-parakh">
+
+
+
+            <div class="section-heading">
+
+                <p class="eyebrow">
+                    WHY PARAKH
+                </p>
+
+                <h2>
+                    More than just a scan.
+                </h2>
+
+            </div>
+
+
+            <div class="benefits">
+
+
+                <!-- Benefit 01 -->
+
+                <div class="benefit-card">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Evidence Based
+                    </h3>
+
+                    <p>
+                        Understand exactly why a product
+                        passes or fails a compliance check.
+                    </p>
+
+                </div>
+
+
+                <!-- Benefit 02 -->
+
+                <div class="benefit-card">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Simplified Rules
+                    </h3>
+
+                    <p>
+                        Understand complex Legal Metrology
+                        requirements in simple language.
+                    </p>
+
+                </div>
+
+
+                <!-- Benefit 03 -->
+
+                <div class="benefit-card">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Clear Results
+                    </h3>
+
+                    <p>
+                        Get compliance scores and clearly
+                        identified violations.
+                    </p>
+
+                </div>
+
+
+                <!-- Benefit 04 -->
+
+                <div class="benefit-card">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Detailed Reports
+                    </h3>
+
+                    <p>
+                        Generate downloadable reports of
+                        your product inspection.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <footer class="footer">
+
+
+        <div class="footer-content">
+
+            <div class="footer-brand">
+
+                <h2>
+                    PARAKH
+                </h2>
+
+                <p class="footer-tagline">
+                    Verify Before You Trust.
+                </p>
+
+                <p>
+                    Smart product compliance made
+                    simple, transparent and accessible.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    QUICK LINKS
+                </h3>
+
+                <a href="/scan">
+                    Scan Product
+                </a>
+
+                <a href="/rules">
+                    Rules
+                </a>
+
+                <a href="/login">
+                    Login
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    CONTACT US
+                </h3>
+
+                <p>
+                    For queries and feedback:
+                </p>
+
+                <a href="mailto:your-email@example.com">
+                    ✉ parakh@gmail.com
+                </a>
+
+                <p>
+                    Pandit Deendayal Energy University
+                    <br>
+                    Gandhinagar, Gujarat
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    FOLLOW US
+                </h3>
+
+                <div class="social-links">
+
+                    <a href="#" aria-label="Instagram">
+                        Instagram
+                    </a>
+
+                    <a href="#" aria-label="LinkedIn">
+                        LinkedIn
+                    </a>
+
+                    <a href="#" aria-label="GitHub">
+                        GitHub
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Parakh. All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan History - Parakh</title>
+    <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- Logged-in Navbar -->
+    <header class="navbar">
+        <div class="logo-image">
+            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="{% url 'home' %}">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+            <div class="profile-menu">
+            <button type="button" class="profile-icon" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2"/>
+                <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div class="profile-dropdown">
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'logout' %}" class="btn-logout-dropdown">Logout</a>
+            </div>
+        </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-main" style="max-width: 960px; margin: 2rem auto; padding: 0 1.5rem;">
+
+        <!-- Header -->
+        <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+            <div>
+                <p class="eyebrow">Records</p>
+                <h1>Scan History</h1>
+                <p class="dashboard-subtext">Review compliance reports for all your analyzed products.</p>
+            </div>
+            <a href="{% url 'scan' %}" class="btn-primary" style="padding: 0.7rem 1.4rem; border-radius: 8px; text-decoration: none;">+ Scan New Product</a>
+        </div>
+
+        <!-- Filter Bar -->
+        <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+            <a href="{% url 'history' %}"
+               style="padding: 6px 16px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: 500; {% if not selected_status %}background: #073b70; color: #fff;{% else %}background: #e2e8f0; color: #334155;{% endif %}">
+                All ({{ total_scans_count }})
+            </a>
+            <a href="{% url 'history' %}?status=COMPLIANT"
+               style="padding: 6px 16px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: 500; {% if selected_status == 'COMPLIANT' %}background: #16a34a; color: #fff;{% else %}background: #e2e8f0; color: #334155;{% endif %}">
+                Compliant
+            </a>
+            <a href="{% url 'history' %}?status=NON_COMPLIANT"
+               style="padding: 6px 16px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: 500; {% if selected_status == 'NON_COMPLIANT' %}background: #dc2626; color: #fff;{% else %}background: #e2e8f0; color: #334155;{% endif %}">
+                Non-Compliant
+            </a>
+        </div>
+
+        <!-- Scan Cards List -->
+        <div class="recent-list">
+            {% for scan in scans %}
+                <a href="{% url 'result' scan.id %}" class="recent-card" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 0.75rem; text-decoration: none; color: inherit; transition: box-shadow 0.2s ease;">
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="recent-card-thumb" style="width: 55px; height: 55px; border-radius: 8px; overflow: hidden; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                            {% if scan.image %}
+                                <img src="{{ scan.image.url }}" alt="{{ scan.product_name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                                <img src="{% static 'Logo.png' %}" alt="Placeholder" style="width: 32px; opacity: 0.5;">
+                            {% endif %}
+                        </div>
+
+                        <div class="recent-card-info">
+                            <h3 style="margin: 0 0 0.25rem 0; font-size: 1.05rem; color: #0f172a;">{{ scan.product_name|default:"Unnamed Product" }}</h3>
+                            <p class="recent-card-date" style="margin: 0; font-size: 0.85rem; color: #64748b;">
+                                {{ scan.scanned_at|date:"d M Y, h:i A" }} &bull; Category: {{ scan.category|default:"General" }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="history-card-status {% if scan.status == 'COMPLIANT' %}status-clean{% else %}status-violation{% endif %}" style="display: inline-flex; align-items: center; font-size: 0.85rem; font-weight: 600;">
+                            <span class="status-dot"></span>
+                            {{ scan.get_status_display }}
+                        </span>
+                        <span style="color: #94a3b8; font-size: 1.2rem;">&rsaquo;</span>
+                    </div>
+
+                </a>
+            {% empty %}
+                <div style="text-align: center; padding: 3rem 1rem; background: #ffffff; border-radius: 10px; border: 1px dashed #cbd5e1;">
+                    <p style="font-size: 1.1rem; color: #64748b; margin-bottom: 1rem;">No scans found matching your criteria.</p>
+                    <a href="{% url 'scan' %}" class="btn-primary" style="padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none;">Start Your First Scan</a>
+                </div>
+            {% endfor %}
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Parakh. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

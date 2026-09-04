@@ -1,0 +1,198 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Parakh</title>
+    <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    {% if messages %}
+    <div id="toast-container" class="toast-container">
+        {% for message in messages %}
+        <div class="toast-popup toast-{{ message.tags }}">
+            <span>{{ message }}</span>
+            <button type="button" class="toast-close" onclick="this.parentElement.remove();">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <header class="navbar">
+        <div class="logo-image">
+            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="{% url 'home' %}">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            {% if request.user.is_authenticated %}
+            <!-- Logged-in view: Login is hidden; Home, Scan, Rules, and Dashboard profile icon are visible -->
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+            <div class="profile-menu">
+                <button type="button" class="profile-icon" aria-haspopup="true" aria-expanded="false"
+                    aria-label="Account menu">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2" />
+                        <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+                <div class="profile-dropdown">
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <a href="{% url 'logout' %}" class="btn-logout-dropdown">Logout</a>
+                </div>
+            </div>
+            {% else %}
+            <!-- Guest view: Home, Scan, Rules, and Login are visible; Profile icon is hidden -->
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+            <a href="{% url 'login' %}" class="login-link">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+
+        <!-- Dynamic Greeting -->
+        <div class="dashboard-header">
+            <div>
+                <p class="eyebrow">Dashboard</p>
+                <h1 id="greetingText">Welcome back, {{ request.user.first_name|default:request.user.username }}</h1>
+                <p class="dashboard-subtext" id="dashboardDate">{% now "l, d F Y" %}</p>
+            </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-total">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 2H15M12 2V6M5 8H19L18 21H6L5 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-number">{{ total_scans|default:"0" }}</p>
+                    <p class="stat-label">Products Scanned</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-clean">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-number">{{ compliant_scans|default:"0" }}</p>
+                    <p class="stat-label">Compliant Products</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Main content: recent activity + sidebar -->
+        <div class="dashboard-layout">
+
+            <!-- Recent activity list -->
+            <section class="dashboard-section">
+                <div class="dashboard-section-header">
+                    <h2>Recent Activity</h2>
+                    <a href="{% url 'history' %}" class="view-all-link">View All →</a>
+                </div>
+
+                <div class="recent-list">
+                    {% for scan in recent_scans %}
+                        <a href="{% url 'result' scan.id %}" class="recent-card">
+                            <div class="recent-card-thumb">
+                                {% if scan.image %}
+                                    <img src="{{ scan.image.url }}" alt="{{ scan.product_name }}">
+                                {% else %}
+                                    <img src="{% static 'Logo.png' %}" alt="Placeholder">
+                                {% endif %}
+                            </div>
+                            <div class="recent-card-info">
+                                <h3>{{ scan.product_name|default:"Scanned Item" }}</h3>
+                                <p class="recent-card-date">{{ scan.scanned_at|date:"d F Y, g:i A" }}</p>
+                            </div>
+                            <div class="history-card-status {% if scan.status == 'COMPLIANT' %}status-clean{% else %}status-violation{% endif %}">
+                                <span class="status-dot"></span>
+                                {{ scan.get_status_display }}
+                            </div>
+                        </a>
+                    {% empty %}
+                        <p style="padding: 1.5rem; color: #666;">No scans yet. Click "Scan a New Product" to begin.</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Sidebar: scan CTA + profile -->
+            <aside class="dashboard-sidebar">
+
+                <div class="scan-cta-card">
+                    <div class="scan-cta-card-icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 7V5C3 3.89543 3.89543 3 5 3H7M17 3H19C20.1046 3 21 3.89543 21 5V7M21 17V19C21 20.1046 20.1046 21 19 21H17M7 21H5C3.89543 21 3 20.1046 3 19V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="7" y="7" width="10" height="10" rx="1" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3>Scan a New Product</h3>
+                    <p>Check compliance on your next purchase in seconds.</p>
+                    <a href="{% url 'scan' %}" class="btn-primary btn-block">Start Scanning</a>
+                </div>
+
+                <div class="profile-card">
+                    <h3 class="profile-card-heading">Account</h3>
+
+                    <div class="profile-fields-grid">
+                        <div class="profile-field">
+                            <span class="profile-field-label">Username</span>
+                            <span class="profile-field-value">{{ request.user.username }}</span>
+                        </div>
+
+                        <div class="profile-field">
+                            <span class="profile-field-label">Name</span>
+                            <span class="profile-field-value">{{ request.user.first_name|default:"Not provided" }}</span>
+                        </div>
+
+                        <div class="profile-field">
+                            <span class="profile-field-label">Mobile Number</span>
+                            <span class="profile-field-value">{{ request.user.profile.mobile_number|default:"Not provided" }}</span>
+                        </div>
+
+                        <div class="profile-field">
+                            <span class="profile-field-label">Email</span>
+                            <span class="profile-field-value">{{ request.user.email|default:"Not provided" }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Card View Profile Action -->
+                    <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                        <a href="{% url 'profile' %}" class="profile-link" style="color: #073b70; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+                            View Profile →
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Parakh. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

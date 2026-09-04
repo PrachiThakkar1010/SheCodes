@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Parakh</title>
+    <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- Toast Notifications -->
+    {% if messages %}
+    <div id="toast-container" class="toast-container">
+        {% for message in messages %}
+        <div class="toast-popup toast-{{ message.tags }}">
+            <span>{{ message }}</span>
+            <button type="button" class="toast-close" onclick="this.parentElement.remove();">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Logged-in Navbar -->
+    <header class="navbar">
+        <div class="logo-image">
+            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+        </div>
+        <div class="logo">
+            <a href="{% url 'home' %}">PARAKH</a>
+        </div>
+        <nav class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+            <div class="profile-menu">
+            <button type="button" class="profile-icon" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2"/>
+                <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div class="profile-dropdown">
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'logout' %}" class="btn-logout-dropdown">Logout</a>
+            </div>
+        </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-main" style="max-width: 650px; margin: 2rem auto; padding: 0 1rem;">
+
+        <div class="dashboard-header" style="margin-bottom: 1.5rem;">
+            <p class="eyebrow">Account Settings</p>
+            <h1>User Profile</h1>
+            <p class="dashboard-subtext">Manage your personal account information.</p>
+        </div>
+
+        <div class="profile-card" style="background: #ffffff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+
+            <form method="POST" action="{% url 'profile' %}">
+                {% csrf_token %}
+
+                <!-- Username (Read-Only) -->
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.35rem; color: #1e293b;">Username</label>
+                    <input type="text" value="{{ request.user.username }}" disabled
+                           style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; background-color: #f1f5f9; cursor: not-allowed; box-sizing: border-box;">
+                    <small style="color: #64748b;">Username cannot be changed.</small>
+                </div>
+
+                <!-- Full Name -->
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label for="first_name" style="display: block; font-weight: 600; margin-bottom: 0.35rem; color: #1e293b;">Full Name</label>
+                    <input type="text" id="first_name" name="first_name" value="{{ request.user.first_name }}"
+                           class="form-input" placeholder="Enter your full name"
+                           style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+                </div>
+
+                <!-- Email Address -->
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label for="email" style="display: block; font-weight: 600; margin-bottom: 0.35rem; color: #1e293b;">Email Address</label>
+                    <input type="email" id="email" name="email" value="{{ request.user.email }}"
+                           class="form-input" placeholder="Enter your email"
+                           style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;" required>
+                </div>
+
+                <!-- Mobile Number -->
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                    <label for="mobile_number" style="display: block; font-weight: 600; margin-bottom: 0.35rem; color: #1e293b;">Mobile Number</label>
+                    <input type="tel" id="mobile_number" name="mobile_number" value="{{ profile.mobile_number|default:'' }}"
+                           class="form-input" placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}"
+                           style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 12px; justify-content: flex-end; align-items: center;">
+                    <a href="{% url 'dashboard' %}" style="text-decoration: none; color: #64748b; font-weight: 600; padding: 0.6rem 1.2rem;">Cancel</a>
+                    <button type="submit" class="btn-primary" style="padding: 0.65rem 1.4rem; border-radius: 8px;">Save Changes</button>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Parakh. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
