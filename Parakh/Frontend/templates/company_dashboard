@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Dashboard - PARAKH</title>
+<link rel="stylesheet" href="{% static 'css/company_dashboard.css' %}">
+</head>
+<body>
+<nav class="navbar">
+<div class="logo">PARAKH</div>
+<div class="nav-links">
+<a href="{% url 'company_dashboard' %}">Dashboard</a>
+<a href="{% url 'profile' %}">Profile</a>
+<a href="{% url 'logout' %}">Logout</a>
+</div>
+</nav>
+<main class="company-dashboard">
+<section class="dashboard-header">
+<h1>Company Dashboard</h1>
+<p>Monitor product compliance and manage your company activities.</p>
+</section>
+<section class="stats-grid">
+<div class="stat-card"><h3>Total Products</h3><p>{{ total_products }}</p></div>
+<div class="stat-card"><h3>Compliant</h3><p>{{ compliant_products }}</p></div>
+<div class="stat-card"><h3>Non-Compliant</h3><p>{{ non_compliant_products }}</p></div>
+<div class="stat-card"><h3>Pending</h3><p>{{ pending_products }}</p></div>
+</section>
+<section class="dashboard-grid">
+<div class="dashboard-card">
+<h2>Product Compliance</h2>
+<table>
+<thead>
+<tr><th>Product</th><th>Product ID</th><th>Status</th><th>Date</th></tr>
+</thead>
+<tbody>
+{% for product in recent_products %}
+<tr>
+<td>{{ product.product_name }}</td>
+<td>{{ product.product_id }}</td>
+<td><span class="status">{{ product.status }}</span></td>
+<td>{{ product.scanned_at|date:"d M Y" }}</td>
+</tr>
+{% empty %}
+<tr><td colspan="4">No products found.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<div class="dashboard-card">
+<h2>Quick Actions</h2>
+<a class="action-btn" href="#">Scan Product</a>
+<a class="action-btn" href="#">Compliance Reports</a>
+<a class="action-btn" href="#">Resolve Complaint</a>
+<a class="action-btn" href="#">AI Assistant</a>
+</div>
+</section>
+<section class="dashboard-card assistant-card">
+<h2>AI Assistant</h2>
+<p>Get help with compliance requirements, product information and company queries.</p>
+<button class="primary-btn">Ask AI Assistant</button>
+</section>
+</main>
+<footer>
+<p>© 2026 PARAKH - Company Compliance Dashboard</p>
+</footer>
+</body>
+</html>
