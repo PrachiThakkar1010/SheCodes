@@ -1,0 +1,86 @@
+/* Company Dashboard Styles */
+.company-dashboard {
+max-width: 1200px;
+margin: 0 auto;
+padding: 30px 20px;
+}
+.dashboard-header {
+margin-bottom: 25px;
+}
+.dashboard-header h1 {
+margin-bottom: 8px;
+}
+.stats-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 20px;
+margin-bottom: 25px;
+}
+.stat-card,
+.dashboard-card {
+background: #fff;
+border-radius: 12px;
+padding: 20px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+.stat-card h3 {
+margin: 0 0 10px;
+}
+.stat-card p {
+font-size: 30px;
+font-weight: bold;
+margin: 0;
+}
+.dashboard-grid {
+display: grid;
+grid-template-columns: 2fr 1fr;
+gap: 20px;
+}
+.dashboard-card h2 {
+margin-top: 0;
+}
+table {
+width: 100%;
+border-collapse: collapse;
+}
+th, td {
+padding: 12px;
+text-align: left;
+border-bottom: 1px solid #ddd;
+}
+.status {
+padding: 5px 10px;
+border-radius: 20px;
+font-size: 13px;
+background: #eef2ff;
+}
+.action-btn,
+.primary-btn {
+display: block;
+width: 100%;
+box-sizing: border-box;
+padding: 12px;
+margin: 10px 0;
+border: none;
+border-radius: 8px;
+text-align: center;
+text-decoration: none;
+cursor: pointer;
+}
+.primary-btn {
+width: auto;
+display: inline-block;
+}
+.assistant-card {
+margin-top: 20px;
+}
+footer {
+text-align: center;
+padding: 20px;
+}
+@media (max-width: 800px) {
+.stats-grid,
+.dashboard-grid {
+grid-template-columns: 1fr;
+}
+}
