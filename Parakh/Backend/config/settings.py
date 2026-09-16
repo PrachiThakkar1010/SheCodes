@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'products',
     'ocr',
     'compliance',
+    'complaint',
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sih2026_db',
         'USER': 'postgres',
-        'PASSWORD': 'Postgres1110',
+        'PASSWORD': 'Tusti@1*',
         'HOST': 'localhost',
         'PORT': '5432',
     }
