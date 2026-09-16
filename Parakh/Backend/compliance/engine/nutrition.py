@@ -3,25 +3,12 @@ compliance/engine/nutrition.py
 --------------------------------
 Parses food-label nutrition OCR into report-ready rows.
 
-Design goals:
-- Run nutrition extraction only when the package is food (when product_type
-  is supplied by the pipeline).
-- Match nutrient labels to values by OCR box geometry, not OCR reading order.
-- Prefer same-row/right-hand values, while still allowing a value a few pixels
-  above or below the nutrient label.
-- Never let an implausible unit (e.g. "19 g" for Energy) win a match.
-- Keep OCR-read values separate from any "likely OCR correction" suggestion.
-- Recognise common nutrition-table basis headers such as "per 100 g" and
-  "per serving" without accidentally using them as nutrient values.
-
-This module does NOT decide Legal Metrology compliance. It only extracts
-nutrition data for food products; the rule engine decides which checks apply.
+Keeps the existing output fields and adds conservative OCR-correction
+metadata. Raw OCR values are NEVER silently overwritten.
 """
 
 import re
 
-# Reference values for an optional %DV display.
-# These are reference-intake values for a 2,000 kcal diet, not a safety limit.
 RDA = {
     "Energy": (2000, "kcal"),
     "Total Fat": (65, "g"),
@@ -61,7 +48,8 @@ NUTRIENT_PATTERNS = [
 ]
 
 VALUE_RE = re.compile(
-    r"(?<![\w.])([<>~]?\s*\d+(?:[.,]\d+)?)\s*(kcal|kj|mg|mcg|g|gm)\b",
+    r"(?<![\w.])([<>~]?\s*\d+(?:[.,]\d+)?)\s*"
+    r"(kcal|kj|mg|mcg|g|gm)\b",
     re.IGNORECASE,
 )
 BARE_VALUE_RE = re.compile(
@@ -69,19 +57,23 @@ BARE_VALUE_RE = re.compile(
     re.IGNORECASE,
 )
 PCT_RE = re.compile(r"(?<![\d.])(\d+(?:[.,]\d+)?)\s*%")
-
 BASIS_RE = re.compile(
     r"\b(per|for)\s*(100\s*(?:g|gm|ml)|serv(?:ing|e)|portion|pack)\b"
     r"|\bserving\s*size\b|\bamount\s*per\b",
     re.IGNORECASE,
 )
 
-# Vertical tolerance is intentionally a little wider than the old 1.5x rule:
-# real photographed tables can have different baselines/heights. Horizontal
-# geometry is used as a second signal so the wider tolerance does not cause
-# a jump into the next nutrition row/column.
 MAX_ROW_DISTANCE_FRAC = 2.25
 MAX_HORIZONTAL_DISTANCE_FRAC = 12.0
+
+# child <= parent when both are on the same nutrition basis.
+NUTRIENT_RELATIONSHIPS = [
+    ("Saturated Fat", "Total Fat"),
+    ("Trans Fat", "Total Fat"),
+    ("Added Sugars", "Sugars"),
+    ("Sugars", "Total Carbohydrate"),
+    ("Dietary Fiber", "Total Carbohydrate"),
+]
 
 
 def _box(box):
@@ -106,7 +98,6 @@ def _row_distance(box_a, box_b):
 
 
 def _horizontal_distance(box_a, box_b):
-    """Gap between x-ranges; 0 when the boxes overlap horizontally."""
     if box_a[2] < box_b[0]:
         return box_b[0] - box_a[2]
     if box_b[2] < box_a[0]:
@@ -115,22 +106,20 @@ def _horizontal_distance(box_a, box_b):
 
 
 def _parse_number(text):
-    return float(text.replace(",", ".").replace(" ", ""))
+    return float(str(text).replace(",", ".").replace(" ", "").strip().lstrip("<>~"))
 
 
 def _normalise_unit(unit):
-    unit = (unit or "").lower()
-    return "g" if unit == "gm" else unit
+    return "g" if (unit or "").lower() == "gm" else (unit or "").lower()
 
 
 def _is_basis_line(text):
-    text = (text or "").strip()
-    return bool(BASIS_RE.search(text))
+    return bool(BASIS_RE.search((text or "").strip()))
 
 
 def _product_is_food(product_type):
     if product_type is None:
-        return True  # backward compatible with old callers
+        return True
     return str(product_type).strip().upper() == "FOOD"
 
 
@@ -138,30 +127,20 @@ def _extract_value_from_text(text, expected_units=None):
     m = VALUE_RE.search(text or "")
     if not m:
         return None
+
     unit = _normalise_unit(m.group(2))
-    if expected_units and m.group(2).lower() not in expected_units and unit not in {
-        _normalise_unit(x) for x in expected_units
-    }:
+    expected = {_normalise_unit(x) for x in (expected_units or set())}
+    if expected and unit not in expected:
         return None
+
     return _parse_number(m.group(1)), unit, m
 
 
 def _candidate_score(anchor_box, candidate_box):
-    """
-    Lower is better.
-
-    Vertical distance is the primary signal. A value to the right of the
-    nutrient label is preferred because that is the common printed-table
-    layout, but left/overlapping candidates remain possible.
-    """
     a_h = _height(anchor_box)
     vertical = _row_distance(anchor_box, candidate_box) / a_h
     horizontal = _horizontal_distance(anchor_box, candidate_box) / max(a_h, 1.0)
-
-    ax = _center(anchor_box)[0]
-    cx = _center(candidate_box)[0]
-    right_bonus = 0.0 if cx >= ax else 0.75
-
+    right_bonus = 0.0 if _center(candidate_box)[0] >= _center(anchor_box)[0] else 0.75
     return vertical + 0.08 * min(horizontal, MAX_HORIZONTAL_DISTANCE_FRAC) + right_bonus
 
 
@@ -187,17 +166,13 @@ def _find_nearby_value(items, used, anchor_idx, expected_units):
         if not m:
             continue
 
-        raw_unit = m.group(2).lower()
-        unit = _normalise_unit(raw_unit)
-        normalised_expected = {_normalise_unit(x) for x in (expected_units or set())}
-        if normalised_expected and unit not in normalised_expected:
+        unit = _normalise_unit(m.group(2))
+        expected = {_normalise_unit(x) for x in (expected_units or set())}
+        if expected and unit not in expected:
             continue
 
-        max_vertical = MAX_ROW_DISTANCE_FRAC * max(
-            _height(anchor_box), _height(candidate_box)
-        )
-        vertical = _row_distance(anchor_box, candidate_box)
-        if vertical > max_vertical:
+        max_vertical = MAX_ROW_DISTANCE_FRAC * max(_height(anchor_box), _height(candidate_box))
+        if _row_distance(anchor_box, candidate_box) > max_vertical:
             continue
 
         score = _candidate_score(anchor_box, candidate_box)
@@ -230,11 +205,8 @@ def _find_nearby_pct(items, used, anchor_idx):
         if not m:
             continue
 
-        vertical = _row_distance(anchor_box, candidate_box)
-        max_vertical = MAX_ROW_DISTANCE_FRAC * max(
-            _height(anchor_box), _height(candidate_box)
-        )
-        if vertical > max_vertical:
+        max_vertical = MAX_ROW_DISTANCE_FRAC * max(_height(anchor_box), _height(candidate_box))
+        if _row_distance(anchor_box, candidate_box) > max_vertical:
             continue
 
         score = _candidate_score(anchor_box, candidate_box)
@@ -248,13 +220,22 @@ def _find_nearby_pct(items, used, anchor_idx):
     return j, _parse_number(m.group(1))
 
 
-def _likely_decimal_repair(name, value, unit, pct):
-    """
-    Conservative suggestion only.
+def _decimal_candidates(value):
+    """Generate conservative missing-decimal candidates: x, x/10 and x/100."""
+    try:
+        value = float(value)
+    except (TypeError, ValueError):
+        return []
 
-    If OCR dropped one decimal place, dividing by 10 can turn an obviously
-    impossible %DV into a plausible value. The raw OCR value is never changed.
-    """
+    return sorted({
+        round(value, 4),
+        round(value / 10.0, 4),
+        round(value / 100.0, 4),
+    })
+
+
+def _likely_decimal_repair(name, value, unit, pct):
+    """Existing %DV-based repair; returns a suggestion only."""
     if name not in RDA or pct is None or pct <= 300:
         return None
 
@@ -266,11 +247,183 @@ def _likely_decimal_repair(name, value, unit, pct):
     candidate_pct = round(100 * candidate / ref_value)
     if 0 <= candidate_pct <= 150:
         return candidate
+
     return None
 
 
+def _candidate_is_reasonable(name, candidate, unit):
+    if candidate is None or candidate < 0:
+        return False
+
+    unit = _normalise_unit(unit)
+
+    if name == "Energy":
+        return unit in {"kcal", "kj"} and candidate <= 10000
+    if unit == "g":
+        return candidate <= 1000
+    if unit == "mg":
+        return candidate <= 100000
+    if unit == "mcg":
+        return candidate <= 1000000
+
+    return True
+
+
+def _build_row_map(rows):
+    result = {}
+    for row in rows:
+        name = row.get("nutrient")
+        if name and name not in result:
+            result[name] = row
+    return result
+
+
+def _set_correction(row, corrected, reason, confidence):
+    """
+    Record an OCR correction and make the corrected value the report-facing
+    'amount'.
+
+    The original OCR value is preserved separately as 'raw_ocr_amount', while
+    'likely_correct_value' remains available for backward compatibility.
+    """
+    if row.get("raw_ocr_amount") is None:
+        row["raw_ocr_amount"] = row.get("amount")
+
+    row["likely_correct_value"] = corrected
+    row["amount"] = corrected
+    row["correction_reason"] = reason
+    row["correction_confidence"] = confidence
+
+
+def _try_relationship_repair(child_row, parent_row):
+    child_value = child_row.get("amount")
+    parent_value = parent_row.get("amount")
+
+    if child_value is None or parent_value is None:
+        return False
+
+    child_unit = _normalise_unit(child_row.get("unit"))
+    parent_unit = _normalise_unit(parent_row.get("unit"))
+
+    if child_unit != parent_unit:
+        return False
+
+    # Already valid.
+    if child_value <= parent_value:
+        return False
+
+    # Prefer a one-place decimal recovery (/10).
+    # Example: 78 -> 7.8.
+    divide_by_10 = round(child_value / 10.0, 4)
+
+    if (
+        divide_by_10 != child_value
+        and _candidate_is_reasonable(
+            child_row["nutrient"],
+            divide_by_10,
+            child_unit,
+        )
+        and divide_by_10 <= parent_value
+    ):
+        corrected = divide_by_10
+        confidence = "high"
+    else:
+        # Only use /100 when /10 cannot satisfy the relationship.
+        divide_by_100 = round(child_value / 100.0, 4)
+
+        if (
+            divide_by_100 != child_value
+            and _candidate_is_reasonable(
+                child_row["nutrient"],
+                divide_by_100,
+                child_unit,
+            )
+            and divide_by_100 <= parent_value
+        ):
+            corrected = divide_by_100
+            confidence = "medium"
+        else:
+            return False
+
+    _set_correction(
+        child_row,
+        corrected,
+        (
+            f"OCR value {child_value:g} {child_unit} exceeds "
+            f"{parent_row['nutrient']} ({parent_value:g} {parent_unit}); "
+            f"decimal recovery gives {corrected:g} {child_unit}"
+        ),
+        confidence,
+    )
+
+    return True
+
+
+
+def _apply_cross_field_repairs(rows):
+    row_map = _build_row_map(rows)
+
+    for child_name, parent_name in NUTRIENT_RELATIONSHIPS:
+        child_row = row_map.get(child_name)
+        parent_row = row_map.get(parent_name)
+        if not child_row or not parent_row:
+            continue
+        _try_relationship_repair(child_row, parent_row)
+
+    return rows
+
+
+def _apply_rda_repairs(rows):
+    for row in rows:
+        if row.get("likely_correct_value") is not None:
+            continue
+
+        correction = _likely_decimal_repair(
+            row["nutrient"],
+            row["amount"],
+            row["unit"],
+            row.get("daily_value_pct"),
+        )
+        if correction is None:
+            continue
+
+        raw = row["amount"]
+        unit = row["unit"]
+        _set_correction(
+            row,
+            correction,
+            (
+                f"OCR value {raw:g} {unit} is inconsistent with "
+                f"the detected %DV ({row['daily_value_pct']:g}%); "
+                f"dividing by 10 gives {correction:g} {unit}"
+            ),
+            "medium",
+        )
+
+    return rows
+
+
+def _recalculate_daily_values(rows):
+    for row in rows:
+        name = row.get("nutrient")
+        amount = row.get("amount")
+        unit = row.get("unit")
+
+        if name not in RDA or amount is None:
+            continue
+
+        ref_value, ref_unit = RDA[name]
+        if _normalise_unit(unit) != _normalise_unit(ref_unit):
+            continue
+
+        row["daily_value_pct"] = round(100 * amount / ref_value)
+        row["implausible"] = bool(row["daily_value_pct"] > 300)
+        row["high"] = bool(row["daily_value_pct"] >= 20)
+
+    return rows
+
+
 def _basis_from_items(items):
-    """Return a lightweight basis hint such as 'per 100 g' if OCR found one."""
     for item in items:
         text = (item.get("text") or "").strip()
         m = re.search(
@@ -285,22 +438,16 @@ def _basis_from_items(items):
 
 def parse_nutrition(items, product_type=None):
     """
-    Parameters
-    ----------
-    items:
-        OCR items labelled NUTRITION. Each item should contain text + box.
-    product_type:
-        "FOOD", "NON_FOOD", or None. NON_FOOD returns [] immediately.
+    Existing output keys are preserved.
 
-    Returns
-    -------
-    list[dict]
-        Nutrient rows containing the OCR value, unit, %DV, basis and flags.
+    New optional keys appear only when a correction is suggested:
+        correction_reason
+        correction_confidence
+
+    'amount' is always the raw OCR value.
+    'likely_correct_value' is an inferred value and never silently replaces it.
     """
-    if not items:
-        return []
-
-    if not _product_is_food(product_type):
+    if not items or not _product_is_food(product_type):
         return []
 
     used = [False] * len(items)
@@ -308,6 +455,7 @@ def parse_nutrition(items, product_type=None):
     found_any_keyword = False
     basis = _basis_from_items(items)
 
+    # Stage 1: geometry-based OCR extraction.
     for name, pattern in NUTRIENT_PATTERNS:
         anchor_idx = None
         value = None
@@ -327,7 +475,8 @@ def parse_nutrition(items, product_type=None):
             used[i] = True
 
             direct = _extract_value_from_text(
-                text, expected_units=EXPECTED_UNITS.get(name)
+                text,
+                expected_units=EXPECTED_UNITS.get(name),
             )
             if direct:
                 value, unit, _ = direct
@@ -342,7 +491,10 @@ def parse_nutrition(items, product_type=None):
 
         if value is None:
             j, parsed = _find_nearby_value(
-                items, used, anchor_idx, EXPECTED_UNITS.get(name)
+                items,
+                used,
+                anchor_idx,
+                EXPECTED_UNITS.get(name),
             )
             if j is not None:
                 value, unit = parsed
@@ -355,19 +507,12 @@ def parse_nutrition(items, product_type=None):
                 used[j] = True
 
         if value is None:
-            # We found the nutrient name but not a trustworthy amount.
-            # Do not manufacture a row with an empty/wrong value.
             continue
 
         if pct is None and name in RDA:
             ref_value, ref_unit = RDA[name]
             if _normalise_unit(unit) == _normalise_unit(ref_unit):
                 pct = round(100 * value / ref_value)
-
-        implausible = bool(pct is not None and pct > 300)
-        likely_correct_value = _likely_decimal_repair(
-            name, value, unit, pct
-        )
 
         rows.append({
             "nutrient": name,
@@ -376,8 +521,22 @@ def parse_nutrition(items, product_type=None):
             "daily_value_pct": pct,
             "basis": basis,
             "high": bool(pct is not None and pct >= 20),
-            "implausible": implausible,
-            "likely_correct_value": likely_correct_value,
+            "implausible": bool(pct is not None and pct > 300),
+            "likely_correct_value": _likely_decimal_repair(
+                name, value, unit, pct
+            ),
         })
 
-    return rows if found_any_keyword else []
+    if not found_any_keyword:
+        return []
+
+    # Stage 2: relationships such as Saturated Fat <= Total Fat.
+    _apply_cross_field_repairs(rows)
+
+    # Stage 3: existing %DV fallback.
+    _apply_rda_repairs(rows)
+
+    # Stage 4: keep the existing flags/%DV based on raw OCR.
+    _recalculate_daily_values(rows)
+
+    return rows

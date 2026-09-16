@@ -121,6 +121,28 @@
             </button>
         </div>
 
+        <!-- Processing overlay - shown while the scan uploads/analyzes.
+             The backend runs the whole pipeline synchronously in one
+             request (no live progress feed exists), so this cycles
+             through a fixed sequence of realistic stage messages on a
+             timer to keep the wait feeling active and informative
+             rather than a static "Processing..." button label. -->
+        <div class="processing-overlay" id="processingOverlay" hidden>
+            <div class="processing-card">
+                <div class="processing-spinner" aria-hidden="true">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="24" cy="24" r="20" stroke="#eef2f7" stroke-width="5"/>
+                        <path d="M24 4C35.0457 4 44 12.9543 44 24" stroke="#073b70" stroke-width="5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <p class="processing-message" id="processingMessage">Uploading your photos...</p>
+                <div class="processing-progress-track">
+                    <div class="processing-progress-fill" id="processingProgressFill"></div>
+                </div>
+                <p class="processing-substep" id="processingSubstep">This usually takes under a minute</p>
+            </div>
+        </div>
+
     </main>
 
     <script>
@@ -327,6 +349,67 @@
 
         const MIN_IMAGES_REQUIRED = 2;
 
+        // Processing overlay - the backend runs the full pipeline
+        // (OCR -> labeling -> aggregation -> nutrition/additives ->
+        // rules) synchronously in one request, so there's no real
+        // progress feed to hook into. This simulates progress instead:
+        // a fixed sequence of stage messages, each with a rough
+        // duration guess based on where the real time actually goes
+        // (OCR is the slow part), advancing on a timer independent of
+        // the actual fetch(). If the response comes back before the
+        // sequence finishes, we jump straight to 100% and clean up; if
+        // it takes longer, the last message/progress state just holds
+        // rather than looking stuck at 0%.
+        const processingOverlay = document.getElementById('processingOverlay');
+        const processingMessage = document.getElementById('processingMessage');
+        const processingSubstep = document.getElementById('processingSubstep');
+        const processingProgressFill = document.getElementById('processingProgressFill');
+
+        const PROCESSING_STAGES = [
+            { message: 'Uploading your photos...', substep: 'This usually takes under a minute', progress: 8 },
+            { message: 'Reading text from the label...', substep: 'Scanning every photo for declarations', progress: 25 },
+            { message: 'Identifying key declarations...', substep: 'MRP, dates, manufacturer, FSSAI license...', progress: 50 },
+            { message: 'Checking nutrition & ingredients...', substep: 'Looking for preservatives and additives', progress: 70 },
+            { message: 'Verifying Legal Metrology compliance...', substep: 'Running all 13 labeling rules', progress: 90 },
+            { message: 'Finalizing your report...', substep: 'Almost there', progress: 95 },
+        ];
+
+        let processingTimer = null;
+
+        function startProcessingOverlay() {
+            processingOverlay.hidden = false;
+            let stageIndex = 0;
+
+            const applyStage = (stage) => {
+                processingMessage.style.opacity = 0;
+                setTimeout(() => {
+                    processingMessage.textContent = stage.message;
+                    processingSubstep.textContent = stage.substep;
+                    processingProgressFill.style.width = stage.progress + '%';
+                    processingMessage.style.opacity = 1;
+                }, 150);
+            };
+
+            applyStage(PROCESSING_STAGES[0]);
+            processingTimer = setInterval(() => {
+                stageIndex += 1;
+                if (stageIndex >= PROCESSING_STAGES.length) {
+                    clearInterval(processingTimer);
+                    return;
+                }
+                applyStage(PROCESSING_STAGES[stageIndex]);
+            }, 2200);
+        }
+
+        function stopProcessingOverlay() {
+            if (processingTimer) clearInterval(processingTimer);
+            processingProgressFill.style.width = '100%';
+            setTimeout(() => {
+                processingOverlay.hidden = true;
+                processingProgressFill.style.width = '8%';
+            }, 250);
+        }
+
         // ANALYZE ACTION: Sends payload to Django backend
         analyzeBtn.addEventListener('click', async () => {
             if (capturedImages.length === 0) return;
@@ -341,7 +424,7 @@
             }
 
             analyzeBtn.disabled = true;
-            analyzeBtn.textContent = 'Processing...';
+            startProcessingOverlay();
 
             const formData = new FormData();
             capturedImages.forEach((img, i) => {
@@ -362,27 +445,29 @@
                 });
 
                 if (response.redirected) {
+                    stopProcessingOverlay();
                     window.location.href = response.url;
                 } else if (response.ok) {
                     const data = await response.json();
+                    stopProcessingOverlay();
                     if (data.redirect_url) {
                         window.location.href = data.redirect_url;
                     }
                 } else if (response.status === 400) {
                     const data = await response.json();
+                    stopProcessingOverlay();
                     alert(data.error || 'Please provide more photos of the pack.');
                     analyzeBtn.disabled = false;
-                    analyzeBtn.textContent = 'Analyze Product →';
                 } else {
+                    stopProcessingOverlay();
                     alert('Scan upload failed. Please try again.');
                     analyzeBtn.disabled = false;
-                    analyzeBtn.textContent = 'Analyze Product →';
                 }
             } catch (error) {
                 console.error('Error uploading scan:', error);
+                stopProcessingOverlay();
                 alert('A network error occurred. Check your server connection.');
                 analyzeBtn.disabled = false;
-                analyzeBtn.textContent = 'Analyze Product →';
             }
         });
 
