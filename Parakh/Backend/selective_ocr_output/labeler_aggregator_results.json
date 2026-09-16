@@ -1,0 +1,1624 @@
+{
+    "ocr_source": "selective_ocr_output/selective_ocr_results.json",
+    "labeler_input": [
+        {
+            "text": "HONEY&",
+            "confidence": 0.9996007084846497,
+            "box": [
+                304.0,
+                360.0,
+                444.0,
+                401.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "ALMONDS",
+            "confidence": 0.9999871253967285,
+            "box": [
+                304.0,
+                388.0,
+                458.0,
+                429.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "FEEL ON SKIN",
+            "confidence": 0.9934038519859314,
+            "box": [
+                381.0,
+                439.0,
+                509.0,
+                472.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "LIGHT",
+            "confidence": 0.9999499320983887,
+            "box": [
+                333.0,
+                466.0,
+                392.0,
+                494.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "DEEP",
+            "confidence": 0.9999677538871765,
+            "box": [
+                501.0,
+                474.0,
+                549.0,
+                503.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "Honey locks i",
+            "confidence": 0.9970964789390564,
+            "box": [
+                325.0,
+                512.0,
+                412.0,
+                533.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "Almond Oil softens",
+            "confidence": 0.9976761341094971,
+            "box": [
+                322.0,
+                531.0,
+                449.0,
+                552.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "nourishes dry skin",
+            "confidence": 0.9998438954353333,
+            "box": [
+                450.0,
+                530.0,
+                565.0,
+                563.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "MRP ₹49.00",
+            "confidence": 0.9964823126792908,
+            "box": [
+                310.0,
+                614.0,
+                529.0,
+                650.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MRP"
+        },
+        {
+            "text": "MFD 09/25",
+            "confidence": 0.9964823126792908,
+            "box": [
+                310.0,
+                614.0,
+                529.0,
+                650.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MANUFACTURING_DATE"
+        },
+        {
+            "text": "BR2E2584",
+            "confidence": 0.9999926090240479,
+            "box": [
+                319.0,
+                646.0,
+                483.0,
+                680.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "BATCH_NUMBER"
+        },
+        {
+            "text": "EXP 08/28",
+            "confidence": 0.9895113706588745,
+            "box": [
+                309.0,
+                678.0,
+                554.0,
+                713.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "EXPIRY_DATE"
+        },
+        {
+            "text": "UNIT SALE PRICE 1.23/ml",
+            "confidence": 0.9895113706588745,
+            "box": [
+                309.0,
+                678.0,
+                554.0,
+                713.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "UNIT_SALE_PRICE"
+        },
+        {
+            "text": "nourishes",
+            "confidence": 0.9999821186065674,
+            "box": [
+                291.0,
+                843.0,
+                389.0,
+                872.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "repairs",
+            "confidence": 0.9998117685317993,
+            "box": [
+                410.0,
+                841.0,
+                489.0,
+                872.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "protects",
+            "confidence": 0.9984322786331177,
+            "box": [
+                513.0,
+                840.0,
+                589.0,
+                869.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "0% harmful chemicals,100% safe on skin",
+            "confidence": 0.9817261695861816,
+            "box": [
+                280.0,
+                869.0,
+                600.0,
+                907.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "HOW TO USE: Apply generously all over",
+            "confidence": 0.9963915944099426,
+            "box": [
+                277.0,
+                898.0,
+                601.0,
+                942.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "your body.",
+            "confidence": 0.9999569654464722,
+            "box": [
+                276.0,
+                931.0,
+                370.0,
+                968.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "BODY LOTION. MADE IN INDIA BY:",
+            "confidence": 0.9966350793838501,
+            "box": [
+                381.0,
+                938.0,
+                597.0,
+                978.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "90250",
+            "confidence": 0.7484372854232788,
+            "box": [
+                349.0,
+                976.0,
+                375.0,
+                1177.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "UNKNOWN"
+        },
+        {
+            "text": "RSH GLOBAL PVT. LTD.",
+            "confidence": 0.97090083360672,
+            "box": [
+                382.0,
+                962.0,
+                541.0,
+                997.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MANUFACTURER_NAME"
+        },
+        {
+            "text": "PLOT NO. 74, DIC INDL. AREA,",
+            "confidence": 0.9751516580581665,
+            "box": [
+                381.0,
+                976.0,
+                582.0,
+                1017.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "BATCH_NUMBER"
+        },
+        {
+            "text": "BADDI 173 205 (H.P.)",
+            "confidence": 0.969285786151886,
+            "box": [
+                382.0,
+                1001.0,
+                528.0,
+                1033.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "M.L.NO.HIM/COS/14/196",
+            "confidence": 0.9981901049613953,
+            "box": [
+                381.0,
+                1014.0,
+                560.0,
+                1054.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "MKTD.BYLIC.USERRSHGLOBALPVD",
+            "confidence": 0.7960601449012756,
+            "box": [
+                382.0,
+                1028.0,
+                600.0,
+                1074.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "TM OWNERS JOY CREATORS LLP",
+            "confidence": 0.9961381554603577,
+            "box": [
+                380.0,
+                1045.0,
+                601.0,
+                1094.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "RSHREGN. NO.BO-11-000-09-AADCR0379P-23",
+            "confidence": 0.9437770843505859,
+            "box": [
+                383.0,
+                1068.0,
+                598.0,
+                1112.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "MIUTHICNEOFTE ACKI",
+            "confidence": 0.606199324131012,
+            "box": [
+                383.0,
+                1082.0,
+                599.0,
+                1127.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "UNKNOWN"
+        },
+        {
+            "text": "CUSTOMER CARE-QUERY/FEEDBACK:",
+            "confidence": 0.9816031455993652,
+            "box": [
+                383.0,
+                1100.0,
+                597.0,
+                1152.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "CONSUMER_CONTACT"
+        },
+        {
+            "text": "RSH GLOBAL PVT.LTD. 119.",
+            "confidence": 0.9052014946937561,
+            "box": [
+                383.0,
+                1122.0,
+                570.0,
+                1170.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MANUFACTURER_NAME"
+        },
+        {
+            "text": "PARK STREET KOLKATA 700016",
+            "confidence": 0.899708092212677,
+            "box": [
+                381.0,
+                1134.0,
+                596.0,
+                1192.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MANUFACTURER_ADDRESS"
+        },
+        {
+            "text": "8",
+            "confidence": 0.9998137354850769,
+            "box": [
+                353.0,
+                1183.0,
+                374.0,
+                1202.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "TOLLFREE:1800-1205-000",
+            "confidence": 0.9273721575737,
+            "box": [
+                390.0,
+                1166.0,
+                585.0,
+                1223.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "CONSUMER_CONTACT"
+        },
+        {
+            "text": "CUSTOMERCARE@RSHGLOBAL.COM",
+            "confidence": 0.8677158951759338,
+            "box": [
+                388.0,
+                1189.0,
+                585.0,
+                1246.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "CONSUMER_CONTACT"
+        },
+        {
+            "text": "LOPE",
+            "confidence": 0.9602788686752319,
+            "box": [
+                340.0,
+                1250.0,
+                380.0,
+                1269.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "RSIK",
+            "confidence": 0.775795042514801,
+            "box": [
+                269.0,
+                1265.0,
+                386.0,
+                1320.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "NET VOL",
+            "confidence": 0.9628035426139832,
+            "box": [
+                389.0,
+                1253.0,
+                459.0,
+                1284.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "40ml",
+            "confidence": 0.9996932744979858,
+            "box": [
+                528.0,
+                1250.0,
+                576.0,
+                1287.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "NET_QUANTITY"
+        },
+        {
+            "text": "WHEN PACKED",
+            "confidence": 0.9593753218650818,
+            "box": [
+                388.0,
+                1266.0,
+                503.0,
+                1305.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "*MRP(INCL. OF ALLTAXES)",
+            "confidence": 0.8827403783798218,
+            "box": [
+                281.0,
+                1306.0,
+                476.0,
+                1355.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MRP"
+        },
+        {
+            "text": ") #MFD.B.NO.,",
+            "confidence": 0.8685623407363892,
+            "box": [
+                458.0,
+                1295.0,
+                554.0,
+                1342.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        }
+    ],
+    "labeled_lines": [
+        {
+            "text": "HONEY&",
+            "confidence": 0.9996007084846497,
+            "box": [
+                304.0,
+                360.0,
+                444.0,
+                401.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "ALMONDS",
+            "confidence": 0.9999871253967285,
+            "box": [
+                304.0,
+                388.0,
+                458.0,
+                429.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "FEEL ON SKIN",
+            "confidence": 0.9934038519859314,
+            "box": [
+                381.0,
+                439.0,
+                509.0,
+                472.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "LIGHT",
+            "confidence": 0.9999499320983887,
+            "box": [
+                333.0,
+                466.0,
+                392.0,
+                494.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "DEEP",
+            "confidence": 0.9999677538871765,
+            "box": [
+                501.0,
+                474.0,
+                549.0,
+                503.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "Honey locks i",
+            "confidence": 0.9970964789390564,
+            "box": [
+                325.0,
+                512.0,
+                412.0,
+                533.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "Almond Oil softens",
+            "confidence": 0.9976761341094971,
+            "box": [
+                322.0,
+                531.0,
+                449.0,
+                552.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "nourishes dry skin",
+            "confidence": 0.9998438954353333,
+            "box": [
+                450.0,
+                530.0,
+                565.0,
+                563.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "MRP ₹49.00",
+            "confidence": 0.9964823126792908,
+            "box": [
+                310.0,
+                614.0,
+                529.0,
+                650.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MRP"
+        },
+        {
+            "text": "MFD 09/25",
+            "confidence": 0.9964823126792908,
+            "box": [
+                310.0,
+                614.0,
+                529.0,
+                650.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MANUFACTURING_DATE"
+        },
+        {
+            "text": "BR2E2584",
+            "confidence": 0.9999926090240479,
+            "box": [
+                319.0,
+                646.0,
+                483.0,
+                680.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "BATCH_NUMBER"
+        },
+        {
+            "text": "EXP 08/28",
+            "confidence": 0.9895113706588745,
+            "box": [
+                309.0,
+                678.0,
+                554.0,
+                713.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "EXPIRY_DATE"
+        },
+        {
+            "text": "UNIT SALE PRICE 1.23/ml",
+            "confidence": 0.9895113706588745,
+            "box": [
+                309.0,
+                678.0,
+                554.0,
+                713.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "UNIT_SALE_PRICE"
+        },
+        {
+            "text": "nourishes",
+            "confidence": 0.9999821186065674,
+            "box": [
+                291.0,
+                843.0,
+                389.0,
+                872.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "repairs",
+            "confidence": 0.9998117685317993,
+            "box": [
+                410.0,
+                841.0,
+                489.0,
+                872.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "protects",
+            "confidence": 0.9984322786331177,
+            "box": [
+                513.0,
+                840.0,
+                589.0,
+                869.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "0% harmful chemicals,100% safe on skin",
+            "confidence": 0.9817261695861816,
+            "box": [
+                280.0,
+                869.0,
+                600.0,
+                907.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "HOW TO USE: Apply generously all over",
+            "confidence": 0.9963915944099426,
+            "box": [
+                277.0,
+                898.0,
+                601.0,
+                942.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "your body.",
+            "confidence": 0.9999569654464722,
+            "box": [
+                276.0,
+                931.0,
+                370.0,
+                968.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "BODY LOTION. MADE IN INDIA BY:",
+            "confidence": 0.9966350793838501,
+            "box": [
+                381.0,
+                938.0,
+                597.0,
+                978.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "PRODUCT_NAME"
+        },
+        {
+            "text": "90250",
+            "confidence": 0.7484372854232788,
+            "box": [
+                349.0,
+                976.0,
+                375.0,
+                1177.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "UNKNOWN"
+        },
+        {
+            "text": "RSH GLOBAL PVT. LTD.",
+            "confidence": 0.97090083360672,
+            "box": [
+                382.0,
+                962.0,
+                541.0,
+                997.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MANUFACTURER_NAME"
+        },
+        {
+            "text": "PLOT NO. 74, DIC INDL. AREA,",
+            "confidence": 0.9751516580581665,
+            "box": [
+                381.0,
+                976.0,
+                582.0,
+                1017.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "BATCH_NUMBER"
+        },
+        {
+            "text": "BADDI 173 205 (H.P.)",
+            "confidence": 0.969285786151886,
+            "box": [
+                382.0,
+                1001.0,
+                528.0,
+                1033.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "M.L.NO.HIM/COS/14/196",
+            "confidence": 0.9981901049613953,
+            "box": [
+                381.0,
+                1014.0,
+                560.0,
+                1054.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "MKTD.BYLIC.USERRSHGLOBALPVD",
+            "confidence": 0.7960601449012756,
+            "box": [
+                382.0,
+                1028.0,
+                600.0,
+                1074.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "TM OWNERS JOY CREATORS LLP",
+            "confidence": 0.9961381554603577,
+            "box": [
+                380.0,
+                1045.0,
+                601.0,
+                1094.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "RSHREGN. NO.BO-11-000-09-AADCR0379P-23",
+            "confidence": 0.9437770843505859,
+            "box": [
+                383.0,
+                1068.0,
+                598.0,
+                1112.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "MIUTHICNEOFTE ACKI",
+            "confidence": 0.606199324131012,
+            "box": [
+                383.0,
+                1082.0,
+                599.0,
+                1127.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "UNKNOWN"
+        },
+        {
+            "text": "CUSTOMER CARE-QUERY/FEEDBACK:",
+            "confidence": 0.9816031455993652,
+            "box": [
+                383.0,
+                1100.0,
+                597.0,
+                1152.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "CONSUMER_CONTACT"
+        },
+        {
+            "text": "RSH GLOBAL PVT.LTD. 119.",
+            "confidence": 0.9052014946937561,
+            "box": [
+                383.0,
+                1122.0,
+                570.0,
+                1170.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MANUFACTURER_NAME"
+        },
+        {
+            "text": "PARK STREET KOLKATA 700016",
+            "confidence": 0.899708092212677,
+            "box": [
+                381.0,
+                1134.0,
+                596.0,
+                1192.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MANUFACTURER_ADDRESS"
+        },
+        {
+            "text": "8",
+            "confidence": 0.9998137354850769,
+            "box": [
+                353.0,
+                1183.0,
+                374.0,
+                1202.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "TOLLFREE:1800-1205-000",
+            "confidence": 0.9273721575737,
+            "box": [
+                390.0,
+                1166.0,
+                585.0,
+                1223.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "CONSUMER_CONTACT"
+        },
+        {
+            "text": "CUSTOMERCARE@RSHGLOBAL.COM",
+            "confidence": 0.8677158951759338,
+            "box": [
+                388.0,
+                1189.0,
+                585.0,
+                1246.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "CONSUMER_CONTACT"
+        },
+        {
+            "text": "LOPE",
+            "confidence": 0.9602788686752319,
+            "box": [
+                340.0,
+                1250.0,
+                380.0,
+                1269.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "RSIK",
+            "confidence": 0.775795042514801,
+            "box": [
+                269.0,
+                1265.0,
+                386.0,
+                1320.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "NET VOL",
+            "confidence": 0.9628035426139832,
+            "box": [
+                389.0,
+                1253.0,
+                459.0,
+                1284.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "40ml",
+            "confidence": 0.9996932744979858,
+            "box": [
+                528.0,
+                1250.0,
+                576.0,
+                1287.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "NET_QUANTITY"
+        },
+        {
+            "text": "WHEN PACKED",
+            "confidence": 0.9593753218650818,
+            "box": [
+                388.0,
+                1266.0,
+                503.0,
+                1305.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        },
+        {
+            "text": "*MRP(INCL. OF ALLTAXES)",
+            "confidence": 0.8827403783798218,
+            "box": [
+                281.0,
+                1306.0,
+                476.0,
+                1355.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "MRP"
+        },
+        {
+            "text": ") #MFD.B.NO.,",
+            "confidence": 0.8685623407363892,
+            "box": [
+                458.0,
+                1295.0,
+                554.0,
+                1342.0
+            ],
+            "image_id": "product36_img2.jpeg",
+            "label": "OTHER"
+        }
+    ],
+    "aggregated": {
+        "product_name": {
+            "raw_text": "HONEY& ALMONDS FEEL ON SKIN LIGHT DEEP Honey locks i Almond Oil softens BODY LOTION. MADE IN INDIA BY:",
+            "box": [
+                304.0,
+                360.0,
+                444.0,
+                401.0
+            ]
+        },
+        "manufacturer": {
+            "raw_text": "RSH GLOBAL PVT. LTD. | RSH GLOBAL PVT.LTD. 119.",
+            "box": [
+                382.0,
+                962.0,
+                541.0,
+                997.0
+            ]
+        },
+        "manufacturer_address": {
+            "raw_text": "PARK STREET KOLKATA 700016",
+            "box": [
+                381.0,
+                1134.0,
+                596.0,
+                1192.0
+            ]
+        },
+        "net_quantity": {
+            "value": 40.0,
+            "unit": "ml",
+            "raw_text": "40ml",
+            "box": [
+                528.0,
+                1250.0,
+                576.0,
+                1287.0
+            ]
+        },
+        "manufacturing_date": {
+            "raw_text": "MFD 09/25",
+            "box": [
+                310.0,
+                614.0,
+                529.0,
+                650.0
+            ]
+        },
+        "expiry_date": {
+            "raw_text": "EXP 08/28",
+            "box": [
+                309.0,
+                678.0,
+                554.0,
+                713.0
+            ]
+        },
+        "batch_number": {
+            "raw_text": "BR2E2584",
+            "box": [
+                319.0,
+                646.0,
+                483.0,
+                680.0
+            ]
+        },
+        "mrp": {
+            "value": 49.0,
+            "raw_text": "MRP ₹49.00 | *MRP(INCL. OF ALLTAXES)",
+            "box": [
+                310.0,
+                614.0,
+                529.0,
+                650.0
+            ]
+        },
+        "unit_sale_price": {
+            "raw_text": "UNIT SALE PRICE 1.23/ml",
+            "box": [
+                309.0,
+                678.0,
+                554.0,
+                713.0
+            ]
+        },
+        "fssai_license": {
+            "raw_text": null,
+            "box": null,
+            "status": "NOT_APPLICABLE"
+        },
+        "consumer_contact": {
+            "raw_text": "CUSTOMER CARE-QUERY/FEEDBACK: | TOLLFREE:1800-1205-000 | CUSTOMERCARE@RSHGLOBAL.COM",
+            "box": [
+                383.0,
+                1100.0,
+                597.0,
+                1152.0
+            ]
+        },
+        "nutrition": null,
+        "product_type": "NON_FOOD",
+        "fssai_applicable": false,
+        "ocr_lines": [
+            {
+                "text": "HONEY&",
+                "confidence": 0.9996007084846497,
+                "box": [
+                    304.0,
+                    360.0,
+                    444.0,
+                    401.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "PRODUCT_NAME"
+            },
+            {
+                "text": "ALMONDS",
+                "confidence": 0.9999871253967285,
+                "box": [
+                    304.0,
+                    388.0,
+                    458.0,
+                    429.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "PRODUCT_NAME"
+            },
+            {
+                "text": "FEEL ON SKIN",
+                "confidence": 0.9934038519859314,
+                "box": [
+                    381.0,
+                    439.0,
+                    509.0,
+                    472.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "PRODUCT_NAME"
+            },
+            {
+                "text": "LIGHT",
+                "confidence": 0.9999499320983887,
+                "box": [
+                    333.0,
+                    466.0,
+                    392.0,
+                    494.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "PRODUCT_NAME"
+            },
+            {
+                "text": "DEEP",
+                "confidence": 0.9999677538871765,
+                "box": [
+                    501.0,
+                    474.0,
+                    549.0,
+                    503.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "PRODUCT_NAME"
+            },
+            {
+                "text": "Honey locks i",
+                "confidence": 0.9970964789390564,
+                "box": [
+                    325.0,
+                    512.0,
+                    412.0,
+                    533.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "PRODUCT_NAME"
+            },
+            {
+                "text": "Almond Oil softens",
+                "confidence": 0.9976761341094971,
+                "box": [
+                    322.0,
+                    531.0,
+                    449.0,
+                    552.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "PRODUCT_NAME"
+            },
+            {
+                "text": "nourishes dry skin",
+                "confidence": 0.9998438954353333,
+                "box": [
+                    450.0,
+                    530.0,
+                    565.0,
+                    563.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "MRP ₹49.00",
+                "confidence": 0.9964823126792908,
+                "box": [
+                    310.0,
+                    614.0,
+                    529.0,
+                    650.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "MRP"
+            },
+            {
+                "text": "MFD 09/25",
+                "confidence": 0.9964823126792908,
+                "box": [
+                    310.0,
+                    614.0,
+                    529.0,
+                    650.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "MANUFACTURING_DATE"
+            },
+            {
+                "text": "BR2E2584",
+                "confidence": 0.9999926090240479,
+                "box": [
+                    319.0,
+                    646.0,
+                    483.0,
+                    680.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "BATCH_NUMBER"
+            },
+            {
+                "text": "EXP 08/28",
+                "confidence": 0.9895113706588745,
+                "box": [
+                    309.0,
+                    678.0,
+                    554.0,
+                    713.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "EXPIRY_DATE"
+            },
+            {
+                "text": "UNIT SALE PRICE 1.23/ml",
+                "confidence": 0.9895113706588745,
+                "box": [
+                    309.0,
+                    678.0,
+                    554.0,
+                    713.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "UNIT_SALE_PRICE"
+            },
+            {
+                "text": "nourishes",
+                "confidence": 0.9999821186065674,
+                "box": [
+                    291.0,
+                    843.0,
+                    389.0,
+                    872.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "repairs",
+                "confidence": 0.9998117685317993,
+                "box": [
+                    410.0,
+                    841.0,
+                    489.0,
+                    872.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "protects",
+                "confidence": 0.9984322786331177,
+                "box": [
+                    513.0,
+                    840.0,
+                    589.0,
+                    869.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "0% harmful chemicals,100% safe on skin",
+                "confidence": 0.9817261695861816,
+                "box": [
+                    280.0,
+                    869.0,
+                    600.0,
+                    907.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "HOW TO USE: Apply generously all over",
+                "confidence": 0.9963915944099426,
+                "box": [
+                    277.0,
+                    898.0,
+                    601.0,
+                    942.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "your body.",
+                "confidence": 0.9999569654464722,
+                "box": [
+                    276.0,
+                    931.0,
+                    370.0,
+                    968.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "BODY LOTION. MADE IN INDIA BY:",
+                "confidence": 0.9966350793838501,
+                "box": [
+                    381.0,
+                    938.0,
+                    597.0,
+                    978.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "PRODUCT_NAME"
+            },
+            {
+                "text": "90250",
+                "confidence": 0.7484372854232788,
+                "box": [
+                    349.0,
+                    976.0,
+                    375.0,
+                    1177.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "UNKNOWN"
+            },
+            {
+                "text": "RSH GLOBAL PVT. LTD.",
+                "confidence": 0.97090083360672,
+                "box": [
+                    382.0,
+                    962.0,
+                    541.0,
+                    997.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "MANUFACTURER_NAME"
+            },
+            {
+                "text": "PLOT NO. 74, DIC INDL. AREA,",
+                "confidence": 0.9751516580581665,
+                "box": [
+                    381.0,
+                    976.0,
+                    582.0,
+                    1017.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "BATCH_NUMBER"
+            },
+            {
+                "text": "BADDI 173 205 (H.P.)",
+                "confidence": 0.969285786151886,
+                "box": [
+                    382.0,
+                    1001.0,
+                    528.0,
+                    1033.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "M.L.NO.HIM/COS/14/196",
+                "confidence": 0.9981901049613953,
+                "box": [
+                    381.0,
+                    1014.0,
+                    560.0,
+                    1054.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "MKTD.BYLIC.USERRSHGLOBALPVD",
+                "confidence": 0.7960601449012756,
+                "box": [
+                    382.0,
+                    1028.0,
+                    600.0,
+                    1074.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "TM OWNERS JOY CREATORS LLP",
+                "confidence": 0.9961381554603577,
+                "box": [
+                    380.0,
+                    1045.0,
+                    601.0,
+                    1094.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "RSHREGN. NO.BO-11-000-09-AADCR0379P-23",
+                "confidence": 0.9437770843505859,
+                "box": [
+                    383.0,
+                    1068.0,
+                    598.0,
+                    1112.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "MIUTHICNEOFTE ACKI",
+                "confidence": 0.606199324131012,
+                "box": [
+                    383.0,
+                    1082.0,
+                    599.0,
+                    1127.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "UNKNOWN"
+            },
+            {
+                "text": "CUSTOMER CARE-QUERY/FEEDBACK:",
+                "confidence": 0.9816031455993652,
+                "box": [
+                    383.0,
+                    1100.0,
+                    597.0,
+                    1152.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "CONSUMER_CONTACT"
+            },
+            {
+                "text": "RSH GLOBAL PVT.LTD. 119.",
+                "confidence": 0.9052014946937561,
+                "box": [
+                    383.0,
+                    1122.0,
+                    570.0,
+                    1170.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "MANUFACTURER_NAME"
+            },
+            {
+                "text": "PARK STREET KOLKATA 700016",
+                "confidence": 0.899708092212677,
+                "box": [
+                    381.0,
+                    1134.0,
+                    596.0,
+                    1192.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "MANUFACTURER_ADDRESS"
+            },
+            {
+                "text": "8",
+                "confidence": 0.9998137354850769,
+                "box": [
+                    353.0,
+                    1183.0,
+                    374.0,
+                    1202.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "TOLLFREE:1800-1205-000",
+                "confidence": 0.9273721575737,
+                "box": [
+                    390.0,
+                    1166.0,
+                    585.0,
+                    1223.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "CONSUMER_CONTACT"
+            },
+            {
+                "text": "CUSTOMERCARE@RSHGLOBAL.COM",
+                "confidence": 0.8677158951759338,
+                "box": [
+                    388.0,
+                    1189.0,
+                    585.0,
+                    1246.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "CONSUMER_CONTACT"
+            },
+            {
+                "text": "LOPE",
+                "confidence": 0.9602788686752319,
+                "box": [
+                    340.0,
+                    1250.0,
+                    380.0,
+                    1269.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "RSIK",
+                "confidence": 0.775795042514801,
+                "box": [
+                    269.0,
+                    1265.0,
+                    386.0,
+                    1320.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "NET VOL",
+                "confidence": 0.9628035426139832,
+                "box": [
+                    389.0,
+                    1253.0,
+                    459.0,
+                    1284.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "40ml",
+                "confidence": 0.9996932744979858,
+                "box": [
+                    528.0,
+                    1250.0,
+                    576.0,
+                    1287.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "NET_QUANTITY"
+            },
+            {
+                "text": "WHEN PACKED",
+                "confidence": 0.9593753218650818,
+                "box": [
+                    388.0,
+                    1266.0,
+                    503.0,
+                    1305.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            },
+            {
+                "text": "*MRP(INCL. OF ALLTAXES)",
+                "confidence": 0.8827403783798218,
+                "box": [
+                    281.0,
+                    1306.0,
+                    476.0,
+                    1355.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "MRP"
+            },
+            {
+                "text": ") #MFD.B.NO.,",
+                "confidence": 0.8685623407363892,
+                "box": [
+                    458.0,
+                    1295.0,
+                    554.0,
+                    1342.0
+                ],
+                "image_id": "product36_img2.jpeg",
+                "label": "OTHER"
+            }
+        ]
+    }
+}

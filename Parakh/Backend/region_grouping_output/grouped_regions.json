@@ -1,0 +1,23 @@
+{
+    "image": "product36_img2.jpeg",
+    "original_regions": 51,
+    "filtered_regions": 41,
+    "deduplicated_regions": 38,
+    "logical_blocks": 1,
+    "regions": [
+        {
+            "region_id": 1,
+            "box": [
+                254,
+                338,
+                620,
+                1403
+            ],
+            "width": 366,
+            "height": 1065,
+            "source_region_count": 38,
+            "confidence": 0.6648140549438344,
+            "crop": "region_grouping_output\\region_01.jpg"
+        }
+    ]
+}

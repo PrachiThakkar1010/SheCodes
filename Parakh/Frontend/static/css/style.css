@@ -97,6 +97,7 @@ section {
 
 .nav-links a:hover {
     color: #0b63ce;
+    text-decoration: underline;
 }
 
 
@@ -181,6 +182,7 @@ section {
 .profile-dropdown a:hover {
     background-color: #f1f5f9;
     color: #0b63ce;
+    text-decoration: none;
 }
 
 .profile-dropdown .btn-logout-dropdown {
@@ -188,11 +190,13 @@ section {
     color: #ffffff;
     background-color: #dc2626;
     text-align: center;
+
 }
 
 .profile-dropdown .btn-logout-dropdown:hover {
     background-color: #b91c1c;
     color: #ffffff;
+    text-decoration: none;
 }
 
 /* =========================================================

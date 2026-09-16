@@ -2,11 +2,12 @@
 <html lang="en">
 
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan Report - Parakh</title>
     <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
@@ -54,8 +55,8 @@
         <div class="result-header">
             <div class="result-header-text">
                 <p class="eyebrow">Report</p>
-                <h1>Lay's Classic Salted Chips</h1>
-                <p class="result-subtext">Analyzed on 26 August 2026, 3:42 PM</p>
+                <h1>{{ product_name_display|default:scan.product_name|default:"Unnamed Product" }}</h1>
+                <p class="result-subtext">Analyzed on {{ scan.scanned_at|date:"d F Y, g:i A" }}</p>
             </div>
 
             <button type="button" class="btn-secondary btn-print no-print" id="printBtn">
@@ -68,73 +69,78 @@
             </button>
         </div>
 
-        <!-- Overall verdict banner -->
+        {% if processing %}
+        <!-- Still processing (shouldn't normally be seen - run_scan() runs synchronously - but kept as a safe fallback) -->
+        <section class="verdict-banner verdict-warning">
+            <div class="verdict-icon">⏳</div>
+            <div class="verdict-text">
+                <h2>Still Processing</h2>
+                <p>This scan is still being analyzed. Refresh this page in a moment.</p>
+            </div>
+        </section>
+
+        {% elif needs_more_images %}
+        <!-- Insufficient photo coverage to fairly judge compliance -->
         <section class="verdict-banner verdict-warning">
             <div class="verdict-icon">⚠</div>
             <div class="verdict-text">
-                <h2>3 Violations Found</h2>
+                <h2>More Photos Needed</h2>
+                <p>{{ coverage_message }}</p>
+            </div>
+        </section>
+
+        {% else %}
+        <!-- Overall verdict banner -->
+        {% if is_compliant %}
+        <section class="verdict-banner verdict-safe">
+            <div class="verdict-icon">✓</div>
+            <div class="verdict-text">
+                <h2>Fully Compliant</h2>
+                <p>This product complies with the Legal Metrology labeling requirements checked by this system.</p>
+            </div>
+        </section>
+        {% else %}
+        <section class="verdict-banner verdict-warning">
+            <div class="verdict-icon">⚠</div>
+            <div class="verdict-text">
+                <h2>{{ violation_count }} Violation{{ violation_count|pluralize }} Found</h2>
                 <p>This product does not fully comply with Legal Metrology labeling requirements.</p>
             </div>
         </section>
+        {% endif %}
 
         <!-- ============================= -->
         <!-- VIOLATIONS SECTION -->
         <!-- ============================= -->
+        {% if violations %}
         <section class="report-section">
             <h2 class="report-section-title">Violations</h2>
 
+            {% for v in violations %}
             <div class="violation-card">
                 <div class="violation-header">
-                    <span class="violation-badge">Violation 1</span>
-                    <h3>MRP Font Size Too Small</h3>
+                    <span class="violation-badge">Violation {{ v.index }}</span>
+                    <h3>{{ v.title }}</h3>
                 </div>
                 <p class="violation-what">
-                    The Maximum Retail Price printed on the package is displayed in a font size smaller than
-                    what is legally required for a package of this size.
+                    {{ v.details }}
                 </p>
                 <div class="violation-rule">
                     <span class="rule-label">Violated Rule</span>
-                    <p>Legal Metrology (Packaged Commodities) Rules, 2011 — Rule 6, sub-rule (1)(f): Minimum font size for MRP declaration based on package area.</p>
+                    <p>{{ v.rule_citation }}</p>
                 </div>
             </div>
-
-            <div class="violation-card">
-                <div class="violation-header">
-                    <span class="violation-badge">Violation 2</span>
-                    <h3>Missing Manufacturer Address</h3>
-                </div>
-                <p class="violation-what">
-                    The package does not display the complete name and address of the manufacturer or
-                    packer, only a brand name is shown.
-                </p>
-                <div class="violation-rule">
-                    <span class="rule-label">Violated Rule</span>
-                    <p>Legal Metrology (Packaged Commodities) Rules, 2011 — Rule 6, sub-rule (1)(a): Mandatory declaration of manufacturer's name and complete address.</p>
-                </div>
-            </div>
-
-            <div class="violation-card">
-                <div class="violation-header">
-                    <span class="violation-badge">Violation 3</span>
-                    <h3>Net Quantity Not in Standard Unit</h3>
-                </div>
-                <p class="violation-what">
-                    Net quantity is declared as "approx. 50g" — an approximate value is not permitted;
-                    the exact net quantity in standard metric units must be stated.
-                </p>
-                <div class="violation-rule">
-                    <span class="rule-label">Violated Rule</span>
-                    <p>Legal Metrology (Packaged Commodities) Rules, 2011 — Rule 6, sub-rule (1)(b): Net quantity must be declared in exact standard units (grams, millilitres, etc.), not approximated.</p>
-                </div>
-            </div>
+            {% endfor %}
         </section>
+        {% endif %}
 
         <!-- ============================= -->
         <!-- NUTRITIONAL VALUES SECTION -->
         <!-- ============================= -->
+        {% if nutrition_rows %}
         <section class="report-section">
             <h2 class="report-section-title">Nutritional Values</h2>
-            <p class="report-section-subtext">Per 100g serving, as declared on the package label.</p>
+            <p class="report-section-subtext">As declared on the package label.</p>
 
             <table class="nutrition-table">
                 <thead>
@@ -145,75 +151,37 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for row in nutrition_rows %}
                     <tr>
-                        <td>Energy</td>
-                        <td>536 kcal</td>
-                        <td>27%</td>
+                        <td>{{ row.nutrient }}{% if row.implausible %} <span title="This value looks unusually high and may be an OCR misread - verify against the photo">⚠</span>{% endif %}</td>
+                        <td>{{ row.amount }} {{ row.unit }}</td>
+                        <td{% if row.high %} class="nutrition-flag"{% endif %}>{% if row.daily_value_pct %}{{ row.daily_value_pct|floatformat:0 }}%{% else %}-{% endif %}</td>
                     </tr>
-                    <tr>
-                        <td>Total Fat</td>
-                        <td>34.8 g</td>
-                        <td>50%</td>
-                    </tr>
-                    <tr>
-                        <td>Saturated Fat</td>
-                        <td>16.2 g</td>
-                        <td class="nutrition-flag">81%</td>
-                    </tr>
-                    <tr>
-                        <td>Trans Fat</td>
-                        <td>0.2 g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>Total Carbohydrate</td>
-                        <td>53 g</td>
-                        <td>18%</td>
-                    </tr>
-                    <tr>
-                        <td>Sugars</td>
-                        <td>0.9 g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>Protein</td>
-                        <td>6.6 g</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>Sodium</td>
-                        <td>560 mg</td>
-                        <td class="nutrition-flag">37%</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
             <p class="nutrition-footnote">*% Daily Values are based on a 2,000 kcal reference diet. Values in <span class="nutrition-flag-dot"></span> indicate nutrients present in high amounts.</p>
         </section>
+        {% endif %}
 
         <!-- ============================= -->
         <!-- INGREDIENTS / PRESERVATIVES SECTION -->
         <!-- ============================= -->
+        {% if additives or no_additives_detected %}
         <section class="report-section">
-            <h2 class="report-section-title">Preservatives & Chemical Additives</h2>
+            <h2 class="report-section-title">Preservatives &amp; Chemical Additives</h2>
 
+            {% for a in additives %}
             <div class="ingredient-flag ingredient-caution">
                 <div class="ingredient-flag-icon">!</div>
                 <div class="ingredient-flag-text">
-                    <h4>INS 320 (Butylated Hydroxyanisole - BHA)</h4>
-                    <p>An antioxidant preservative used to prevent oxidation of fats. Some studies have raised
-                    concerns about long-term consumption; permitted in India within specified limits.</p>
+                    <h4>{% if a.is_banned %}⚠ BANNED — {% endif %}{{ a.code }} ({{ a.name }})</h4>
+                    <p>{{ a.description }}</p>
                 </div>
             </div>
+            {% endfor %}
 
-            <div class="ingredient-flag ingredient-caution">
-                <div class="ingredient-flag-icon">!</div>
-                <div class="ingredient-flag-text">
-                    <h4>INS 621 (Monosodium Glutamate - MSG)</h4>
-                    <p>A flavor enhancer. Generally recognized as safe by FSSAI, though some individuals report
-                    sensitivity with symptoms like headaches when consumed in large amounts.</p>
-                </div>
-            </div>
-
+            {% if not has_banned_additive %}
             <div class="ingredient-flag ingredient-safe">
                 <div class="ingredient-flag-icon">✓</div>
                 <div class="ingredient-flag-text">
@@ -221,7 +189,11 @@
                     <p>None of the ingredients listed match substances banned under FSSAI regulations.</p>
                 </div>
             </div>
+            {% endif %}
         </section>
+        {% endif %}
+        {% endif %}
+
 
     </main>
 

@@ -1,0 +1,42 @@
+{
+    "image": "product36_img2.jpeg",
+    "detector_regions": 41,
+    "zones": [
+        {
+            "zone_id": 1,
+            "box": [
+                274,
+                343,
+                605,
+                602
+            ],
+            "width": 331,
+            "height": 259,
+            "crop": "region_zones_output\\zone_01.jpg"
+        },
+        {
+            "zone_id": 2,
+            "box": [
+                293,
+                596,
+                569,
+                727
+            ],
+            "width": 276,
+            "height": 131,
+            "crop": "region_zones_output\\zone_02.jpg"
+        },
+        {
+            "zone_id": 3,
+            "box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "width": 356,
+            "height": 573,
+            "crop": "region_zones_output\\zone_03.jpg"
+        }
+    ]
+}

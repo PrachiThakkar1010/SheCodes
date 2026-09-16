@@ -1,0 +1,907 @@
+{
+  "image": "product36_img2.jpeg",
+  "original_size": [
+    1200,
+    1600
+  ],
+  "group_count": 24,
+  "groups": [
+    {
+      "group_id": 1,
+      "box": [
+        296,
+        358,
+        566,
+        494
+      ],
+      "width": 270,
+      "height": 136,
+      "region_count": 5,
+      "source_regions": [
+        {
+          "box": [
+            303,
+            358,
+            445,
+            399
+          ],
+          "confidence": 0.8131872811127431,
+          "width": 142,
+          "height": 41
+        },
+        {
+          "box": [
+            305,
+            390,
+            457,
+            425
+          ],
+          "confidence": 0.7698166136969171,
+          "width": 152,
+          "height": 35
+        },
+        {
+          "box": [
+            296,
+            408,
+            566,
+            462
+          ],
+          "confidence": 0.4568692696198067,
+          "width": 270,
+          "height": 54
+        },
+        {
+          "box": [
+            380,
+            438,
+            510,
+            470
+          ],
+          "confidence": 0.73312396454602,
+          "width": 130,
+          "height": 32
+        },
+        {
+          "box": [
+            333,
+            463,
+            417,
+            494
+          ],
+          "confidence": 0.6553014708182588,
+          "width": 84,
+          "height": 31
+        }
+      ]
+    },
+    {
+      "group_id": 2,
+      "box": [
+        289,
+        464,
+        590,
+        712
+      ],
+      "width": 301,
+      "height": 248,
+      "region_count": 8,
+      "source_regions": [
+        {
+          "box": [
+            429,
+            464,
+            550,
+            502
+          ],
+          "confidence": 0.6430828789078938,
+          "width": 121,
+          "height": 38
+        },
+        {
+          "box": [
+            325,
+            481,
+            560,
+            529
+          ],
+          "confidence": 0.581101837322992,
+          "width": 235,
+          "height": 48
+        },
+        {
+          "box": [
+            320,
+            505,
+            563,
+            545
+          ],
+          "confidence": 0.5364797066296879,
+          "width": 243,
+          "height": 40
+        },
+        {
+          "box": [
+            318,
+            521,
+            570,
+            564
+          ],
+          "confidence": 0.6039359252870508,
+          "width": 252,
+          "height": 43
+        },
+        {
+          "box": [
+            289,
+            538,
+            590,
+            587
+          ],
+          "confidence": 0.5080976858858267,
+          "width": 301,
+          "height": 49
+        },
+        {
+          "box": [
+            310,
+            611,
+            529,
+            652
+          ],
+          "confidence": 0.7790464434915303,
+          "width": 219,
+          "height": 41
+        },
+        {
+          "box": [
+            322,
+            648,
+            482,
+            678
+          ],
+          "confidence": 0.9666728025999213,
+          "width": 160,
+          "height": 30
+        },
+        {
+          "box": [
+            308,
+            678,
+            554,
+            712
+          ],
+          "confidence": 0.8369984824884346,
+          "width": 246,
+          "height": 34
+        }
+      ]
+    },
+    {
+      "group_id": 3,
+      "box": [
+        511,
+        840,
+        590,
+        869
+      ],
+      "width": 79,
+      "height": 29,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            511,
+            840,
+            590,
+            869
+          ],
+          "confidence": 0.7503993525285061,
+          "width": 79,
+          "height": 29
+        }
+      ]
+    },
+    {
+      "group_id": 4,
+      "box": [
+        412,
+        845,
+        488,
+        868
+      ],
+      "width": 76,
+      "height": 23,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            412,
+            845,
+            488,
+            868
+          ],
+          "confidence": 0.8262888136296556,
+          "width": 76,
+          "height": 23
+        }
+      ]
+    },
+    {
+      "group_id": 5,
+      "box": [
+        278,
+        847,
+        600,
+        960
+      ],
+      "width": 322,
+      "height": 113,
+      "region_count": 4,
+      "source_regions": [
+        {
+          "box": [
+            290,
+            847,
+            387,
+            870
+          ],
+          "confidence": 0.8619896760799289,
+          "width": 97,
+          "height": 23
+        },
+        {
+          "box": [
+            279,
+            870,
+            600,
+            905
+          ],
+          "confidence": 0.7064230806693012,
+          "width": 321,
+          "height": 35
+        },
+        {
+          "box": [
+            279,
+            896,
+            600,
+            942
+          ],
+          "confidence": 0.6870705347767655,
+          "width": 321,
+          "height": 46
+        },
+        {
+          "box": [
+            278,
+            937,
+            365,
+            960
+          ],
+          "confidence": 0.7871158665385347,
+          "width": 87,
+          "height": 23
+        }
+      ]
+    },
+    {
+      "group_id": 6,
+      "box": [
+        378,
+        940,
+        597,
+        1015
+      ],
+      "width": 219,
+      "height": 75,
+      "region_count": 3,
+      "source_regions": [
+        {
+          "box": [
+            380,
+            940,
+            597,
+            975
+          ],
+          "confidence": 0.6954594816823111,
+          "width": 217,
+          "height": 35
+        },
+        {
+          "box": [
+            381,
+            963,
+            537,
+            995
+          ],
+          "confidence": 0.7117320531386565,
+          "width": 156,
+          "height": 32
+        },
+        {
+          "box": [
+            378,
+            975,
+            580,
+            1015
+          ],
+          "confidence": 0.5881630032173492,
+          "width": 202,
+          "height": 40
+        }
+      ]
+    },
+    {
+      "group_id": 7,
+      "box": [
+        355,
+        994,
+        371,
+        1010
+      ],
+      "width": 16,
+      "height": 16,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            355,
+            994,
+            371,
+            1010
+          ],
+          "confidence": 0.510637216374131,
+          "width": 16,
+          "height": 16
+        }
+      ]
+    },
+    {
+      "group_id": 8,
+      "box": [
+        383,
+        1000,
+        527,
+        1032
+      ],
+      "width": 144,
+      "height": 32,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            383,
+            1000,
+            527,
+            1032
+          ],
+          "confidence": 0.6091748107519974,
+          "width": 144,
+          "height": 32
+        }
+      ]
+    },
+    {
+      "group_id": 9,
+      "box": [
+        356,
+        1010,
+        370,
+        1025
+      ],
+      "width": 14,
+      "height": 15,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            356,
+            1010,
+            370,
+            1025
+          ],
+          "confidence": 0.6417844936562082,
+          "width": 14,
+          "height": 15
+        }
+      ]
+    },
+    {
+      "group_id": 10,
+      "box": [
+        528,
+        1018,
+        557,
+        1038
+      ],
+      "width": 29,
+      "height": 20,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            528,
+            1018,
+            557,
+            1038
+          ],
+          "confidence": 0.5945254599965188,
+          "width": 29,
+          "height": 20
+        }
+      ]
+    },
+    {
+      "group_id": 11,
+      "box": [
+        412,
+        1020,
+        532,
+        1050
+      ],
+      "width": 120,
+      "height": 30,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            412,
+            1020,
+            532,
+            1050
+          ],
+          "confidence": 0.6042587230975801,
+          "width": 120,
+          "height": 30
+        }
+      ]
+    },
+    {
+      "group_id": 12,
+      "box": [
+        356,
+        1027,
+        370,
+        1042
+      ],
+      "width": 14,
+      "height": 15,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            356,
+            1027,
+            370,
+            1042
+          ],
+          "confidence": 0.7263107017303506,
+          "width": 14,
+          "height": 15
+        }
+      ]
+    },
+    {
+      "group_id": 13,
+      "box": [
+        382,
+        1028,
+        599,
+        1096
+      ],
+      "width": 217,
+      "height": 68,
+      "region_count": 3,
+      "source_regions": [
+        {
+          "box": [
+            383,
+            1028,
+            580,
+            1076
+          ],
+          "confidence": 0.5504242265652776,
+          "width": 197,
+          "height": 48
+        },
+        {
+          "box": [
+            389,
+            1032,
+            404,
+            1048
+          ],
+          "confidence": 0.6105650971077834,
+          "width": 15,
+          "height": 16
+        },
+        {
+          "box": [
+            382,
+            1042,
+            599,
+            1096
+          ],
+          "confidence": 0.5385932842038561,
+          "width": 217,
+          "height": 54
+        }
+      ]
+    },
+    {
+      "group_id": 14,
+      "box": [
+        356,
+        1057,
+        370,
+        1072
+      ],
+      "width": 14,
+      "height": 15,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            356,
+            1057,
+            370,
+            1072
+          ],
+          "confidence": 0.6749593221272031,
+          "width": 14,
+          "height": 15
+        }
+      ]
+    },
+    {
+      "group_id": 15,
+      "box": [
+        384,
+        1066,
+        598,
+        1129
+      ],
+      "width": 214,
+      "height": 63,
+      "region_count": 2,
+      "source_regions": [
+        {
+          "box": [
+            384,
+            1066,
+            597,
+            1114
+          ],
+          "confidence": 0.5309279620971717,
+          "width": 213,
+          "height": 48
+        },
+        {
+          "box": [
+            386,
+            1079,
+            598,
+            1129
+          ],
+          "confidence": 0.510753798488241,
+          "width": 212,
+          "height": 50
+        }
+      ]
+    },
+    {
+      "group_id": 16,
+      "box": [
+        358,
+        1085,
+        368,
+        1108
+      ],
+      "width": 10,
+      "height": 23,
+      "region_count": 2,
+      "source_regions": [
+        {
+          "box": [
+            360,
+            1085,
+            368,
+            1093
+          ],
+          "confidence": 0.5314748208038509,
+          "width": 8,
+          "height": 8
+        },
+        {
+          "box": [
+            358,
+            1098,
+            368,
+            1108
+          ],
+          "confidence": 0.5261616837978363,
+          "width": 10,
+          "height": 10
+        }
+      ]
+    },
+    {
+      "group_id": 17,
+      "box": [
+        388,
+        1101,
+        596,
+        1151
+      ],
+      "width": 208,
+      "height": 50,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            388,
+            1101,
+            596,
+            1151
+          ],
+          "confidence": 0.6225076515694796,
+          "width": 208,
+          "height": 50
+        }
+      ]
+    },
+    {
+      "group_id": 18,
+      "box": [
+        358,
+        1112,
+        370,
+        1153
+      ],
+      "width": 12,
+      "height": 41,
+      "region_count": 2,
+      "source_regions": [
+        {
+          "box": [
+            360,
+            1112,
+            368,
+            1123
+          ],
+          "confidence": 0.5689706144233544,
+          "width": 8,
+          "height": 11
+        },
+        {
+          "box": [
+            358,
+            1123,
+            370,
+            1153
+          ],
+          "confidence": 0.6359576226794161,
+          "width": 12,
+          "height": 30
+        }
+      ]
+    },
+    {
+      "group_id": 19,
+      "box": [
+        384,
+        1126,
+        596,
+        1219
+      ],
+      "width": 212,
+      "height": 93,
+      "region_count": 4,
+      "source_regions": [
+        {
+          "box": [
+            533,
+            1126,
+            563,
+            1152
+          ],
+          "confidence": 0.44349852661603756,
+          "width": 30,
+          "height": 26
+        },
+        {
+          "box": [
+            388,
+            1128,
+            543,
+            1167
+          ],
+          "confidence": 0.603768403516185,
+          "width": 155,
+          "height": 39
+        },
+        {
+          "box": [
+            384,
+            1133,
+            596,
+            1195
+          ],
+          "confidence": 0.6004300849053564,
+          "width": 212,
+          "height": 62
+        },
+        {
+          "box": [
+            396,
+            1169,
+            581,
+            1219
+          ],
+          "confidence": 0.6713705593251118,
+          "width": 185,
+          "height": 50
+        }
+      ]
+    },
+    {
+      "group_id": 20,
+      "box": [
+        356,
+        1185,
+        373,
+        1202
+      ],
+      "width": 17,
+      "height": 17,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            356,
+            1185,
+            373,
+            1202
+          ],
+          "confidence": 0.6081551353831948,
+          "width": 17,
+          "height": 17
+        }
+      ]
+    },
+    {
+      "group_id": 21,
+      "box": [
+        389,
+        1190,
+        583,
+        1280
+      ],
+      "width": 194,
+      "height": 90,
+      "region_count": 2,
+      "source_regions": [
+        {
+          "box": [
+            389,
+            1190,
+            583,
+            1248
+          ],
+          "confidence": 0.6337711589305371,
+          "width": 194,
+          "height": 58
+        },
+        {
+          "box": [
+            395,
+            1258,
+            454,
+            1280
+          ],
+          "confidence": 0.6707552710212493,
+          "width": 59,
+          "height": 22
+        }
+      ]
+    },
+    {
+      "group_id": 22,
+      "box": [
+        539,
+        1263,
+        564,
+        1278
+      ],
+      "width": 25,
+      "height": 15,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            539,
+            1263,
+            564,
+            1278
+          ],
+          "confidence": 0.48012059942500523,
+          "width": 25,
+          "height": 15
+        }
+      ]
+    },
+    {
+      "group_id": 23,
+      "box": [
+        389,
+        1266,
+        502,
+        1306
+      ],
+      "width": 113,
+      "height": 40,
+      "region_count": 1,
+      "source_regions": [
+        {
+          "box": [
+            389,
+            1266,
+            502,
+            1306
+          ],
+          "confidence": 0.7107983679598858,
+          "width": 113,
+          "height": 40
+        }
+      ]
+    },
+    {
+      "group_id": 24,
+      "box": [
+        274,
+        1270,
+        567,
+        1383
+      ],
+      "width": 293,
+      "height": 113,
+      "region_count": 3,
+      "source_regions": [
+        {
+          "box": [
+            274,
+            1270,
+            380,
+            1313
+          ],
+          "confidence": 0.8112389457424137,
+          "width": 106,
+          "height": 43
+        },
+        {
+          "box": [
+            278,
+            1294,
+            558,
+            1358
+          ],
+          "confidence": 0.5920325025444798,
+          "width": 280,
+          "height": 64
+        },
+        {
+          "box": [
+            276,
+            1310,
+            567,
+            1383
+          ],
+          "confidence": 0.5198972985356868,
+          "width": 291,
+          "height": 73
+        }
+      ]
+    }
+  ]
+}

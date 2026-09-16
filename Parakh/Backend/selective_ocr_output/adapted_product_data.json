@@ -1,0 +1,752 @@
+{
+    "source": {
+        "image": "product36_img2.jpeg",
+        "ocr_model_initialization_seconds": 8.716099100012798,
+        "ocr_processing_seconds": 37.74862349999603,
+        "zones_processed": 3
+    },
+    "product": {
+        "name": "HONEY& ALMONDS FEEL ON SKIN LIGHT DEEP Honey locks i Almond Oil softens nourishes dry skin",
+        "name_confidence": 0.9984407350420952,
+        "type": "NON_FOOD"
+    },
+    "net_quantity": {
+        "value": 40.0,
+        "unit": "ml",
+        "confidence": 0.9996932744979858,
+        "evidence": [
+            {
+                "value": {
+                    "value": 40.0,
+                    "unit": "ml"
+                },
+                "zone_id": 3,
+                "raw_text": "40ml",
+                "confidence": 0.9996932744979858,
+                "box": [
+                    259,
+                    825,
+                    615,
+                    1398
+                ]
+            }
+        ]
+    },
+    "mrp": {
+        "value": 49.0,
+        "confidence": 0.9964823126792908,
+        "evidence": [
+            {
+                "value": 49.0,
+                "zone_id": 2,
+                "raw_text": "*49.00#09/25",
+                "confidence": 0.9964823126792908,
+                "box": [
+                    293,
+                    596,
+                    569,
+                    727
+                ]
+            }
+        ]
+    },
+    "manufacturing_date": {
+        "value": "09/25",
+        "confidence": 0.9964823126792908,
+        "evidence": [
+            {
+                "value": "09/25",
+                "zone_id": 2,
+                "raw_text": "*49.00#09/25",
+                "confidence": 0.9964823126792908,
+                "box": [
+                    293,
+                    596,
+                    569,
+                    727
+                ]
+            }
+        ]
+    },
+    "expiry_date": {
+        "value": "08/28",
+        "confidence": 0.9895113706588745,
+        "evidence": [
+            {
+                "value": "08/28",
+                "zone_id": 2,
+                "raw_text": "@08/28,1.23/ml",
+                "confidence": 0.9895113706588745,
+                "box": [
+                    293,
+                    596,
+                    569,
+                    727
+                ]
+            }
+        ]
+    },
+    "batch_number": {
+        "value": "BR2E2584",
+        "confidence": 0.9999926090240479,
+        "evidence": [
+            {
+                "value": "BR2E2584",
+                "zone_id": 2,
+                "raw_text": "BR2E2584",
+                "confidence": 0.9999926090240479,
+                "box": [
+                    293,
+                    596,
+                    569,
+                    727
+                ]
+            },
+            {
+                "value": "BADDI 173 205 (H.P.)",
+                "zone_id": 3,
+                "raw_text": "BADDI 173 205 (H.P.)",
+                "confidence": 0.969285786151886,
+                "box": [
+                    259,
+                    825,
+                    615,
+                    1398
+                ]
+            }
+        ]
+    },
+    "unit_sale_price": {
+        "value": "1.23/ml",
+        "confidence": 0.9895113706588745,
+        "evidence": [
+            {
+                "value": "1.23/ml",
+                "zone_id": 2,
+                "raw_text": "@08/28,1.23/ml",
+                "confidence": 0.9895113706588745,
+                "box": [
+                    293,
+                    596,
+                    569,
+                    727
+                ]
+            }
+        ]
+    },
+    "manufacturer": {
+        "value": "RSH GLOBAL PVT. LTD.",
+        "confidence": 0.97090083360672,
+        "evidence": [
+            {
+                "value": "RSH GLOBAL PVT. LTD.",
+                "zone_id": 3,
+                "raw_text": "RSH GLOBAL PVT. LTD.",
+                "confidence": 0.97090083360672,
+                "box": [
+                    259,
+                    825,
+                    615,
+                    1398
+                ]
+            },
+            {
+                "value": "RSH GLOBAL PVT.LTD. 119.",
+                "zone_id": 3,
+                "raw_text": "RSH GLOBAL PVT.LTD. 119.",
+                "confidence": 0.9052014946937561,
+                "box": [
+                    259,
+                    825,
+                    615,
+                    1398
+                ]
+            }
+        ]
+    },
+    "manufacturer_address": {
+        "value": "PLOT NO. 74, DIC INDL. AREA, BADDI 173 205 (H.P.) M.L.NO.HIM/COS/14/196 MKTD.BYLIC.USERRSHGLOBALPVD TM OWNERS JOY CREATORS LLP RSHREGN. NO.BO-11-000-09-AADCR0379P-23 MIUTHICNEOFTE ACKI PARK STREET KOLKATA 700016 8",
+        "confidence": 0.606199324131012,
+        "evidence": [
+            {
+                "value": "PLOT NO. 74, DIC INDL. AREA, BADDI 173 205 (H.P.) M.L.NO.HIM/COS/14/196 MKTD.BYLIC.USERRSHGLOBALPVD TM OWNERS JOY CREATORS LLP RSHREGN. NO.BO-11-000-09-AADCR0379P-23 MIUTHICNEOFTE ACKI PARK STREET KOLKATA 700016 8",
+                "zone_id": 3,
+                "raw_text": "PLOT NO. 74, DIC INDL. AREA,\nBADDI 173 205 (H.P.)\nM.L.NO.HIM/COS/14/196\nMKTD.BYLIC.USERRSHGLOBALPVD\nTM OWNERS JOY CREATORS LLP\nRSHREGN. NO.BO-11-000-09-AADCR0379P-23\nMIUTHICNEOFTE ACKI\nPARK STREET KOLKATA 700016\n8",
+                "confidence": 0.606199324131012,
+                "box": [
+                    259,
+                    825,
+                    615,
+                    1398
+                ]
+            }
+        ]
+    },
+    "consumer_phone": {
+        "value": "18001205000",
+        "confidence": 0.9273721575737,
+        "evidence": [
+            {
+                "value": "18001205000",
+                "zone_id": 3,
+                "raw_text": "TOLLFREE:1800-1205-000",
+                "confidence": 0.9273721575737,
+                "box": [
+                    259,
+                    825,
+                    615,
+                    1398
+                ]
+            }
+        ]
+    },
+    "consumer_email": {
+        "value": "customercare@rshglobal.com",
+        "confidence": 0.8677158951759338,
+        "evidence": [
+            {
+                "value": "customercare@rshglobal.com",
+                "zone_id": 3,
+                "raw_text": "CUSTOMERCARE@RSHGLOBAL.COM",
+                "confidence": 0.8677158951759338,
+                "box": [
+                    259,
+                    825,
+                    615,
+                    1398
+                ]
+            }
+        ]
+    },
+    "fssai_license_no": {
+        "value": "NOT_APPLICABLE",
+        "confidence": null,
+        "evidence": []
+    },
+    "nutrition": {
+        "applicable": false,
+        "value": null
+    },
+    "raw_ocr_lines": [
+        {
+            "text": "HONEY&",
+            "normalized": "HONEY&",
+            "zone_id": 1,
+            "zone_box": [
+                274,
+                343,
+                605,
+                602
+            ],
+            "confidence": 0.9996007084846497,
+            "index": 0
+        },
+        {
+            "text": "ALMONDS",
+            "normalized": "ALMONDS",
+            "zone_id": 1,
+            "zone_box": [
+                274,
+                343,
+                605,
+                602
+            ],
+            "confidence": 0.9999871253967285,
+            "index": 1
+        },
+        {
+            "text": "FEEL ON SKIN",
+            "normalized": "FEEL ON SKIN",
+            "zone_id": 1,
+            "zone_box": [
+                274,
+                343,
+                605,
+                602
+            ],
+            "confidence": 0.9934038519859314,
+            "index": 2
+        },
+        {
+            "text": "LIGHT",
+            "normalized": "LIGHT",
+            "zone_id": 1,
+            "zone_box": [
+                274,
+                343,
+                605,
+                602
+            ],
+            "confidence": 0.9999499320983887,
+            "index": 3
+        },
+        {
+            "text": "DEEP",
+            "normalized": "DEEP",
+            "zone_id": 1,
+            "zone_box": [
+                274,
+                343,
+                605,
+                602
+            ],
+            "confidence": 0.9999677538871765,
+            "index": 4
+        },
+        {
+            "text": "Honey locks i",
+            "normalized": "Honey locks i",
+            "zone_id": 1,
+            "zone_box": [
+                274,
+                343,
+                605,
+                602
+            ],
+            "confidence": 0.9970964789390564,
+            "index": 5
+        },
+        {
+            "text": "Almond Oil softens",
+            "normalized": "Almond Oil softens",
+            "zone_id": 1,
+            "zone_box": [
+                274,
+                343,
+                605,
+                602
+            ],
+            "confidence": 0.9976761341094971,
+            "index": 6
+        },
+        {
+            "text": "nourishes dry skin",
+            "normalized": "nourishes dry skin",
+            "zone_id": 1,
+            "zone_box": [
+                274,
+                343,
+                605,
+                602
+            ],
+            "confidence": 0.9998438954353333,
+            "index": 7
+        },
+        {
+            "text": "*49.00#09/25",
+            "normalized": "*49.00#09/25",
+            "zone_id": 2,
+            "zone_box": [
+                293,
+                596,
+                569,
+                727
+            ],
+            "confidence": 0.9964823126792908,
+            "index": 0
+        },
+        {
+            "text": "BR2E2584",
+            "normalized": "BR2E2584",
+            "zone_id": 2,
+            "zone_box": [
+                293,
+                596,
+                569,
+                727
+            ],
+            "confidence": 0.9999926090240479,
+            "index": 1
+        },
+        {
+            "text": "@08/28,1.23/ml",
+            "normalized": "@08/28,1.23/ml",
+            "zone_id": 2,
+            "zone_box": [
+                293,
+                596,
+                569,
+                727
+            ],
+            "confidence": 0.9895113706588745,
+            "index": 2
+        },
+        {
+            "text": "nourishes",
+            "normalized": "nourishes",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9999821186065674,
+            "index": 0
+        },
+        {
+            "text": "repairs",
+            "normalized": "repairs",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9998117685317993,
+            "index": 1
+        },
+        {
+            "text": "protects",
+            "normalized": "protects",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9984322786331177,
+            "index": 2
+        },
+        {
+            "text": "0% harmful chemicals,100% safe on skin",
+            "normalized": "0% harmful chemicals,100% safe on skin",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9817261695861816,
+            "index": 3
+        },
+        {
+            "text": "HOW TO USE: Apply generously all over",
+            "normalized": "HOW TO USE: Apply generously all over",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9963915944099426,
+            "index": 4
+        },
+        {
+            "text": "your body.",
+            "normalized": "your body.",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9999569654464722,
+            "index": 5
+        },
+        {
+            "text": "BODY LOTION. MADE IN INDIA BY:",
+            "normalized": "BODY LOTION. MADE IN INDIA BY:",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9966350793838501,
+            "index": 6
+        },
+        {
+            "text": "90250",
+            "normalized": "90250",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.7484372854232788,
+            "index": 7
+        },
+        {
+            "text": "RSH GLOBAL PVT. LTD.",
+            "normalized": "RSH GLOBAL PVT. LTD.",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.97090083360672,
+            "index": 8
+        },
+        {
+            "text": "PLOT NO. 74, DIC INDL. AREA,",
+            "normalized": "PLOT NO. 74, DIC INDL. AREA,",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9751516580581665,
+            "index": 9
+        },
+        {
+            "text": "BADDI 173 205 (H.P.)",
+            "normalized": "BADDI 173 205 (H.P.)",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.969285786151886,
+            "index": 10
+        },
+        {
+            "text": "M.L.NO.HIM/COS/14/196",
+            "normalized": "M.L.NO.HIM/COS/14/196",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9981901049613953,
+            "index": 11
+        },
+        {
+            "text": "MKTD.BYLIC.USERRSHGLOBALPVD",
+            "normalized": "MKTD.BYLIC.USERRSHGLOBALPVD",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.7960601449012756,
+            "index": 12
+        },
+        {
+            "text": "TM OWNERS JOY CREATORS LLP",
+            "normalized": "TM OWNERS JOY CREATORS LLP",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9961381554603577,
+            "index": 13
+        },
+        {
+            "text": "RSHREGN. NO.BO-11-000-09-AADCR0379P-23",
+            "normalized": "RSHREGN. NO.BO-11-000-09-AADCR0379P-23",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9437770843505859,
+            "index": 14
+        },
+        {
+            "text": "MIUTHICNEOFTE ACKI",
+            "normalized": "MIUTHICNEOFTE ACKI",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.606199324131012,
+            "index": 15
+        },
+        {
+            "text": "CUSTOMER CARE-QUERY/FEEDBACK:",
+            "normalized": "CUSTOMER CARE-QUERY/FEEDBACK:",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9816031455993652,
+            "index": 16
+        },
+        {
+            "text": "RSH GLOBAL PVT.LTD. 119.",
+            "normalized": "RSH GLOBAL PVT.LTD. 119.",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9052014946937561,
+            "index": 17
+        },
+        {
+            "text": "PARK STREET KOLKATA 700016",
+            "normalized": "PARK STREET KOLKATA 700016",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.899708092212677,
+            "index": 18
+        },
+        {
+            "text": "8",
+            "normalized": "8",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9998137354850769,
+            "index": 19
+        },
+        {
+            "text": "TOLLFREE:1800-1205-000",
+            "normalized": "TOLLFREE:1800-1205-000",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9273721575737,
+            "index": 20
+        },
+        {
+            "text": "CUSTOMERCARE@RSHGLOBAL.COM",
+            "normalized": "CUSTOMERCARE@RSHGLOBAL.COM",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.8677158951759338,
+            "index": 21
+        },
+        {
+            "text": "LOPE",
+            "normalized": "LOPE",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9602788686752319,
+            "index": 22
+        },
+        {
+            "text": "RSIK",
+            "normalized": "RSIK",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.775795042514801,
+            "index": 23
+        },
+        {
+            "text": "NET VOL",
+            "normalized": "NET VOL",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9628035426139832,
+            "index": 24
+        },
+        {
+            "text": "40ml",
+            "normalized": "40ml",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9996932744979858,
+            "index": 25
+        },
+        {
+            "text": "WHEN PACKED",
+            "normalized": "WHEN PACKED",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.9593753218650818,
+            "index": 26
+        },
+        {
+            "text": "*MRP(INCL. OF ALLTAXES)",
+            "normalized": "*MRP(INCL. OF ALLTAXES)",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.8827403783798218,
+            "index": 27
+        },
+        {
+            "text": ") #MFD.B.NO.,",
+            "normalized": ") #MFD.B.NO.,",
+            "zone_id": 3,
+            "zone_box": [
+                259,
+                825,
+                615,
+                1398
+            ],
+            "confidence": 0.8685623407363892,
+            "index": 28
+        }
+    ]
+}

@@ -325,16 +325,29 @@
 
         clearAllBtn.addEventListener('click', clearAllImages);
 
+        const MIN_IMAGES_REQUIRED = 2;
+
         // ANALYZE ACTION: Sends payload to Django backend
         analyzeBtn.addEventListener('click', async () => {
             if (capturedImages.length === 0) return;
+
+            if (capturedImages.length < MIN_IMAGES_REQUIRED) {
+                alert(
+                    `Please provide at least ${MIN_IMAGES_REQUIRED} photos covering the whole packet ` +
+                    `(front and back, and any side panels with extra declarations) - a single photo ` +
+                    `rarely shows every mandatory declaration required for a compliance check.`
+                );
+                return;
+            }
 
             analyzeBtn.disabled = true;
             analyzeBtn.textContent = 'Processing...';
 
             const formData = new FormData();
-            const primaryImageBlob = dataURLtoBlob(capturedImages[0].dataUrl);
-            formData.append('image', primaryImageBlob, 'product_scan.jpg');
+            capturedImages.forEach((img, i) => {
+                const blob = dataURLtoBlob(img.dataUrl);
+                formData.append('images', blob, `product_scan_${i}.jpg`);
+            });
             formData.append('product_name', 'Scanned Product');
             formData.append('category', 'Packaged Goods');
 
@@ -342,7 +355,8 @@
                 const response = await fetch("{% url 'scan' %}", {
                     method: 'POST',
                     headers: {
-                        'X-CSRFToken': getCookie('csrftoken')
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     body: formData
                 });
@@ -354,6 +368,11 @@
                     if (data.redirect_url) {
                         window.location.href = data.redirect_url;
                     }
+                } else if (response.status === 400) {
+                    const data = await response.json();
+                    alert(data.error || 'Please provide more photos of the pack.');
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.textContent = 'Analyze Product →';
                 } else {
                     alert('Scan upload failed. Please try again.');
                     analyzeBtn.disabled = false;
