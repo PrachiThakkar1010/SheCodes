@@ -5,7 +5,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from products.models import ProductScan
-from .models import UserProfile
+from .models import UserProfile, CompanyProfile
+
 
 
 def register_view(request):
@@ -13,6 +14,7 @@ def register_view(request):
         return redirect('dashboard')
 
     if request.method == 'POST':
+        user_type = request.POST.get('user_type', 'consumer').strip()
         username = request.POST.get('username', '').strip()
         email = request.POST.get('email', '').strip()
         name = request.POST.get('name', '').strip()
@@ -24,6 +26,13 @@ def register_view(request):
         if not username or not email or not password:
             messages.error(request, 'Please fill in all required fields.')
             return render(request, 'register.html')
+
+        if user_type == 'company':
+            company_name = request.POST.get('company_name', '').strip()
+            gst_number = request.POST.get('gst_number', '').strip()
+            if not company_name or not gst_number:
+                messages.error(request, 'Company name and GSTIN are required.')
+                return render(request, 'register.html')
 
         if password != confirm_password:
             messages.error(request, 'Passwords do not match.')
@@ -37,44 +46,53 @@ def register_view(request):
             messages.error(request, 'Email is already registered.')
             return render(request, 'register.html')
 
-        # Create user
+        # Create user (adjust user_type storage if stored on custom User or profile)
         user = User.objects.create_user(
             username=username,
             email=email,
             password=password,
-            first_name=name
+            first_name=name if user_type == 'consumer' else ''
         )
 
-        # Create profile with mobile number
-        UserProfile.objects.create(user=user, mobile_number=mobile)
+        # If user_type is stored on user model attribute:
+        if hasattr(user, 'user_type'):
+            user.user_type = user_type
+            user.save()
 
-        # Log in and redirect to dashboard
+        # Create profile types
+        if user_type == 'company':
+            CompanyProfile.objects.create(
+                user=user,
+                company_name=request.POST.get('company_name', '').strip(),
+                gst_number=request.POST.get('gst_number', '').strip()
+            )
+        else:
+            UserProfile.objects.create(user=user, mobile_number=mobile)
+
+        # Log in and redirect
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         messages.success(request, f'Welcome to Parakh, {user.username}!')
-        return redirect('dashboard')
+
+        return redirect('company_dashboard' if user_type == 'company' else 'dashboard')
 
     return render(request, 'register.html')
 
 
 def login_view(request):
-    if request.user.is_authenticated:
-        return redirect('dashboard')
-
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, f'Login successful, {username}!')
-                return redirect('dashboard')
-        messages.error(request, 'Invalid username or password.')
-    else:
-        form = AuthenticationForm()
-
-    return render(request, 'login.html', {'form': form})
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            is_company = hasattr(user, 'companyprofile') or getattr(user, 'user_type', None) == 'company'
+            if is_company:
+                return redirect('company_dashboard')
+            return redirect('dashboard')
+        else:
+            # Handle error/invalid credentials
+            pass
+    return render(request, 'login.html')
 
 
 def logout_view(request):
@@ -82,10 +100,8 @@ def logout_view(request):
     messages.info(request, 'You have been successfully logged out.')
     return redirect('login')
 
-
 def forgot_password_view(request):
     return render(request, 'forgot-password.html')
-
 
 @login_required(login_url='login')
 def dashboard_view(request):
@@ -141,3 +157,10 @@ def history_view(request):
         'total_scans_count': ProductScan.objects.filter(user=request.user).count(),
     }
     return render(request, 'history.html', context)
+
+@login_required(login_url='login')
+def company_dashboard(request):
+    is_company = hasattr(request.user, 'companyprofile') or getattr(request.user, 'user_type', None) == 'company'
+    if not is_company:
+        return redirect('home')
+    return render(request, 'company_dashboard.html')

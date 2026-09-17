@@ -32,7 +32,7 @@
         </div>
         <nav class="nav-links">
             {% if request.user.is_authenticated %}
-            <!-- Logged-in view: Login is hidden; Home, Scan, Rules, and Dashboard profile icon are visible -->
+            <!-- Logged-in view: Login is hidden; Home, Studio, Scan, Rules, and Dashboard profile icon are visible -->
             <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'scan' %}">Scan</a>
             <a href="{% url 'rules' %}">Rules</a>
@@ -51,8 +51,9 @@
                 </div>
             </div>
             {% else %}
-            <!-- Guest view: Home, Scan, Rules, and Login are visible; Profile icon is hidden -->
+            <!-- Guest view: Home, Studio, Scan, Rules, and Login are visible; Profile icon is hidden -->
             <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'studio' %}">Studio</a>
             <a href="{% url 'scan' %}">Scan</a>
             <a href="{% url 'rules' %}">Rules</a>
             <a href="{% url 'login' %}" class="login-link">Login</a>

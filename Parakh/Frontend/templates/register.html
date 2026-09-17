@@ -7,6 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Parakh</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .role-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            background: rgba(0,0,0,0.03);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+        .role-option {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        /* Matching block styling for company input wrappers to inherit form styling properly */
+        .company_name, .gst_number {
+            margin-bottom: 1rem; /* match your form spacing class if any */
+        }
+        .company_name input, .gst_number input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 
 <body>
@@ -45,8 +73,30 @@
 
             <form action="{% url 'register' %}" method="POST" class="registerForm" id="registerForm">
                 {% csrf_token %}
-                <!-- Step 1: Basic details -->
+                <!-- Step 1: Role Selection & Basic Details -->
                 <div class="form-step" id="step1">
+                    <div class="role-selector">
+                        <label class="role-option">
+                            <input type="radio" name="user_type" value="consumer" checked> Consumer
+                        </label>
+                        <label class="role-option">
+                            <input type="radio" name="user_type" value="company"> Company
+                        </label>
+                    </div>
+
+                    <!-- Company-specific fields container -->
+                    <div id="companyFields" style="display: none;">
+                        <div class="username">
+                            <label for="company_name">Company Name<span class="required-asterisk">*</span></label>
+                            <input type="text" id="company_name" name="company_name" placeholder="Enter company legal name">
+                        </div>
+
+                        <div class="username">
+                            <label for="gst_number">GSTIN / Registration No.<span class="required-asterisk">*</span></label>
+                            <input type="text" id="gst_number" name="gst_number" placeholder="Enter GSTIN or business ID">
+                        </div>
+                    </div>
+
                     <div class="username">
                         <label for="username">Username<span class="required-asterisk">*</span></label>
                         <input type="text" id="username" name="username" placeholder="Choose a username" required>
@@ -57,8 +107,9 @@
                         <input type="email" id="email" name="email" placeholder="Enter your email" required>
                     </div>
 
-                    <div class="name">
-                        <label for="name">Name</label>
+                    <!-- Full Name Field (Hidden for Company) -->
+                    <div class="name" id="fullNameWrapper">
+                        <label for="name">Full Name</label>
                         <input type="text" id="name" name="name" placeholder="Enter your full name">
                     </div>
 
@@ -117,8 +168,53 @@
 
         const usernameInput = document.getElementById("username");
         const emailInput = document.getElementById("email");
+        const nameInput = document.getElementById("name");
+
+        // Role & company elements
+        const roleRadios = document.querySelectorAll('input[name="user_type"]');
+        const companyFields = document.getElementById("companyFields");
+        const companyNameInput = document.getElementById("company_name");
+        const gstInput = document.getElementById("gst_number");
+        const fullNameWrapper = document.getElementById("fullNameWrapper");
+
+        // Toggle company fields & hide/show Full Name based on role selection
+        roleRadios.forEach(radio => {
+            radio.addEventListener("change", function () {
+                if (this.value === "company") {
+                    companyFields.style.display = "block";
+                    companyNameInput.required = true;
+                    gstInput.required = true;
+                    // Hide and clear full name for company
+                    fullNameWrapper.style.display = "none";
+                    nameInput.value = "";
+                } else {
+                    companyFields.style.display = "none";
+                    companyNameInput.required = false;
+                    gstInput.required = false;
+                    fullNameWrapper.style.display = "block";
+                }
+                step1Error.style.display = "none";
+            });
+        });
 
         nextBtn.addEventListener("click", function () {
+            const selectedRole = document.querySelector('input[name="user_type"]:checked').value;
+
+            if (selectedRole === "company") {
+                if (!companyNameInput.value.trim()) {
+                    step1Error.textContent = "Company name is required.";
+                    step1Error.style.display = "block";
+                    companyNameInput.focus();
+                    return;
+                }
+                if (!gstInput.value.trim()) {
+                    step1Error.textContent = "GSTIN / Registration number is required.";
+                    step1Error.style.display = "block";
+                    gstInput.focus();
+                    return;
+                }
+            }
+
             if (!usernameInput.value.trim()) {
                 step1Error.textContent = "Username is required.";
                 step1Error.style.display = "block";

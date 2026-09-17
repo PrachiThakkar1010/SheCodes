@@ -1,4 +1,4 @@
-{%load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
-    <link rel = "stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
@@ -44,7 +44,7 @@
         <h2>Login</h2>
         <p class="login-subtext">We promise this login is 100% preservative-free</p>
 
-        <form action="/login/" method="POST" class="loginForm">
+        <form action="{% url 'login' %}" method="POST" class="loginForm">
             {% csrf_token %}
             <div class="username">
                 <label for="username">Username</label>
@@ -53,14 +53,14 @@
 
             <div class="password">
                 <label for="password">Password</label>
-                <input type="password" id="password" name = "password" placeholder="Enter your password" required>
-                <a href="/forgot-password">Forgot Password?</a>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <a href="{% url 'forgot_password' %}">Forgot Password?</a>
             </div>
 
             <button type="submit">Login</button>
-            </form>
+        </form>
         <div class="new-user">
-            <a href="/register">New to Parakh? Click to register</a>
+            <a href="{% url 'register' %}">New to Parakh? Click to register</a>
         </div>
     </div>
     </main>
