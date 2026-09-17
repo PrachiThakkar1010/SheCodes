@@ -1,16 +1,12 @@
 from django.db import models
-
-from django.db import models
 from django.contrib.auth.models import User
 
 class ProductScan(models.Model):
     STATUS_CHOICES = [
         ('PENDING', 'Pending'),
-        ('PROCESSING', 'Processing'),
         ('COMPLIANT', 'Compliant'),
         ('NON_COMPLIANT', 'Non-Compliant'),
         ('NEEDS_MORE_IMAGES', 'Needs More Images'),
-        ('FAILED', 'Failed'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='scans', null=True, blank=True)
@@ -97,4 +93,9 @@ class ExtractedLabelData(models.Model):
     fssai_license_no = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"OCR Data for Scan #{self.scan.id}"
+        return f"{self.product_name or 'Scan'} - {self.scanned_at.strftime('%d %b %Y')}"
+class ScanViolation(models.Model):
+    scan = models.ForeignKey(ProductScan, on_delete=models.CASCADE, related_name='violations')
+    rule_name = models.CharField(max_length=255)
+    description = models.TextField()
+    severity = models.CharField(max_length=50, default='High')  # High, Medium, Low

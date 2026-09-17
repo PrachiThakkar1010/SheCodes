@@ -24,7 +24,8 @@
         {% endfor %}
     </div>
     {% endif %}
-    <header class="navbar">
+
+<header class="navbar">
 
     <div class="logo-image">
         <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
@@ -40,6 +41,11 @@
 
             <!-- Logged-in view -->
             <a href="{% url 'home' %}">Home</a>
+
+            <!-- Company users get access to Studio -->
+            {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                <a href="{% url 'studio' %}">Studio</a>
+            {% endif %}
 
             <a href="{% url 'scan' %}">Scan</a>
 
@@ -81,15 +87,22 @@
 
                 <div class="profile-dropdown">
 
-                    <a href="{% url 'dashboard' %}">
-                        Dashboard
-                    </a>
+                    <!-- Different dashboard for company and normal users -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% else %}
+                        <a href="{% url 'dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% endif %}
 
                     <a href="{% url 'profile' %}">
                         Profile
                     </a>
 
-                    <!-- Complaints only inside dropdown -->
+                    <!-- Complaints -->
                     <a href="{% url 'complaint_list' %}">
                         Complaints
                     </a>
@@ -126,6 +139,9 @@
     </nav>
 
 </header>
+
+
+
 
     <main>
 

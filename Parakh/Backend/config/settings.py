@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ir5sxvp9tte)xt9&gnkjm%i##34hdy&7x!x*-nq=sg3y3dc-qd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'products',
     'ocr',
     'compliance',
-    'complaint',
+    'package_designer',
 ]
 
 MIDDLEWARE = [
@@ -134,6 +134,8 @@ STATICFILES_DIRS = [
     BASE_DIR.parent / 'Frontend' / 'assets',
 ]
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
@@ -146,3 +148,7 @@ MAILERS = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+import os
+
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")

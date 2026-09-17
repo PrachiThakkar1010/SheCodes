@@ -1,4 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
+from django.urls import reverse
+from .models import ProductScan, ScanViolation
+from .compliance_engine import audit_compliance_vision
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.urls import reverse
@@ -57,7 +61,6 @@ def scan_view(request):
         return redirect('result', scan_id=scan.id)
 
     return render(request, 'scan.html')
-
 
 def result_view(request, scan_id):
     if request.user.is_authenticated:
@@ -302,3 +305,4 @@ def history_view(request):
 def rules_view(request):
     rules = ComplianceRule.objects.filter(is_active=True)
     return render(request, 'rules.html', {'rules': rules})
+
