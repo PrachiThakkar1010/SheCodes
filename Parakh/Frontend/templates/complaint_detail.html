@@ -1,0 +1,613 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Complaint Details - Parakh</title>
+
+    <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
+
+    <header class="navbar">
+
+        <div class="logo-image">
+            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+        </div>
+
+        <div class="logo">
+            <a href="{% url 'home' %}">PARAKH</a>
+        </div>
+
+        <nav class="nav-links">
+
+            {% if request.user.is_authenticated %}
+
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+
+            <div class="profile-menu">
+
+                <button type="button" class="profile-icon" aria-haspopup="true" aria-expanded="false"
+                    aria-label="Account menu">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2" />
+
+                        <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+
+                <div class="profile-dropdown">
+
+                    <a href="{% url 'dashboard' %}">
+                        Dashboard
+                    </a>
+
+                    <a href="{% url 'profile' %}">
+                        Profile
+                    </a>
+
+                    <a href="{% url 'complaint_list' %}">
+                        Complaints
+                    </a>
+
+                    <a href="{% url 'logout' %}" class="btn-logout-dropdown">
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'scan' %}">Scan</a>
+            <a href="{% url 'rules' %}">Rules</a>
+
+            <a href="{% url 'login' %}" class="login-link">
+                Login
+            </a>
+
+            {% endif %}
+
+        </nav>
+
+    </header>
+
+
+    <!-- =====================================================
+         COMPLAINT DETAIL PAGE
+         ===================================================== -->
+
+    <main class="complaint-detail-main">
+
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <div class="complaint-detail-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    PARAKH • COMPLAINT
+                </span>
+
+                <h1>
+                    Jaanch #{{ complaint.complaint_number }}
+                </h1>
+
+                <p>
+                    {{ complaint.subject }}
+                </p>
+
+            </div>
+
+
+            <!-- Current Status -->
+
+            <div class="complaint-detail-status">
+
+                <span class="tracking-status">
+
+                    {% if complaint.status == 'REGISTERED' %}
+                    Registered
+
+                    {% elif complaint.status == 'FORWARDED' %}
+                    Forwarded to Company
+
+                    {% elif complaint.status == 'RESPONDED' %}
+                    Initial Response
+
+                    {% elif complaint.status == 'COMPLETED' %}
+                    Completed
+
+                    {% elif complaint.status == 'Submitted' %}
+                    Registered
+
+                    {% else %}
+                    {{ complaint.status }}
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= COMPLAINT PROGRESS ================= -->
+
+        <section class="complaint-progress-card">
+
+            <div class="complaint-progress-header">
+                <div>
+                    <h2>Complaint Progress</h2>
+                    <p>Track the progress of your complaint through Parakh.</p>
+                </div>
+            </div>
+
+            <div class="complaint-progress-divider"></div>
+
+            <div class="complaint-tracking">
+
+                <div class="tracking-line">
+                    <div class="tracking-line-fill" style="width:
+                 {% if current_stage_index == 0 %}0%
+                 {% elif current_stage_index == 1 %}33.33%
+                 {% elif current_stage_index == 2 %}66.66%
+                 {% else %}100%
+                 {% endif %};">
+                    </div>
+                </div>
+
+
+                {% for stage in tracking_stages %}
+
+                <div class="tracking-step
+            {% if stage.completed %}completed{% endif %}
+            {% if stage.active %}current{% endif %}">
+
+                    <div class="tracking-point">
+
+                        {% if stage.completed %}
+                        <span class="tracking-check">✓</span>
+                        {% else %}
+                        <span>{{ forloop.counter }}</span>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="tracking-step-content">
+
+                        <h3>{{ stage.label }}</h3>
+
+                        {% if stage.key == 'REGISTERED' %}
+
+                        <p>
+                            Your complaint has been successfully registered.
+                        </p>
+
+                        {% elif stage.key == 'FORWARDED' %}
+
+                        <p>
+                            The complaint has been forwarded to the concerned company.
+                        </p>
+
+                        {% elif stage.key == 'RESPONDED' %}
+
+                        <p>
+                            {% if complaint.initial_response %}
+                            The company has provided its initial response.
+                            {% else %}
+                            The company can provide its initial response through Parakh.
+                            {% endif %}
+                        </p>
+
+                        {% elif stage.key == 'COMPLETED' %}
+
+                        <p>
+                            {% if complaint.completed_at %}
+                            The complaint has been marked as completed.
+                            {% else %}
+                            The complaint has not been completed yet.
+                            {% endif %}
+                        </p>
+
+                        {% endif %}
+
+
+                        {% if stage.timestamp %}
+
+                        <span class="tracking-date">
+                            {{ stage.timestamp|date:"d M Y, h:i A" }}
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+        <!-- =================================================
+             COMPLAINT INFORMATION
+             ================================================= -->
+
+        <section class="complaint-detail-card">
+
+            <div class="complaint-detail-section-header">
+
+                <div>
+
+                    <h2>
+                        Complaint Information
+                    </h2>
+
+                    <p>
+                        Details submitted with this complaint.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="complaint-detail-grid">
+
+
+                <!-- Product -->
+
+                <div class="complaint-detail-field">
+
+                    <span class="complaint-detail-label">
+                        Product
+                    </span>
+
+                    <span class="complaint-detail-value">
+                        {{ complaint.product_name }}
+                    </span>
+
+                </div>
+
+
+                <!-- Company -->
+
+                <div class="complaint-detail-field">
+
+                    <span class="complaint-detail-label">
+                        Company
+                    </span>
+
+                    <span class="complaint-detail-value">
+                        {{ complaint.company_name }}
+                    </span>
+
+                </div>
+
+
+                <!-- Violation -->
+
+                <div class="complaint-detail-field complaint-detail-field-full">
+
+                    <span class="complaint-detail-label">
+                        Violation
+                    </span>
+
+                    <span class="complaint-detail-value">
+                        {{ complaint.violation_category }}
+                    </span>
+
+                </div>
+
+
+                <!-- Submitted -->
+
+                <div class="complaint-detail-field">
+
+                    <span class="complaint-detail-label">
+                        Submitted
+                    </span>
+
+                    <span class="complaint-detail-value">
+                        {{ complaint.submitted|date:"d M Y, h:i A" }}
+                    </span>
+
+                </div>
+
+
+                <!-- Complaint ID -->
+
+                <div class="complaint-detail-field">
+
+                    <span class="complaint-detail-label">
+                        Complaint ID
+                    </span>
+
+                    <span class="complaint-detail-value">
+                        #{{ complaint.complaint_id }}
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             USER DESCRIPTION
+             ================================================= -->
+
+        <section class="complaint-detail-card">
+
+            <div class="complaint-detail-section-header">
+
+                <div>
+
+                    <h2>
+                        Your Complaint
+                    </h2>
+
+                    <p>
+                        Information submitted when the complaint was filed.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="complaint-description-box">
+
+                {{ complaint.description|linebreaks }}
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             COMPANY INITIAL RESPONSE
+             ================================================= -->
+
+        <section class="complaint-detail-card">
+
+            <div class="complaint-detail-section-header">
+
+                <div>
+
+                    <h2>
+                        Company's Initial Response
+                    </h2>
+
+                    <p>
+                        The response provided by the company through Parakh.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if complaint.initial_response %}
+
+            <div class="complaint-company-response">
+
+                <div class="complaint-company-response-header">
+
+                    <span class="complaint-company-response-label">
+                        Company Response
+                    </span>
+
+                    {% if complaint.initial_response_at %}
+                    <span class="complaint-company-response-date">
+                        {{ complaint.initial_response_at|date:"d M Y, h:i A" }}
+                    </span>
+                    {% endif %}
+
+                </div>
+
+                <div class="complaint-company-response-text">
+
+                    {{ complaint.initial_response|linebreaks }}
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="complaint-response-empty">
+
+                <div class="complaint-response-empty-icon">
+                    …
+                </div>
+
+                <div>
+
+                    <h3>
+                        Awaiting initial response
+                    </h3>
+
+                    <p>
+                        The company has not provided an initial response yet.
+                        Once submitted, it will appear here.
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- =================================================
+             PRODUCT EVIDENCE
+             ================================================= -->
+
+        <section class="complaint-detail-card">
+
+            <div class="complaint-detail-section-header">
+
+                <div>
+
+                    <h2>
+                        Product Evidence
+                    </h2>
+
+                    <p>
+                        Original product images submitted during the scan.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if scan_images %}
+
+            <div class="evidence-grid">
+
+                {% for scan_image in scan_images %}
+
+                <figure class="evidence-item">
+
+                    <div class="evidence-image-wrapper">
+
+                        <a href="{{ scan_image.image.url }}" target="_blank" rel="noopener noreferrer">
+
+                            <img src="{{ scan_image.image.url }}" alt="Product evidence image {{ forloop.counter }}">
+
+                        </a>
+
+                    </div>
+
+                    <figcaption>
+                        Product Image {{ forloop.counter }}
+                    </figcaption>
+
+                </figure>
+
+                {% endfor %}
+
+            </div>
+
+            <p class="evidence-note">
+                These are the original product scan images associated
+                with this complaint and form part of the supporting evidence.
+            </p>
+
+            {% else %}
+
+            <div class="complaint-no-evidence">
+
+                No product images are available for this complaint.
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+
+
+        <!-- =================================================
+             ACTIONS
+             ================================================= -->
+
+        <div class="complaint-detail-actions">
+
+            <a href="{% url 'complaint_list' %}" class="complaint-secondary-btn">
+                ← Back to Complaints
+            </a>
+
+
+            {% if complaint.scan %}
+
+            <a href="{% url 'result' complaint.scan.id %}?from_complaint=1" class="complaint-primary-btn">
+                View Compliance Report
+            </a>
+
+            {% endif %}
+
+        </div>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         PROFILE DROPDOWN SCRIPT
+         ===================================================== -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const profileMenu = document.querySelector(".profile-menu");
+            const profileButton = document.querySelector(".profile-icon");
+
+            if (!profileMenu || !profileButton) {
+                return;
+            }
+
+            profileButton.addEventListener("click", function (event) {
+
+                event.stopPropagation();
+
+                const isOpen =
+                    profileMenu.classList.toggle("active");
+
+                profileButton.setAttribute(
+                    "aria-expanded",
+                    isOpen ? "true" : "false"
+                );
+
+            });
+
+
+            document.addEventListener("click", function (event) {
+
+                if (!profileMenu.contains(event.target)) {
+
+                    profileMenu.classList.remove("active");
+
+                    profileButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>

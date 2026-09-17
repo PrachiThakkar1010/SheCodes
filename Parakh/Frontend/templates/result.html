@@ -1,213 +1,650 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Scan Report - Parakh</title>
+
     <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
+
 <body>
 
-    <header class="navbar no-print">
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
         <div class="logo-image">
             <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
         </div>
+
         <div class="logo">
-            <a href="{% url 'home' %}">PARAKH</a>
+            <a href="{% url 'home' %}">
+                PARAKH
+            </a>
         </div>
+
         <nav class="nav-links">
+
             {% if request.user.is_authenticated %}
-            <!-- Logged-in view: Login is hidden; Home, Scan, Rules, and Dashboard profile icon are visible -->
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'scan' %}">Scan</a>
-            <a href="{% url 'rules' %}">Rules</a>
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'scan' %}">
+                Scan
+            </a>
+
+            <a href="{% url 'rules' %}">
+                Rules
+            </a>
+
             <div class="profile-menu">
+
                 <button type="button" class="profile-icon" aria-haspopup="true" aria-expanded="false"
                     aria-label="Account menu">
+
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
                         <circle cx="12" cy="8" r="4" stroke="#073b70" stroke-width="2" />
+
                         <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#073b70" stroke-width="2" stroke-linecap="round" />
+
                     </svg>
+
                 </button>
+
+
                 <div class="profile-dropdown">
-                    <a href="{% url 'dashboard' %}">Dashboard</a>
-                    <a href="{% url 'profile' %}">Profile</a>
-                    <a href="{% url 'logout' %}" class="btn-logout-dropdown">Logout</a>
+
+                    <a href="{% url 'dashboard' %}">
+                        Dashboard
+                    </a>
+
+                    <a href="{% url 'profile' %}">
+                        Profile
+                    </a>
+
+                    <a href="{% url 'complaint_list' %}">
+                        Complaints
+                    </a>
+
+                    <a href="{% url 'logout' %}" class="btn-logout-dropdown">
+                        Logout
+                    </a>
+
                 </div>
+
             </div>
+
             {% else %}
-            <!-- Guest view: Home, Scan, Rules, and Login are visible; Profile icon is hidden -->
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'scan' %}">Scan</a>
-            <a href="{% url 'rules' %}">Rules</a>
-            <a href="{% url 'login' %}" class="login-link">Login</a>
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'scan' %}">
+                Scan
+            </a>
+
+            <a href="{% url 'rules' %}">
+                Rules
+            </a>
+
+            <a href="{% url 'login' %}" class="login-link">
+                Login
+            </a>
+
             {% endif %}
+
         </nav>
+
     </header>
+
+
+    <!-- =====================================================
+         MAIN REPORT
+    ====================================================== -->
 
     <main class="result-main">
 
-        <!-- Report header with print action -->
-        <div class="result-header">
-            <div class="result-header-text">
-                <p class="eyebrow">Report</p>
-                <h1>{{ product_name_display|default:scan.product_name|default:"Unnamed Product" }}</h1>
-                <p class="result-subtext">Analyzed on {{ scan.scanned_at|date:"d F Y, g:i A" }}</p>
-            </div>
+        <!-- =================================================
+     TOP NAVIGATION
+================================================== -->
 
-            <button type="button" class="btn-secondary btn-print no-print" id="printBtn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 9V2H18V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M6 18H4C3.44772 18 3 17.5523 3 17V11C3 10.4477 3.44772 10 4 10H20C20.5523 10 21 10.4477 21 11V17C21 17.5523 20.5523 18 20 18H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <rect x="6" y="14" width="12" height="8" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                </svg>
-                Print Report
-            </button>
+        {% if user.is_authenticated %}
+
+        <div class="report-top-navigation">
+
+            {% if from_complaint and existing_complaint %}
+
+            <!-- Opened from Complaint Details -->
+            <a href="{% url 'complaint_detail' existing_complaint.complaint_id %}" class="back-complaint-btn">
+                ← Back to Complaint Details
+            </a>
+
+            {% elif from_complaint_form %}
+
+            <!-- Opened from Complaint Form -->
+            <a href="{% url 'complaint_home' %}?scan_id={{ scan.id }}" class="back-complaint-btn">
+                ← Back to Complaint Form
+            </a>
+
+            {% elif from_history %}
+
+            <!-- Opened from History -->
+            <a href="{% url 'history' %}" class="back-complaint-btn">
+                ← Back to History
+            </a>
+
+            {% if existing_complaint %}
+
+            <a href="{% url 'complaint_detail' existing_complaint.complaint_id %}" class="complaint-secondary-top-btn">
+                Go to Complaint Details
+            </a>
+
+            {% endif %}
+
+            {% elif existing_complaint %}
+
+            <!-- Normal report with an existing complaint -->
+            <a href="{% url 'complaint_detail' existing_complaint.complaint_id %}" class="complaint-secondary-top-btn">
+                Go to Complaint Details
+            </a>
+
+            {% endif %}
+
         </div>
 
-        {% if processing %}
-        <!-- Still processing (shouldn't normally be seen - run_scan() runs synchronously - but kept as a safe fallback) -->
-        <section class="verdict-banner verdict-warning">
-            <div class="verdict-icon">⏳</div>
-            <div class="verdict-text">
-                <h2>Still Processing</h2>
-                <p>This scan is still being analyzed. Refresh this page in a moment.</p>
-            </div>
-        </section>
-
-        {% elif needs_more_images %}
-        <!-- Insufficient photo coverage to fairly judge compliance -->
-        <section class="verdict-banner verdict-warning">
-            <div class="verdict-icon">⚠</div>
-            <div class="verdict-text">
-                <h2>More Photos Needed</h2>
-                <p>{{ coverage_message }}</p>
-            </div>
-        </section>
-
-        {% else %}
-        <!-- Overall verdict banner -->
-        {% if is_compliant %}
-        <section class="verdict-banner verdict-safe">
-            <div class="verdict-icon">✓</div>
-            <div class="verdict-text">
-                <h2>Fully Compliant</h2>
-                <p>This product complies with the Legal Metrology labeling requirements checked by this system.</p>
-            </div>
-        </section>
-        {% else %}
-        <section class="verdict-banner verdict-warning">
-            <div class="verdict-icon">⚠</div>
-            <div class="verdict-text">
-                <h2>{{ violation_count }} Violation{{ violation_count|pluralize }} Found</h2>
-                <p>This product does not fully comply with Legal Metrology labeling requirements.</p>
-            </div>
-        </section>
         {% endif %}
 
-        <!-- ============================= -->
-        <!-- VIOLATIONS SECTION -->
-        <!-- ============================= -->
+
+        <!-- =================================================
+             REPORT HEADER
+        ================================================== -->
+
+        <div class="result-header">
+
+            <div class="result-header-text">
+
+                <p class="eyebrow">
+                    Report
+                </p>
+
+                <h1>
+                    {{ product_name_display|default:scan.product_name|default:"Unnamed Product" }}
+                </h1>
+
+                <p class="result-subtext">
+                    Analyzed on {{ scan.scanned_at|date:"d F Y, g:i A" }}
+                </p>
+
+            </div>
+
+
+            <!-- PRINT -->
+
+            <button type="button" class="btn-secondary btn-print no-print" id="printBtn">
+
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                    <path d="M6 9V2H18V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+
+                    <path
+                        d="M6 18H4C3.44772 18 3 17.5523 3 17V11C3 10.4477 3 10 4 10H20C20.5523 10 21 10.4477 21 11V17C21 17.5523 20.5523 18 18 18H18"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+
+                    <rect x="6" y="14" width="12" height="8" stroke="currentColor" stroke-width="2"
+                        stroke-linejoin="round" />
+
+                </svg>
+
+                Print Report
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             PROCESSING
+        ================================================== -->
+
+        {% if processing %}
+
+        <section class="verdict-banner verdict-warning">
+
+            <div class="verdict-icon">
+                ⏳
+            </div>
+
+            <div class="verdict-text">
+
+                <h2>
+                    Still Processing
+                </h2>
+
+                <p>
+                    This scan is still being analyzed.
+                    Refresh this page in a moment.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             NEEDS MORE IMAGES
+        ================================================== -->
+
+        {% elif needs_more_images %}
+
+        <section class="verdict-banner verdict-warning">
+
+            <div class="verdict-icon">
+                ⚠
+            </div>
+
+            <div class="verdict-text">
+
+                <h2>
+                    More Photos Needed
+                </h2>
+
+                <p>
+                    {{ coverage_message }}
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             COMPLETED REPORT
+        ================================================== -->
+
+        {% else %}
+
+
+        <!-- =============================================
+                 COMPLIANCE VERDICT
+            ============================================== -->
+
+        {% if is_compliant %}
+
+        <section class="verdict-banner verdict-safe">
+
+            <div class="verdict-icon">
+                ✓
+            </div>
+
+            <div class="verdict-text">
+
+                <h2>
+                    Fully Compliant
+                </h2>
+
+                <p>
+                    This product complies with the Legal Metrology
+                    labeling requirements checked by this system.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        {% else %}
+
+        <section class="verdict-banner verdict-warning">
+
+            <div class="verdict-icon">
+                ⚠
+            </div>
+
+            <div class="verdict-text">
+
+                <h2>
+                    {{ violation_count }}
+                    Violation{{ violation_count|pluralize }}
+                    Found
+                </h2>
+
+                <p>
+                    This product does not fully comply with
+                    Legal Metrology labeling requirements.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =============================================
+        FILE COMPLAINT
+        ================================================ -->
+
+        {% if not existing_complaint and not from_complaint and not from_complaint_form %}
+
+        <section class="report-complaint-box">
+
+            <div class="report-complaint-content">
+
+                <h2>
+                    Want to report this product?
+                </h2>
+
+                <p>
+                    Filing a complaint is optional. You can submit a complaint
+                    about this non-compliant product if you choose.
+                </p>
+
+            </div>
+
+            <a href="{% url 'complaint_home' %}?scan_id={{ scan.id }}" class="file-complaint-btn">
+                File a Complaint
+            </a>
+
+        </section>
+
+        {% endif %}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =============================================
+                 VIOLATIONS
+            ============================================== -->
+
         {% if violations %}
+
         <section class="report-section">
-            <h2 class="report-section-title">Violations</h2>
+
+            <h2 class="report-section-title">
+                Violations
+            </h2>
+
 
             {% for v in violations %}
+
             <div class="violation-card">
+
                 <div class="violation-header">
-                    <span class="violation-badge">Violation {{ v.index }}</span>
-                    <h3>{{ v.title }}</h3>
+
+                    <span class="violation-badge">
+                        Violation {{ v.index }}
+                    </span>
+
+                    <h3>
+                        {{ v.title }}
+                    </h3>
+
                 </div>
+
+
                 <p class="violation-what">
                     {{ v.details }}
                 </p>
+
+
                 <div class="violation-rule">
-                    <span class="rule-label">Violated Rule</span>
-                    <p>{{ v.rule_citation }}</p>
+
+                    <span class="rule-label">
+                        Violated Rule
+                    </span>
+
+                    <p>
+                        {{ v.rule_citation }}
+                    </p>
+
                 </div>
+
             </div>
+
             {% endfor %}
+
         </section>
+
         {% endif %}
 
-        <!-- ============================= -->
-        <!-- NUTRITIONAL VALUES SECTION -->
-        <!-- ============================= -->
+
+        <!-- =============================================
+                 NUTRITIONAL VALUES
+            ============================================== -->
+
         {% if nutrition_rows %}
+
         <section class="report-section">
-            <h2 class="report-section-title">Nutritional Values</h2>
-            <p class="report-section-subtext">As declared on the package label.</p>
+
+            <h2 class="report-section-title">
+                Nutritional Values
+            </h2>
+
+            <p class="report-section-subtext">
+                As declared on the package label.
+            </p>
+
 
             <table class="nutrition-table">
+
                 <thead>
+
                     <tr>
-                        <th>Nutrient</th>
-                        <th>Amount</th>
-                        <th>% Daily Value*</th>
+
+                        <th>
+                            Nutrient
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                        <th>
+                            % Daily Value*
+                        </th>
+
                     </tr>
+
                 </thead>
+
+
                 <tbody>
+
                     {% for row in nutrition_rows %}
+
                     <tr>
-                        <td>{{ row.nutrient }}{% if row.implausible %} <span title="This value looks unusually high and may be an OCR misread - verify against the photo">⚠</span>{% endif %}</td>
-                        <td>{{ row.amount }} {{ row.unit }}</td>
-                        <td{% if row.high %} class="nutrition-flag"{% endif %}>{% if row.daily_value_pct %}{{ row.daily_value_pct|floatformat:0 }}%{% else %}-{% endif %}</td>
+
+                        <td>
+
+                            {{ row.nutrient }}
+
+                            {% if row.implausible %}
+
+                            <span class="nutrition-warning"
+                                title="This value looks unusually high and may be an OCR misread. Verify against the package.">
+                                ⚠
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+                            {{ row.amount }} {{ row.unit }}
+                        </td>
+
+
+                        <td class="{% if row.high %}nutrition-flag{% endif %}">
+
+                            {% if row.daily_value_pct %}
+                            {{ row.daily_value_pct|floatformat:0 }}%
+                            {% else %}
+                            -
+                            {% endif %}
+
+                        </td>
+
                     </tr>
+
                     {% endfor %}
+
                 </tbody>
+
             </table>
-            <p class="nutrition-footnote">*% Daily Values are based on a 2,000 kcal reference diet. Values in <span class="nutrition-flag-dot"></span> indicate nutrients present in high amounts.</p>
+
+
+            <p class="nutrition-footnote">
+
+                *% Daily Values are based on a 2,000 kcal reference diet.
+
+                Values in
+                <span class="nutrition-flag-dot"></span>
+                indicate nutrients present in high amounts.
+
+            </p>
+
         </section>
+
         {% endif %}
 
-        <!-- ============================= -->
-        <!-- INGREDIENTS / PRESERVATIVES SECTION -->
-        <!-- ============================= -->
+
+        <!-- =============================================
+                 PRESERVATIVES / CHEMICAL ADDITIVES
+            ============================================== -->
+
         {% if additives or no_additives_detected %}
+
         <section class="report-section">
-            <h2 class="report-section-title">Preservatives &amp; Chemical Additives</h2>
+
+            <h2 class="report-section-title">
+                Preservatives &amp; Chemical Additives
+            </h2>
+
 
             {% for a in additives %}
+
             <div class="ingredient-flag ingredient-caution">
-                <div class="ingredient-flag-icon">!</div>
-                <div class="ingredient-flag-text">
-                    <h4>{% if a.is_banned %}⚠ BANNED — {% endif %}{{ a.code }} ({{ a.name }})</h4>
-                    <p>{{ a.description }}</p>
+
+                <div class="ingredient-flag-icon">
+                    !
                 </div>
+
+
+                <div class="ingredient-flag-text">
+
+                    <h4>
+
+                        {% if a.is_banned %}
+                        ⚠ BANNED —
+                        {% endif %}
+
+                        {{ a.code }}
+                        ({{ a.name }})
+
+                    </h4>
+
+
+                    <p>
+                        {{ a.description }}
+                    </p>
+
+                </div>
+
             </div>
+
             {% endfor %}
 
+
             {% if not has_banned_additive %}
+
             <div class="ingredient-flag ingredient-safe">
-                <div class="ingredient-flag-icon">✓</div>
-                <div class="ingredient-flag-text">
-                    <h4>No banned substances detected</h4>
-                    <p>None of the ingredients listed match substances banned under FSSAI regulations.</p>
+
+                <div class="ingredient-flag-icon">
+                    ✓
                 </div>
+
+
+                <div class="ingredient-flag-text">
+
+                    <h4>
+                        No banned substances detected
+                    </h4>
+
+                    <p>
+                        None of the ingredients listed match
+                        substances banned under FSSAI regulations.
+                    </p>
+
+                </div>
+
             </div>
+
             {% endif %}
+
         </section>
-        {% endif %}
+
         {% endif %}
 
+
+        {% endif %}
 
     </main>
 
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
     <footer class="footer no-print">
+
         <div class="footer-bottom">
-            <p>&copy; 2026 Parakh. All rights reserved.</p>
+
+            <p>
+                &copy; 2026 Parakh. All rights reserved.
+            </p>
+
         </div>
+
     </footer>
 
+
+    <!-- =====================================================
+         PRINT SCRIPT
+    ====================================================== -->
+
     <script>
-    document.getElementById('printBtn').addEventListener('click', () => {
-        window.print();
-    });
-</script>
+
+        const printButton =
+            document.getElementById('printBtn');
+
+        if (printButton) {
+
+            printButton.addEventListener(
+                'click',
+                () => {
+                    window.print();
+                }
+            );
+
+        }
+
+    </script>
 
 </body>
+
 </html>

@@ -6,7 +6,7 @@ from django.urls import reverse
 from .models import ProductScan, ProductScanImage
 from compliance.models import ComplianceRule
 from compliance.engine.pipeline import run_scan
-
+from complaint.models import Complaint
 
 def home_view(request):
     return render(request, 'index.html')
@@ -61,30 +61,112 @@ def scan_view(request):
 
 def result_view(request, scan_id):
     if request.user.is_authenticated:
-        scan = get_object_or_404(ProductScan, id=scan_id, user=request.user)
+        scan = get_object_or_404(
+            ProductScan,
+            id=scan_id,
+            user=request.user
+        )
     else:
-        scan = get_object_or_404(ProductScan, id=scan_id)
+        scan = get_object_or_404(
+            ProductScan,
+            id=scan_id
+        )
 
-    context = {'scan': scan}
+    context = {
+        'scan': scan,
+    }
+
+    # ---------------------------------------------------------
+    # COMPLAINT / REPORT NAVIGATION
+    # ---------------------------------------------------------
+
+    existing_complaint = None
+
+    if request.user.is_authenticated:
+        existing_complaint = (
+            Complaint.objects
+            .filter(
+                user=request.user,
+                scan=scan
+            )
+            .order_by('-submitted')
+            .first()
+        )
+
+    context['existing_complaint'] = existing_complaint
+
+    # True when report was opened from Complaint Details
+    context['from_complaint'] = (
+        request.GET.get('from_complaint') == '1'
+    )
+
+    # True when report was opened from the Complaint Form
+    context['from_complaint_form'] = (
+        request.GET.get('from_complaint_form') == '1'
+    )
+
+    # True when report was opened from History
+    context['from_history'] = (
+        request.GET.get('from_history') == '1'
+    )
+
+    # ---------------------------------------------------------
+    # NEEDS MORE IMAGES
+    # ---------------------------------------------------------
 
     if scan.status == 'NEEDS_MORE_IMAGES':
         context['needs_more_images'] = True
-        context['coverage_message'] = (
-            "We couldn't locate enough of the mandatory declarations across the photo(s) "
-            "provided to judge compliance fairly. Please rescan with photos covering the "
-            "whole pack - front, back, and the ingredients/nutrition panel."
-        )
-        return render(request, 'result.html', context)
 
-    extracted = getattr(scan, 'extracted_data', None)
-    report = getattr(scan, 'compliance_report', None)
+        context['coverage_message'] = (
+            "We couldn't locate enough of the mandatory declarations "
+            "across the photo(s) provided to judge compliance fairly. "
+            "Please rescan with photos covering the whole pack - front, "
+            "back, and the ingredients/nutrition panel."
+        )
+
+        return render(
+            request,
+            'result.html',
+            context
+        )
+
+    # ---------------------------------------------------------
+    # OCR / COMPLIANCE PROCESSING
+    # ---------------------------------------------------------
+
+    extracted = getattr(
+        scan,
+        'extracted_data',
+        None
+    )
+
+    report = getattr(
+        scan,
+        'compliance_report',
+        None
+    )
 
     if report is None or extracted is None:
         context['processing'] = True
-        return render(request, 'result.html', context)
 
-    violations = list(report.violations.select_related('rule').all())
+        return render(
+            request,
+            'result.html',
+            context
+        )
+
+    # ---------------------------------------------------------
+    # VIOLATIONS
+    # ---------------------------------------------------------
+
+    violations = list(
+        report.violations
+        .select_related('rule')
+        .all()
+    )
+
     context['violation_count'] = len(violations)
+
     context['violations'] = [
         {
             'index': i + 1,
@@ -94,19 +176,54 @@ def result_view(request, scan_id):
         }
         for i, v in enumerate(violations)
     ]
+
+    # ---------------------------------------------------------
+    # COMPLIANCE RESULT
+    # ---------------------------------------------------------
+
     context['is_compliant'] = report.is_compliant
     context['overall_score'] = report.overall_score
 
-    context['nutrition_rows'] = extracted.nutritional_info or []
+    # ---------------------------------------------------------
+    # NUTRITION
+    # ---------------------------------------------------------
+
+    context['nutrition_rows'] = (
+        extracted.nutritional_info or []
+    )
+
+    # ---------------------------------------------------------
+    # ADDITIVES
+    # ---------------------------------------------------------
+
     additives = extracted.additives_info or []
+
     context['additives'] = list(additives)
-    context['has_banned_additive'] = any(a.get('is_banned') for a in additives)
-    context['no_additives_detected'] = len(additives) == 0
 
-    context['product_name_display'] = extracted.product_name_declared or scan.product_name or "Unnamed Product"
+    context['has_banned_additive'] = any(
+        a.get('is_banned')
+        for a in additives
+    )
 
-    return render(request, 'result.html', context)
+    context['no_additives_detected'] = (
+        len(additives) == 0
+    )
 
+    # ---------------------------------------------------------
+    # PRODUCT NAME
+    # ---------------------------------------------------------
+
+    context['product_name_display'] = (
+        extracted.product_name_declared
+        or scan.product_name
+        or "Unnamed Product"
+    )
+
+    return render(
+        request,
+        'result.html',
+        context
+    )
 
 def result_json_view(request, scan_id):
     """

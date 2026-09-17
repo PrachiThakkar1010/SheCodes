@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from products.models import ProductScan
 from .models import UserProfile
+from django.utils.http import url_has_allowed_host_and_scheme
 
 
 def register_view(request):
@@ -60,21 +61,55 @@ def login_view(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
 
+    next_url = request.GET.get('next', '').strip()
+
     if request.method == 'POST':
+        next_url = request.POST.get('next', next_url).strip()
+
         form = AuthenticationForm(request, data=request.POST)
+
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+
+            user = authenticate(
+                username=username,
+                password=password
+            )
+
             if user is not None:
                 login(request, user)
-                messages.success(request, f'Login successful, {username}!')
+
+                messages.success(
+                    request,
+                    f'Login successful, {username}!'
+                )
+
+                if next_url and url_has_allowed_host_and_scheme(
+                    url=next_url,
+                    allowed_hosts={request.get_host()},
+                    require_https=request.is_secure(),
+                ):
+                    return redirect(next_url)
+
                 return redirect('dashboard')
-        messages.error(request, 'Invalid username or password.')
+
+        messages.error(
+            request,
+            'Invalid username or password.'
+        )
+
     else:
         form = AuthenticationForm()
 
-    return render(request, 'login.html', {'form': form})
+    return render(
+        request,
+        'login.html',
+        {
+            'form': form,
+            'next_url': next_url,
+        }
+    )
 
 
 def logout_view(request):
@@ -103,28 +138,70 @@ def dashboard_view(request):
 @login_required(login_url='login')
 def profile_view(request):
     user = request.user
-    # Ensure profile exists
     profile, _ = UserProfile.objects.get_or_create(user=user)
 
+    next_url = request.GET.get('next', '').strip()
+
     if request.method == 'POST':
+        next_url = request.POST.get('next', next_url).strip()
+
         first_name = request.POST.get('first_name', '').strip()
         email = request.POST.get('email', '').strip()
         mobile = request.POST.get('mobile_number', '').strip()
 
-        # Update User model
+        if not email:
+            messages.error(request, 'Email address is required.')
+
+            return render(
+                request,
+                'profile.html',
+                {
+                    'profile': profile,
+                    'next_url': next_url,
+                },
+            )
+
+        if not mobile:
+            messages.error(request, 'Mobile number is required.')
+
+            return render(
+                request,
+                'profile.html',
+                {
+                    'profile': profile,
+                    'next_url': next_url,
+                },
+            )
+
         user.first_name = first_name
         user.email = email
         user.save()
 
-        # Update UserProfile model
         profile.mobile_number = mobile
         profile.save()
 
-        messages.success(request, 'Profile updated successfully!')
+        messages.success(
+            request,
+            'Profile updated successfully!'
+        )
+
+        if next_url and url_has_allowed_host_and_scheme(
+            url=next_url,
+            allowed_hosts={request.get_host()},
+            require_https=request.is_secure(),
+        ):
+            return redirect(next_url)
+
         return redirect('profile')
 
-    return render(request, 'profile.html', {'profile': profile})
-
+    return render(
+        request,
+        'profile.html',
+        {
+            'profile': profile,
+            'next_url': next_url,
+        },
+    )
 
 @login_required(login_url='login')
 def history_view(request):

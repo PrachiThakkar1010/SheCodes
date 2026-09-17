@@ -45,6 +45,14 @@
         <p class="login-subtext">We promise this login is 100% preservative-free</p>
 
         <form action="/login/" method="POST" class="loginForm">
+            {% if next_url %}
+                <input
+                    type="hidden"
+                    name="next"
+                    value="{{ next_url }}"
+                >
+            {% endif %}
+
             {% csrf_token %}
             <div class="username">
                 <label for="username">Username</label>

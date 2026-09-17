@@ -11,507 +11,26 @@
     <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <!-- =========================================================
-         COMPLAINT PAGE STYLES
-         style.css is NOT changed
-    ========================================================== -->
-
-    <style>
-
-        /* =========================================================
-           PAGE
-        ========================================================== */
-
-        body:has(main.complaint-main) {
-            background-color: #f7f9fc;
-        }
-
-        main.complaint-main {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 50px 5% 90px;
-        }
-
-
-        /* =========================================================
-           PAGE HEADER
-        ========================================================== */
-
-        .complaint-header {
-            margin-bottom: 35px;
-            text-align: center;
-        }
-
-        .complaint-header .eyebrow {
-            display: block;
-            margin-bottom: 8px;
-
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 2px;
-
-            color: #0b63ce;
-        }
-
-        .complaint-header h1 {
-            margin-bottom: 10px;
-
-            font-size: clamp(28px, 3.5vw, 36px);
-            font-weight: 800;
-            letter-spacing: -0.5px;
-
-            color: #073b70;
-        }
-
-        .complaint-header p {
-            max-width: 650px;
-            margin: 0 auto;
-
-            font-size: 14px;
-            line-height: 1.6;
-
-            color: #65788b;
-        }
-
-
-        /* =========================================================
-           CENTERED COMPLAINT LAYOUT
-        ========================================================== */
-
-        .complaint-layout {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-
-        /* =========================================================
-           MAIN FORM CARD
-        ========================================================== */
-
-        .complaint-card {
-            width: 100%;
-            max-width: 900px;
-
-            padding: 38px;
-
-            background-color: #ffffff;
-
-            border: 1px solid #e6ebf2;
-            border-radius: 18px;
-
-            box-shadow: 0 10px 30px rgba(7, 59, 112, 0.07);
-        }
-
-
-        /* =========================================================
-           FORM CARD HEADER
-        ========================================================== */
-
-        .complaint-card-header {
-            padding-bottom: 22px;
-            margin-bottom: 28px;
-
-            border-bottom: 1px solid #e6ebf2;
-        }
-
-        .complaint-card-header .eyebrow {
-            display: block;
-            margin-bottom: 7px;
-
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1.8px;
-
-            color: #0b63ce;
-        }
-
-        .complaint-card-header h2 {
-            margin-bottom: 6px;
-
-            font-size: 22px;
-            font-weight: 800;
-
-            color: #073b70;
-        }
-
-        .complaint-card-header p {
-            font-size: 13px;
-            color: #65788b;
-        }
-
-
-        /* =========================================================
-           FORM GROUP
-        ========================================================== */
-
-        .complaint-form-group {
-            margin-bottom: 22px;
-        }
-
-        .complaint-form-group label {
-            display: block;
-
-            margin-bottom: 8px;
-
-            font-size: 14px;
-            font-weight: 700;
-
-            color: #35516d;
-        }
-
-        .required {
-            color: #d9534f;
-            font-weight: 700;
-        }
-
-        .optional-label {
-            margin-left: 4px;
-
-            font-size: 12px;
-            font-weight: 400;
-
-            color: #91a0ae;
-        }
-
-
-        /* =========================================================
-           TEXT INPUTS + SELECT + TEXTAREA
-        ========================================================== */
-
-        .complaint-form-group input[type="text"],
-        .complaint-form-group select,
-        .complaint-form-group textarea {
-            display: block;
-
-            width: 100%;
-
-            padding: 13px 14px;
-
-            font-family: inherit;
-            font-size: 14px;
-
-            color: #0b2d4d;
-
-            background-color: #f8fafc;
-
-            border: 1px solid #dbe4ee;
-            border-radius: 9px;
-
-            outline: none;
-
-            transition:
-                border-color 0.2s ease,
-                box-shadow 0.2s ease,
-                background-color 0.2s ease;
-        }
-
-        .complaint-form-group input[type="text"] {
-            height: 48px;
-        }
-
-        .complaint-form-group select {
-            height: 48px;
-            cursor: pointer;
-        }
-
-        .complaint-form-group textarea {
-            min-height: 140px;
-
-            resize: vertical;
-
-            line-height: 1.6;
-        }
-
-        .complaint-form-group input[type="text"]:focus,
-        .complaint-form-group select:focus,
-        .complaint-form-group textarea:focus {
-            background-color: #ffffff;
-
-            border-color: #0b63ce;
-
-            box-shadow: 0 0 0 3px rgba(11, 99, 206, 0.10);
-        }
-
-        .complaint-form-group input::placeholder,
-        .complaint-form-group textarea::placeholder {
-            color: #9aabbb;
-        }
-
-
-        /* =========================================================
-           EVIDENCE UPLOAD
-        ========================================================== */
-
-        .complaint-form-group input[type="file"] {
-            display: block;
-
-            width: 100%;
-
-            padding: 12px;
-
-            font-family: inherit;
-            font-size: 13px;
-
-            color: #65788b;
-
-            background-color: #f8fafc;
-
-            border: 1px dashed #cbd8e5;
-            border-radius: 9px;
-
-            cursor: pointer;
-
-            transition:
-                border-color 0.2s ease,
-                background-color 0.2s ease;
-        }
-
-        .complaint-form-group input[type="file"]:hover {
-            background-color: #f3f7fb;
-            border-color: #0b63ce;
-        }
-
-        .complaint-form-group input[type="file"]::file-selector-button {
-            margin-right: 12px;
-
-            padding: 8px 14px;
-
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 700;
-
-            color: #073b70;
-
-            background-color: #eaf2fb;
-
-            border: none;
-            border-radius: 7px;
-
-            cursor: pointer;
-        }
-
-        .complaint-form-group input[type="file"]::file-selector-button:hover {
-            background-color: #dceaf8;
-        }
-
-        .form-help {
-            display: block;
-
-            margin-top: 7px;
-
-            font-size: 12px;
-            line-height: 1.5;
-
-            color: #91a0ae;
-        }
-
-
-        /* =========================================================
-           FORM ERRORS
-        ========================================================== */
-
-        .form-error {
-            margin-top: 6px;
-
-            font-size: 12px;
-            font-weight: 600;
-
-            color: #d9534f;
-        }
-
-        .form-error ul {
-            margin: 0;
-            padding-left: 18px;
-        }
-
-
-        /* =========================================================
-           TWO COLUMN FORM ROWS
-        ========================================================== */
-
-        .complaint-form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-
-            gap: 22px;
-        }
-
-
-        /* =========================================================
-           SUBMIT BUTTON
-        ========================================================== */
-
-        .complaint-actions {
-            display: flex;
-            justify-content: flex-end;
-
-            margin-top: 30px;
-            padding-top: 25px;
-
-            border-top: 1px solid #e6ebf2;
-        }
-
-        .complaint-submit {
-            min-width: 200px;
-
-            padding: 14px 25px;
-
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 700;
-
-            color: #ffffff;
-
-            background-color: #073b70;
-
-            border: none;
-            border-radius: 8px;
-
-            cursor: pointer;
-
-            transition:
-                background-color 0.2s ease,
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-        .complaint-submit:hover {
-            background-color: #0b63ce;
-
-            transform: translateY(-1px);
-
-            box-shadow: 0 6px 16px rgba(7, 59, 112, 0.15);
-        }
-
-        .complaint-submit:active {
-            transform: translateY(0);
-        }
-
-
-        /* =========================================================
-           BACK BUTTON
-        ========================================================== */
-
-        .complaint-cancel {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            min-width: 110px;
-
-            margin-right: 12px;
-            padding: 14px 20px;
-
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 700;
-
-            color: #35516d;
-
-            background-color: #f1f5f9;
-
-            border: 1px solid #dbe4ee;
-            border-radius: 8px;
-
-            text-decoration: none;
-
-            transition: 0.2s ease;
-        }
-
-        .complaint-cancel:hover {
-            background-color: #e8eef5;
-            color: #073b70;
-        }
-
-
-        /* =========================================================
-           MOBILE
-        ========================================================== */
-
-        @media (max-width: 700px) {
-
-            main.complaint-main {
-                padding: 40px 5% 70px;
-            }
-
-            .complaint-card {
-                padding: 28px 22px;
-            }
-
-            .complaint-form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-
-        }
-
-
-        @media (max-width: 500px) {
-
-            main.complaint-main {
-                padding: 35px 4% 60px;
-            }
-
-            .complaint-header {
-                margin-bottom: 25px;
-            }
-
-            .complaint-card {
-                padding: 24px 18px;
-                border-radius: 14px;
-            }
-
-            .complaint-card-header {
-                padding-bottom: 18px;
-                margin-bottom: 22px;
-            }
-
-            .complaint-actions {
-                display: flex;
-                flex-direction: column-reverse;
-                gap: 10px;
-            }
-
-            .complaint-submit,
-            .complaint-cancel {
-                width: 100%;
-                margin: 0;
-            }
-
-        }
-
-    </style>
-
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 </head>
-
 
 <body>
 
-
-    <!-- =========================================================
-         TOAST MESSAGES
-    ========================================================== -->
+    <!-- =====================================================
+         MESSAGES
+    ====================================================== -->
 
     {% if messages %}
 
-    <div id="toast-container" class="toast-container">
+    <div class="toast-container">
 
         {% for message in messages %}
 
-        <div class="toast-popup toast-{{ message.tags }}">
-
-            <span>
-                {{ message }}
-            </span>
-
-            <button type="button"
-                    class="toast-close"
-                    onclick="this.parentElement.remove();">
-                &times;
-            </button>
-
+        <div class="toast-message {{ message.tags }}">
+            {{ message }}
         </div>
 
         {% endfor %}
@@ -521,72 +40,62 @@
     {% endif %}
 
 
-
-    <!-- =========================================================
+    <!-- =====================================================
          NAVBAR
-    ========================================================== -->
+    ====================================================== -->
 
     <header class="navbar">
 
         <div class="logo-image">
-
-            <img src="{% static 'Logo.png' %}"
-                 alt="Parakh Logo">
-
+            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
         </div>
-
 
         <div class="logo">
-
-            <a href="{% url 'home' %}">
-                PARAKH
-            </a>
-
+            <a href="{% url 'home' %}">PARAKH</a>
         </div>
-
 
         <nav class="nav-links">
 
-            {% if request.user.is_authenticated %}
+            <a href="{% url 'home' %}">Home</a>
 
-            <a href="{% url 'home' %}">
-                Home
-            </a>
+            <a href="{% url 'scan' %}">Scan</a>
 
-            <a href="{% url 'scan' %}">
-                Scan
-            </a>
+            <a href="{% url 'rules' %}">Rules</a>
 
-            <a href="{% url 'rules' %}">
-                Rules
-            </a>
 
+            <!-- Profile dropdown -->
 
             <div class="profile-menu">
 
-                <button type="button"
-                        class="profile-icon"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        aria-label="Account menu">
+                <button
+                    type="button"
+                    class="profile-icon"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-label="Account menu"
+                >
 
-                    <svg width="22"
-                         height="22"
-                         viewBox="0 0 24 24"
-                         fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle
+                            cx="12"
+                            cy="8"
+                            r="4"
+                            stroke="#073b70"
+                            stroke-width="2"
+                        />
 
-                        <circle cx="12"
-                                cy="8"
-                                r="4"
-                                stroke="#073b70"
-                                stroke-width="2" />
-
-                        <path d="M4 20c0-4 4-6 8-6s8 2 8 6"
-                              stroke="#073b70"
-                              stroke-width="2"
-                              stroke-linecap="round" />
-
+                        <path
+                            d="M4 20c0-4 4-6 8-6s8 2 8 6"
+                            stroke="#073b70"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        />
                     </svg>
 
                 </button>
@@ -602,8 +111,14 @@
                         Profile
                     </a>
 
-                    <a href="{% url 'logout' %}"
-                       class="btn-logout-dropdown">
+                    <a href="{% url 'complaint_list' %}">
+                        Complaints
+                    </a>
+
+                    <a
+                        href="{% url 'logout' %}"
+                        class="btn-logout-dropdown"
+                    >
                         Logout
                     </a>
 
@@ -611,49 +126,24 @@
 
             </div>
 
-
-            {% else %}
-
-            <a href="{% url 'home' %}">
-                Home
-            </a>
-
-            <a href="{% url 'scan' %}">
-                Scan
-            </a>
-
-            <a href="{% url 'rules' %}">
-                Rules
-            </a>
-
-            <a href="{% url 'login' %}"
-               class="login-link">
-                Login
-            </a>
-
-            {% endif %}
-
         </nav>
 
     </header>
 
 
 
-    <!-- =========================================================
-         MAIN CONTENT
-    ========================================================== -->
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
 
     <main class="complaint-main">
 
-
-        <!-- =====================================================
-             PAGE HEADER
-        ====================================================== -->
+        <!-- HEADER -->
 
         <div class="complaint-header">
 
             <span class="eyebrow">
-                COMPLAINT SYSTEM
+                PARAKH • COMPLAINT
             </span>
 
             <h1>
@@ -661,80 +151,89 @@
             </h1>
 
             <p>
-                Report a product compliance issue and provide
-                the necessary details for review.
+                Submit a complaint about this non-compliant product.
             </p>
 
         </div>
 
 
 
-        <!-- =====================================================
-             CENTERED COMPLAINT BOX
-        ====================================================== -->
-
         <div class="complaint-layout">
 
 
             <!-- =================================================
-                 COMPLAINT FORM
+                 LEFT: FORM
             ================================================== -->
 
             <section class="complaint-card">
 
-
                 <div class="complaint-card-header">
 
-                    <span class="eyebrow">
-                        COMPLAINT DETAILS
-                    </span>
-
                     <h2>
-                        Submit Your Complaint
+                        Complaint Information
                     </h2>
 
                     <p>
-                        Fields marked with
-                        <span class="required">*</span>
-                        are mandatory.
+                        The product and violation category have been
+                        automatically associated with this complaint.
+                        Add any information you would like to communicate
+                        about the issue.
                     </p>
 
                 </div>
 
 
-
-                <!-- =================================================
-                     FORM
-                ================================================== -->
-
-                <form method="POST"
-                      enctype="multipart/form-data">
+                <form
+                    method="POST"
+                    action="{% url 'complaint_home' %}"
+                    class="complaint-form"
+                >
 
                     {% csrf_token %}
 
 
+                    <!-- Keep the scan connected to the complaint -->
 
-                    <!-- ===============================
-                         VIOLATION CATEGORY
-                    ================================ -->
+                    <input
+                        type="hidden"
+                        name="scan_id"
+                        value="{{ scan.id }}"
+                    >
+
+
+                    <!-- FORM ERRORS -->
+
+                    {% if form.non_field_errors %}
+
+                    <div class="form-error-message">
+
+                        {% for error in form.non_field_errors %}
+
+                        <p>
+                            {{ error }}
+                        </p>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% endif %}
+
+
+
+                    <!-- VIOLATION -->
 
                     <div class="complaint-form-group">
 
                         <label for="{{ form.violation_category.id_for_label }}">
-
                             Violation Category
-
-                            <span class="required">
-                                *
-                            </span>
-
                         </label>
 
                         {{ form.violation_category }}
 
                         {% if form.violation_category.errors %}
 
-                        <div class="form-error">
+                        <div class="field-error">
                             {{ form.violation_category.errors }}
                         </div>
 
@@ -744,27 +243,19 @@
 
 
 
-                    <!-- ===============================
-                         SUBJECT
-                    ================================ -->
+                    <!-- SUBJECT -->
 
                     <div class="complaint-form-group">
 
                         <label for="{{ form.subject.id_for_label }}">
-
                             Complaint Subject
-
-                            <span class="required">
-                                *
-                            </span>
-
                         </label>
 
                         {{ form.subject }}
 
                         {% if form.subject.errors %}
 
-                        <div class="form-error">
+                        <div class="field-error">
                             {{ form.subject.errors }}
                         </div>
 
@@ -774,61 +265,21 @@
 
 
 
-                    <!-- ===============================
-                         DESCRIPTION
-                    ================================ -->
-
-                    <div class="complaint-form-group">
-
-                        <label for="{{ form.description.id_for_label }}">
-
-                            Complaint Description
-
-                            <span class="required">
-                                *
-                            </span>
-
-                        </label>
-
-                        {{ form.description }}
-
-                        {% if form.description.errors %}
-
-                        <div class="form-error">
-                            {{ form.description.errors }}
-                        </div>
-
-                        {% endif %}
-
-                    </div>
-
-
-
-                    <!-- ===============================
-                         PRODUCT + COMPANY
-                    ================================ -->
+                    <!-- PRODUCT + COMPANY -->
 
                     <div class="complaint-form-row">
-
-                        <!-- PRODUCT NAME -->
 
                         <div class="complaint-form-group">
 
                             <label for="{{ form.product_name.id_for_label }}">
-
                                 Product Name
-
-                                <span class="required">
-                                    *
-                                </span>
-
                             </label>
 
                             {{ form.product_name }}
 
                             {% if form.product_name.errors %}
 
-                            <div class="form-error">
+                            <div class="field-error">
                                 {{ form.product_name.errors }}
                             </div>
 
@@ -838,25 +289,25 @@
 
 
 
-                        <!-- COMPANY NAME -->
-
                         <div class="complaint-form-group">
 
                             <label for="{{ form.company_name.id_for_label }}">
-
-                                Company / Manufacturer Name
-
-                                <span class="required">
-                                    *
-                                </span>
-
+                                Company / Manufacturer
                             </label>
 
                             {{ form.company_name }}
 
+                            {% if form.company_name.help_text %}
+
+                            <small>
+                                {{ form.company_name.help_text }}
+                            </small>
+
+                            {% endif %}
+
                             {% if form.company_name.errors %}
 
-                            <div class="form-error">
+                            <div class="field-error">
                                 {{ form.company_name.errors }}
                             </div>
 
@@ -868,57 +319,51 @@
 
 
 
-                    <!-- ===============================
-                         SUPPORTING EVIDENCE
-                    ================================ -->
+                    <!-- DESCRIPTION -->
 
                     <div class="complaint-form-group">
 
-                        <label for="{{ form.evidence.id_for_label }}">
-
-                            Supporting Evidence
-
-                            <span class="required">
-                                *
-                            </span>
-
+                        <label for="{{ form.description.id_for_label }}">
+                            Complaint Description
                         </label>
 
-                        {{ form.evidence }}
+                        {{ form.description }}
 
-                        <small class="form-help">
-                            Upload a product image, label photo
-                            or other supporting evidence.
-                        </small>
+                        {% if form.description.errors %}
 
-                        {% if form.evidence.errors %}
+                        <div class="field-error">
 
-                        <div class="form-error">
-                            {{ form.evidence.errors }}
+                            {{ form.description.errors }}
+
                         </div>
 
                         {% endif %}
+
+                        <small>
+                            Add any additional information you want
+                            to communicate about the complaint.
+                        </small>
 
                     </div>
 
 
 
-                    <!-- ===============================
-                         SUBMIT
-                    ================================ -->
+                    <!-- ACTIONS -->
 
                     <div class="complaint-actions">
 
-                        <a href="{% url 'dashboard' %}"
-                           class="complaint-cancel">
+                        <a
+                            href="{% url 'result' scan.id %}"
+                            class="complaint-cancel"
+                        >
                             Cancel
                         </a>
 
-                        <button type="submit"
-                                class="complaint-submit">
-
+                        <button
+                            type="submit"
+                            class="complaint-submit"
+                        >
                             Submit Complaint
-
                         </button>
 
                     </div>
@@ -928,15 +373,111 @@
             </section>
 
 
+
+            <!-- =================================================
+                 RIGHT: PRODUCT EVIDENCE
+            ================================================== -->
+
+            <aside class="complaint-side">
+
+
+                <!-- =================================================
+                     EVIDENCE
+                ================================================== -->
+
+                <section class="complaint-card complaint-evidence-card">
+
+                    <div class="complaint-card-header">
+
+                        <h2>
+                            Product Evidence
+                        </h2>
+
+                        <p>
+                            The original product images from your Parakh
+                            scan will automatically be attached to this
+                            complaint as evidence.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="complaint-evidence-grid">
+
+                        {% for scan_image in scan_images %}
+
+                        <div class="complaint-evidence-item">
+
+                            <img
+                                src="{{ scan_image.image.url }}"
+                                alt="Product scan image {{ forloop.counter }}"
+                                class="complaint-evidence-image"
+                            >
+
+                            <div class="complaint-evidence-label">
+                                Product Image {{ forloop.counter }}
+                            </div>
+
+                        </div>
+
+                        {% empty %}
+
+                        <div class="complaint-no-evidence">
+
+                            No scan images are available for this complaint.
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     REPORT REFERENCE
+                ================================================== -->
+
+                <section class="complaint-card complaint-report-reference">
+
+                    <div class="complaint-card-header">
+
+                        <h2>
+                            Compliance Report
+                        </h2>
+
+                        <p>
+                            You can view the complete Parakh compliance
+                            report separately if you need to review it
+                            before submitting your complaint.
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="{% url 'result' scan.id %}"
+                        class="complaint-report-link"
+                    >
+                        View Compliance Report
+                    </a>
+
+                </section>
+
+
+            </aside>
+
         </div>
 
     </main>
 
 
 
-    <!-- =========================================================
+    <!-- =====================================================
          FOOTER
-    ========================================================== -->
+    ====================================================== -->
 
     <footer class="footer">
 
