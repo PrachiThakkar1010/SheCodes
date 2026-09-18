@@ -20,7 +20,6 @@
          NAVBAR
     ====================================================== -->
 
-
 <header class="navbar">
 
     <div class="logo-image">
@@ -99,9 +98,15 @@
                     </a>
 
                     <!-- Complaints -->
-                    <a href="{% url 'complaint_list' %}">
-                        Complaints
-                    </a>
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% else %}
+                        <a href="{% url 'complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% endif %}
 
                     <a
                         href="{% url 'logout' %}"
@@ -137,8 +142,6 @@
 </header>
 
 
-
-
     <!-- =====================================================
          MAIN REPORT
     ====================================================== -->
@@ -146,10 +149,10 @@
     <main class="result-main">
 
         <!-- =================================================
-     TOP NAVIGATION
-================================================== -->
+        TOP NAVIGATION
+        ================================================== -->
 
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and not request.user.companyprofile %}
 
         <div class="report-top-navigation">
 
@@ -364,7 +367,7 @@
         FILE COMPLAINT
         ================================================ -->
 
-        {% if not existing_complaint and not from_complaint and not from_complaint_form %}
+        {% if not existing_complaint and not from_complaint and not from_complaint_form and not request.user.companyprofile%}
 
         <section class="report-complaint-box">
 

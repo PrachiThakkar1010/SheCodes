@@ -90,9 +90,15 @@
                     </a>
 
                     <!-- Complaints -->
-                    <a href="{% url 'complaint_list' %}">
-                        Complaints
-                    </a>
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% else %}
+                        <a href="{% url 'complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% endif %}
 
                     <a
                         href="{% url 'logout' %}"

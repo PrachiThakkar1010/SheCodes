@@ -1,0 +1,618 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Jaanch #{{ complaint.complaint_number|default:complaint.complaint_id }} - Parakh</title>
+
+    <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo-image">
+        <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+    </div>
+
+    <div class="logo">
+        <a href="{% url 'home' %}">PARAKH</a>
+    </div>
+
+    <nav class="nav-links">
+
+        {% if request.user.is_authenticated %}
+
+            <!-- Logged-in view -->
+            <a href="{% url 'home' %}">Home</a>
+
+            <!-- Company users get access to Studio -->
+            {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                <a href="{% url 'studio' %}">Studio</a>
+            {% endif %}
+
+            <a href="{% url 'scan' %}">Scan</a>
+
+            <a href="{% url 'rules' %}">Rules</a>
+
+            <!-- Profile dropdown -->
+            <div class="profile-menu">
+
+                <button
+                    type="button"
+                    class="profile-icon"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-label="Account menu"
+                >
+                    <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle
+                            cx="12"
+                            cy="8"
+                            r="4"
+                            stroke="#073b70"
+                            stroke-width="2"
+                        />
+
+                        <path
+                            d="M4 20c0-4 4-6 8-6s8 2 8 6"
+                            stroke="#073b70"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                </button>
+
+                <div class="profile-dropdown">
+
+                    <!-- Different dashboard for company and normal users -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% else %}
+                        <a href="{% url 'dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% endif %}
+
+                    <a href="{% url 'profile' %}">
+                        Profile
+                    </a>
+
+                    <!-- Complaints -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% else %}
+                        <a href="{% url 'complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% endif %}
+
+                    <a
+                        href="{% url 'logout' %}"
+                        class="btn-logout-dropdown"
+                    >
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <!-- Guest view -->
+            <a href="{% url 'home' %}">Home</a>
+
+            <a href="{% url 'scan' %}">Scan</a>
+
+            <a href="{% url 'rules' %}">Rules</a>
+
+            <a
+                href="{% url 'login' %}"
+                class="login-link"
+            >
+                Login
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+</header>
+
+
+<main class="company-jaanch-page">
+
+    <!-- HEADER -->
+    <section class="jaanch-header">
+
+        <div>
+            <a href="{% url 'company_complaint_list' %}" class="back-link">
+                ← Back to Complaints
+            </a>
+
+            <h1>
+                Jaanch #{{ complaint.complaint_number|default:complaint.complaint_id }}
+            </h1>
+
+            <p class="jaanch-subtitle">
+                Product compliance complaint received through Parakh
+            </p>
+        </div>
+
+        <div class="jaanch-status
+            {% if complaint.status == 'REGISTERED' %}status-registered
+            {% elif complaint.status == 'FORWARDED' %}status-forwarded
+            {% elif complaint.status == 'RESPONDED' %}status-responded
+            {% elif complaint.status == 'VERIFICATION' %}status-verification
+            {% elif complaint.status == 'COMPLETED' %}status-completed
+            {% endif %}">
+            {{ complaint.get_status_display }}
+        </div>
+
+    </section>
+
+
+    <!-- TIMELINE -->
+    <section class="jaanch-card">
+
+        <div class="section-heading">
+            <h2>Jaanch Progress</h2>
+            <p>Track the complaint through each stage.</p>
+        </div>
+
+        <div class="jaanch-timeline">
+
+            <!-- REGISTERED -->
+            <div class="timeline-item
+                {% if complaint.status == 'REGISTERED' or complaint.status == 'FORWARDED' or complaint.status == 'RESPONDED' or complaint.status == 'VERIFICATION' or complaint.status == 'COMPLETED' %}
+                    completed
+                {% endif %}">
+
+                <div class="timeline-dot">✓</div>
+
+                <div class="timeline-content">
+                    <h3>Registered</h3>
+                    <p>
+                        Complaint submitted through Parakh.
+                    </p>
+
+                    {% if complaint.submitted %}
+                        <span>{{ complaint.submitted|date:"d M Y, h:i A" }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <!-- FORWARDED -->
+            <div class="timeline-item
+                {% if complaint.status == 'FORWARDED' or complaint.status == 'RESPONDED' or complaint.status == 'VERIFICATION' or complaint.status == 'COMPLETED' %}
+                    completed
+                {% endif %}">
+
+                <div class="timeline-dot">
+                    {% if complaint.status == 'REGISTERED' %}
+                        2
+                    {% else %}
+                        ✓
+                    {% endif %}
+                </div>
+
+                <div class="timeline-content">
+                    <h3>Forwarded to Company</h3>
+                    <p>
+                        The complaint has been forwarded to your company.
+                    </p>
+
+                    {% if complaint.forwarded_at %}
+                        <span>{{ complaint.forwarded_at|date:"d M Y, h:i A" }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <!-- INITIAL RESPONSE -->
+            <div class="timeline-item
+                {% if complaint.status == 'RESPONDED' or complaint.status == 'VERIFICATION' or complaint.status == 'COMPLETED' %}
+                    completed
+                {% endif %}">
+
+                <div class="timeline-dot">
+                    {% if complaint.status == 'RESPONDED' or complaint.status == 'VERIFICATION' or complaint.status == 'COMPLETED' %}
+                        ✓
+                    {% else %}
+                        3
+                    {% endif %}
+                </div>
+
+                <div class="timeline-content">
+                    <h3>Initial Response from Company</h3>
+                    <p>
+                        Company response to the reported issue.
+                    </p>
+
+                    {% if complaint.initial_response_at %}
+                        <span>{{ complaint.initial_response_at|date:"d M Y, h:i A" }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <!-- VERIFICATION -->
+            <div class="timeline-item
+                {% if complaint.status == 'VERIFICATION' or complaint.status == 'COMPLETED' %}
+                    completed
+                {% endif %}">
+
+                <div class="timeline-dot">
+                    {% if complaint.status == 'VERIFICATION' or complaint.status == 'COMPLETED' %}
+                        ✓
+                    {% else %}
+                        4
+                    {% endif %}
+                </div>
+
+                <div class="timeline-content">
+                    <h3>Verification</h3>
+                    <p>
+                        Verification of the corrective action taken.
+                    </p>
+
+                    {% if complaint.verification_at %}
+                        <span>{{ complaint.verification_at|date:"d M Y, h:i A" }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <!-- COMPLETION -->
+            <div class="timeline-item
+                {% if complaint.status == 'COMPLETED' %}
+                    completed
+                {% endif %}">
+
+                <div class="timeline-dot">
+                    {% if complaint.status == 'COMPLETED' %}
+                        ✓
+                    {% else %}
+                        5
+                    {% endif %}
+                </div>
+
+                <div class="timeline-content">
+                    <h3>Completion</h3>
+                    <p>
+                        Jaanch is formally completed.
+                    </p>
+
+                    {% if complaint.completed_at %}
+                        <span>{{ complaint.completed_at|date:"d M Y, h:i A" }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ORIGINAL REPORT -->
+    {% if complaint.scan %}
+    <section class="jaanch-card report-card">
+
+        <div class="section-heading">
+            <div>
+                <h2>Original Parakh Report</h2>
+                <p>
+                    View the exact report generated from the customer's scan.
+                </p>
+            </div>
+
+            <a href="{% url 'result' complaint.scan.id %}"
+               class="jaanch-primary-btn">
+                View Original Report →
+            </a>
+        </div>
+
+    </section>
+    {% endif %}
+
+
+    <!-- ORIGINAL PACKAGING -->
+    {% if scan_images %}
+    <section class="jaanch-card">
+
+        <div class="section-heading">
+            <h2>Original Packaging</h2>
+            <p>
+                Images submitted by the customer for this Jaanch.
+            </p>
+        </div>
+
+        <div class="packaging-gallery">
+
+            {% for image in scan_images %}
+                <div class="packaging-image-card">
+
+                    <img src="{{ image.image.url }}"
+                         alt="Customer submitted packaging image {{ forloop.counter }}">
+
+                    <div class="image-label">
+                        Image {{ forloop.counter }}
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </section>
+    {% elif complaint.scan and complaint.scan.image %}
+    <section class="jaanch-card">
+
+        <div class="section-heading">
+            <h2>Original Packaging</h2>
+            <p>
+                Image submitted by the customer for this Jaanch.
+            </p>
+        </div>
+
+        <div class="packaging-gallery">
+            <div class="packaging-image-card">
+
+                <img src="{{ complaint.scan.image.url }}"
+                     alt="Customer submitted product packaging">
+
+                <div class="image-label">
+                    Original Scan
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+    {% endif %}
+
+
+    <!-- COMPLAINT DETAILS -->
+    <section class="jaanch-card">
+
+        <div class="section-heading">
+            <h2>Complaint Details</h2>
+            <p>Information submitted by the customer.</p>
+        </div>
+
+        <div class="detail-grid">
+
+            <div class="detail-item">
+                <span class="detail-label">Product</span>
+                <strong>{{ complaint.product_name|default:"Not available" }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Company</span>
+                <strong>{{ complaint.company_name|default:"Not available" }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Violation Category</span>
+                <strong>{{ complaint.violation_category|default:"Not specified" }}</strong>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Submitted By</span>
+                <strong>{{ complaint.user.get_full_name|default:complaint.user.username }}</strong>
+            </div>
+
+            <div class="detail-item detail-full">
+                <span class="detail-label">Subject</span>
+                <strong>{{ complaint.subject }}</strong>
+            </div>
+
+            <div class="detail-item detail-full">
+                <span class="detail-label">Customer Description</span>
+
+                <div class="detail-description">
+                    {{ complaint.description|linebreaksbr }}
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- COMPANY INITIAL RESPONSE -->
+    <section class="jaanch-card">
+
+        <div class="section-heading">
+            <h2>Initial Response from Company</h2>
+
+            {% if complaint.initial_response_at %}
+                <span class="section-date">
+                    {{ complaint.initial_response_at|date:"d M Y, h:i A" }}
+                </span>
+            {% endif %}
+        </div>
+
+        {% if complaint.initial_response %}
+
+            <div class="saved-response">
+                {{ complaint.initial_response|linebreaksbr }}
+            </div>
+
+        {% endif %}
+
+
+        {% if complaint.status == 'FORWARDED' or complaint.status == 'REGISTERED' %}
+
+            <form method="post"
+                  action="{% url 'company_initial_response' complaint.complaint_id %}"
+                  class="jaanch-form">
+
+                {% csrf_token %}
+
+                <label for="initial_response">
+                    Response to Customer Complaint
+                </label>
+
+                <textarea
+                    id="initial_response"
+                    name="initial_response"
+                    rows="7"
+                    placeholder="Enter your company's initial response, findings, and proposed action..."
+                    required></textarea>
+
+                <button type="submit" class="jaanch-primary-btn">
+                    Submit Initial Response
+                </button>
+
+            </form>
+
+        {% elif complaint.status == 'RESPONDED' or complaint.status == 'VERIFICATION' or complaint.status == 'COMPLETED' %}
+
+            <div class="stage-message success-message">
+                Initial response has been submitted.
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- VERIFICATION -->
+    {% if complaint.status == 'RESPONDED' or complaint.status == 'VERIFICATION' or complaint.status == 'COMPLETED' %}
+
+    <section class="jaanch-card">
+
+        <div class="section-heading">
+            <h2>Verification</h2>
+
+            {% if complaint.verification_at %}
+                <span class="section-date">
+                    {{ complaint.verification_at|date:"d M Y, h:i A" }}
+                </span>
+            {% endif %}
+        </div>
+
+        {% if complaint.verification_details %}
+
+            <div class="saved-response">
+                {{ complaint.verification_details|linebreaksbr }}
+            </div>
+
+        {% endif %}
+
+
+        {% if complaint.status == 'RESPONDED' %}
+
+            <form method="post"
+                  action="{% url 'company_verification' complaint.complaint_id %}"
+                  class="jaanch-form">
+
+                {% csrf_token %}
+
+                <label for="verification_details">
+                    Verification Details
+                </label>
+
+                <textarea
+                    id="verification_details"
+                    name="verification_details"
+                    rows="7"
+                    placeholder="Describe the corrective action taken and how it was verified..."
+                    required></textarea>
+
+                <button type="submit" class="jaanch-primary-btn">
+                    Submit Verification
+                </button>
+
+            </form>
+
+        {% elif complaint.status == 'VERIFICATION' or complaint.status == 'COMPLETED' %}
+
+            <div class="stage-message success-message">
+                Verification has been submitted.
+            </div>
+
+        {% endif %}
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- COMPLETION -->
+    {% if complaint.status == 'VERIFICATION' or complaint.status == 'COMPLETED' %}
+
+    <section class="jaanch-card completion-card">
+
+        <div class="section-heading">
+            <h2>Completion</h2>
+
+            {% if complaint.completed_at %}
+                <span class="section-date">
+                    {{ complaint.completed_at|date:"d M Y, h:i A" }}
+                </span>
+            {% endif %}
+        </div>
+
+
+        {% if complaint.status == 'COMPLETED' %}
+
+            <div class="completion-message">
+                <div class="completion-icon">✓</div>
+
+                <div>
+                    <h3>Jaanch Completed</h3>
+                    <p>
+                        This complaint has been marked as completed by the company.
+                    </p>
+                </div>
+            </div>
+
+        {% else %}
+
+            <p class="completion-description">
+                After completing verification, mark this Jaanch as completed.
+            </p>
+
+            <form method="post"
+                  action="{% url 'company_complete_complaint' complaint.complaint_id %}"
+                  class="completion-form">
+
+                {% csrf_token %}
+
+                <button type="submit"
+                        class="jaanch-complete-btn"
+                        onclick="return confirm('Are you sure you want to mark this Jaanch as completed?');">
+                    Mark Jaanch as Completed
+                </button>
+
+            </form>
+
+        {% endif %}
+
+    </section>
+
+    {% endif %}
+
+
+</main>
+
+</body>
+</html>

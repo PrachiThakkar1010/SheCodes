@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 from products.models import ProductScan
+from users.models import CompanyProfile
 
 
 class Complaint(models.Model):
@@ -9,6 +11,7 @@ class Complaint(models.Model):
         ('REGISTERED', 'Registered'),
         ('FORWARDED', 'Forwarded to Company'),
         ('RESPONDED', 'Initial Response from Company'),
+        ('VERIFICATION', 'Verification'),
         ('COMPLETED', 'Completion'),
     ]
 
@@ -19,11 +22,28 @@ class Complaint(models.Model):
         blank=True
     )
 
+    # --------------------------------------------------------
+    # CUSTOMER
+    # --------------------------------------------------------
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='complaints'
     )
+
+    # --------------------------------------------------------
+    # ORIGINAL PARAKH SCAN
+    # --------------------------------------------------------
+    #
+    # This is the important connection to the original report.
+    #
+    # Company can use:
+    #
+    # complaint.scan.id
+    #
+    # to open the exact original Parakh result.
+    # --------------------------------------------------------
 
     scan = models.ForeignKey(
         ProductScan,
@@ -33,17 +53,51 @@ class Complaint(models.Model):
         related_name='complaints'
     )
 
-    subject = models.CharField(max_length=200)
+    # --------------------------------------------------------
+    # REGISTERED COMPANY
+    # --------------------------------------------------------
+
+    company = models.ForeignKey(
+        CompanyProfile,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='complaints'
+    )
+
+    # --------------------------------------------------------
+    # COMPLAINT INFORMATION
+    # --------------------------------------------------------
+
+    subject = models.CharField(
+        max_length=200
+    )
 
     description = models.TextField()
 
-    product_name = models.CharField(max_length=200)
+    product_name = models.CharField(
+        max_length=200
+    )
 
-    company_name = models.CharField(max_length=200)
+    company_name = models.CharField(
+        max_length=200
+    )
 
-    violation_category = models.CharField(max_length=500)
+    violation_category = models.CharField(
+        max_length=500
+    )
 
-    compliance_report = models.TextField(blank=True)
+    # --------------------------------------------------------
+    # ORIGINAL PARAKH COMPLIANCE REPORT
+    # --------------------------------------------------------
+
+    compliance_report = models.TextField(
+        blank=True
+    )
+
+    # --------------------------------------------------------
+    # CURRENT STAGE
+    # --------------------------------------------------------
 
     status = models.CharField(
         max_length=20,
@@ -51,12 +105,26 @@ class Complaint(models.Model):
         default='REGISTERED'
     )
 
-    submitted = models.DateTimeField(auto_now_add=True)
+    # --------------------------------------------------------
+    # CUSTOMER SUBMISSION
+    # --------------------------------------------------------
+
+    submitted = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    # --------------------------------------------------------
+    # FORWARDED TO COMPANY
+    # --------------------------------------------------------
 
     forwarded_at = models.DateTimeField(
         blank=True,
         null=True
     )
+
+    # --------------------------------------------------------
+    # COMPANY INITIAL RESPONSE
+    # --------------------------------------------------------
 
     initial_response = models.TextField(
         blank=True,
@@ -68,10 +136,35 @@ class Complaint(models.Model):
         null=True
     )
 
+    # --------------------------------------------------------
+    # COMPANY VERIFICATION
+    # --------------------------------------------------------
+    #
+    # This is where the company explains/submits what was
+    # corrected or verified after reviewing the complaint.
+    # --------------------------------------------------------
+
+    verification_details = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    verification_at = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    # --------------------------------------------------------
+    # COMPLETION
+    # --------------------------------------------------------
+
     completed_at = models.DateTimeField(
         blank=True,
         null=True
     )
 
     def __str__(self):
-        return f"Complaint #{self.complaint_number or self.complaint_id}"
+        return (
+            f"Complaint "
+            f"#{self.complaint_number or self.complaint_id}"
+        )

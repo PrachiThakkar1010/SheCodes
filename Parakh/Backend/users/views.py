@@ -258,7 +258,38 @@ def history_view(request):
 
 @login_required(login_url='login')
 def company_dashboard(request):
-    is_company = hasattr(request.user, 'companyprofile') or getattr(request.user, 'user_type', None) == 'company'
-    if not is_company:
+    if not hasattr(request.user, 'companyprofile'):
         return redirect('home')
-    return render(request, 'company_dashboard.html')
+
+    from package_designer.models import PackagingProject
+    from products.models import ProductScan
+
+    # Company's AI Packaging Studio projects
+    company_projects = PackagingProject.objects.filter(
+        user=request.user
+    ).order_by('-updated_at')
+
+    # Company's actual package scans / compliance audits
+    company_scans = ProductScan.objects.filter(
+        user=request.user
+    ).order_by('-scanned_at')
+
+    company_skus_count = company_projects.count()
+
+    compliant_skus_count = company_scans.filter(
+        status='COMPLIANT'
+    ).count()
+
+    recent_company_items = company_scans[:5]
+
+    context = {
+        'company_skus_count': company_skus_count,
+        'compliant_skus_count': compliant_skus_count,
+        'recent_company_items': recent_company_items,
+    }
+
+    return render(
+        request,
+        'company_dashboard.html',
+        context
+    )
