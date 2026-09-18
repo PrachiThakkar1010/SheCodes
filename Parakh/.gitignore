@@ -1,6 +1,9 @@
-Backend/config/settings.py
 venv/
 # Python cache
 __pycache__/
 *.py[cod]
 *$py.class
+
+.env
+.env.*
+!.env.example
