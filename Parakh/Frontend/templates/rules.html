@@ -7,10 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simplified rules</title>
   <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
-  <link rel="stylesheet" href="../static/css/style.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
+
 
 <header class="navbar">
 
@@ -28,6 +29,11 @@
 
             <!-- Logged-in view -->
             <a href="{% url 'home' %}">Home</a>
+
+            <!-- Company users get access to Studio -->
+            {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                <a href="{% url 'studio' %}">Studio</a>
+            {% endif %}
 
             <a href="{% url 'scan' %}">Scan</a>
 
@@ -69,18 +75,31 @@
 
                 <div class="profile-dropdown">
 
-                    <a href="{% url 'dashboard' %}">
-                        Dashboard
-                    </a>
+                    <!-- Different dashboard for company and normal users -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% else %}
+                        <a href="{% url 'dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% endif %}
 
                     <a href="{% url 'profile' %}">
                         Profile
                     </a>
 
-                    <!-- Complaints only inside dropdown -->
-                    <a href="{% url 'complaint_list' %}">
-                        Complaints
-                    </a>
+                    <!-- Complaints -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% else %}
+                        <a href="{% url 'complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% endif %}
 
                     <a
                         href="{% url 'logout' %}"
@@ -114,6 +133,7 @@
     </nav>
 
 </header>
+
 
   <div class="masthead">
     <div class="eyebrow">Ministry of Consumer Affairs, Food &amp; Public Distribution</div>

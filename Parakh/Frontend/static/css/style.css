@@ -2065,7 +2065,6 @@ main.scan-main {
         width: 100%;
     }
 }
-
 /* =========================================================
    RESULT / REPORT PAGE
 ========================================================= */
@@ -4563,10 +4562,6 @@ main.profile-page {
 }
  
 
-/* =========================================================
-   PARAKH — COMPLETE COMPLAINT SYSTEM
-   ========================================================= */
-
 
 /* =========================================================
    PARAKH — COMPLETE COMPLAINT SYSTEM
@@ -6432,3 +6427,872 @@ main.complaint-detail-main {
     border-color: #b9cfe3;
     transform: translateX(2px);
 }
+
+/* Fullscreen blur backdrop */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+/* Central Card */
+.loader-card {
+  background: #ffffff;
+  padding: 32px 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+}
+
+/* Circular Spinner */
+.circular-spinner {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 20px auto;
+  border: 5px solid #e2e8f0;
+  border-top: 5px solid #2563eb; /* Theme blue */
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.loader-subtext {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 18px;
+  min-height: 20px;
+}
+
+/* Micro-steps animation */
+.loader-steps {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.loader-steps .step.active {
+  color: #2563eb;
+}
+
+/* ============================================================
+   COMPANY COMPLAINTS
+============================================================ */
+
+.company-complaints-main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 50px 28px 80px;
+}
+
+.company-complaints-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
+    margin-bottom: 36px;
+}
+
+.page-eyebrow {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    opacity: 0.65;
+}
+
+.company-complaints-header h1 {
+    margin: 0;
+    font-size: 42px;
+    line-height: 1.1;
+}
+
+.page-subtitle {
+    margin: 12px 0 0;
+    max-width: 650px;
+    line-height: 1.6;
+    opacity: 0.7;
+}
+
+.complaint-summary-card {
+    min-width: 150px;
+    padding: 20px 24px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.summary-label {
+    display: block;
+    font-size: 13px;
+    opacity: 0.65;
+    margin-bottom: 5px;
+}
+
+.summary-number {
+    display: block;
+    font-size: 30px;
+}
+
+
+/* ============================================================
+   LIST
+============================================================ */
+
+.company-complaints-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.company-complaint-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 25px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 18px;
+    background: #fff;
+}
+
+.company-complaint-main {
+    min-width: 0;
+    flex: 1;
+}
+
+.complaint-card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.complaint-number {
+    font-size: 13px;
+    font-weight: 700;
+    opacity: 0.65;
+}
+
+.complaint-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-registered {
+    background: #fff4d6;
+}
+
+.status-forwarded {
+    background: #eaf2ff;
+}
+
+.status-responded {
+    background: #eee8ff;
+}
+
+.status-verification {
+    background: #e7f5ed;
+}
+
+.status-completed {
+    background: #e4f4e9;
+}
+
+.company-complaint-product {
+    margin: 0 0 20px;
+    font-size: 22px;
+}
+
+.company-complaint-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+}
+
+.company-complaint-meta div {
+    min-width: 150px;
+}
+
+.company-complaint-meta span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+.company-complaint-meta strong {
+    display: block;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+
+/* ============================================================
+   ACTIONS
+============================================================ */
+
+.company-complaint-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+    min-width: 190px;
+}
+
+.original-report-link,
+.company-view-complaint-btn,
+.company-empty-back-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.original-report-link {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: inherit;
+    background: transparent;
+}
+
+.company-view-complaint-btn {
+    color: #fff;
+    background: #111;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.company-empty-state {
+    padding: 70px 25px;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 15px;
+    border-radius: 50%;
+    background: #e7f5ed;
+    font-size: 22px;
+}
+
+.company-empty-state h2 {
+    margin: 0 0 8px;
+}
+
+.company-empty-state p {
+    margin: 0 auto 24px;
+    max-width: 500px;
+    line-height: 1.6;
+    opacity: 0.65;
+}
+
+.company-empty-back-btn {
+    color: #fff;
+    background: #111;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 760px) {
+
+    .company-complaints-main {
+        padding: 32px 18px 60px;
+    }
+
+    .company-complaints-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .company-complaints-header h1 {
+        font-size: 34px;
+    }
+
+    .complaint-summary-card {
+        align-self: flex-start;
+    }
+
+    .company-complaint-card {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .company-complaint-actions {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .company-complaint-meta {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+}
+
+/* =========================================================
+   COMPANY JAANCH DETAIL PAGE
+   ========================================================= */
+
+.company-jaanch-page {
+    width: min(1120px, 92%);
+    margin: 40px auto 80px;
+}
+
+
+/* ---------- HEADER ---------- */
+
+.jaanch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.jaanch-header h1 {
+    margin: 12px 0 6px;
+    font-size: 34px;
+    line-height: 1.2;
+}
+
+.jaanch-subtitle {
+    margin: 0;
+    color: #666;
+    font-size: 15px;
+}
+
+.back-link {
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+
+/* ---------- STATUS ---------- */
+
+.jaanch-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 17px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-registered {
+    background: #f1f1f1;
+    color: #555;
+}
+
+.status-forwarded {
+    background: #fff4dc;
+    color: #996600;
+}
+
+.status-responded {
+    background: #e9f2ff;
+    color: #275ea8;
+}
+
+.status-verification {
+    background: #eee9ff;
+    color: #5a3ea6;
+}
+
+.status-completed {
+    background: #e6f7ed;
+    color: #167346;
+}
+
+
+/* ---------- GENERAL CARD ---------- */
+
+.jaanch-card {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 24px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.section-heading h2 {
+    margin: 0 0 6px;
+    font-size: 21px;
+}
+
+.section-heading p {
+    margin: 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.section-date {
+    color: #777;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+
+/* ---------- TIMELINE ---------- */
+
+.jaanch-timeline {
+    position: relative;
+    padding-left: 12px;
+}
+
+.timeline-item {
+    position: relative;
+    display: flex;
+    gap: 18px;
+    min-height: 92px;
+    padding-bottom: 25px;
+}
+
+.timeline-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 16px;
+    top: 34px;
+    width: 2px;
+    height: calc(100% - 17px);
+    background: #dedede;
+}
+
+.timeline-item.completed:not(:last-child)::before {
+    background: #222;
+}
+
+.timeline-dot {
+    position: relative;
+    z-index: 2;
+
+    width: 34px;
+    height: 34px;
+
+    flex: 0 0 34px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f0f0f0;
+    color: #777;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.timeline-item.completed .timeline-dot {
+    background: #222;
+    color: #fff;
+}
+
+.timeline-content {
+    padding-top: 2px;
+}
+
+.timeline-content h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.timeline-content p {
+    margin: 0 0 5px;
+    color: #777;
+    font-size: 14px;
+}
+
+.timeline-content span {
+    color: #999;
+    font-size: 12px;
+}
+
+
+/* ---------- BUTTONS ---------- */
+
+.jaanch-primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+    padding: 10px 18px;
+
+    border-radius: 9px;
+
+    background: #111;
+    color: #fff;
+
+    text-decoration: none;
+    border: none;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.jaanch-primary-btn:hover {
+    background: #333;
+    color: #fff;
+}
+
+.jaanch-complete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+    padding: 11px 20px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #167346;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.jaanch-complete-btn:hover {
+    background: #125c38;
+}
+
+
+/* ---------- PACKAGING GALLERY ---------- */
+
+.packaging-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+}
+
+.packaging-image-card {
+    border: 1px solid #e6e6e6;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fafafa;
+}
+
+.packaging-image-card img {
+    display: block;
+    width: 100%;
+    height: 280px;
+    object-fit: contain;
+    background: #f5f5f5;
+}
+
+.image-label {
+    padding: 11px 13px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+}
+
+
+/* ---------- DETAILS ---------- */
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.detail-item {
+    padding: 17px;
+    border-radius: 12px;
+    background: #f8f8f8;
+}
+
+.detail-full {
+    grid-column: 1 / -1;
+}
+
+.detail-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #777;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.detail-item strong {
+    color: #222;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.detail-description {
+    color: #444;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* ---------- FORMS ---------- */
+
+.jaanch-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.jaanch-form label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+}
+
+.jaanch-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 13px 14px;
+
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+
+    background: #fff;
+
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+
+    resize: vertical;
+
+    outline: none;
+}
+
+.jaanch-form textarea:focus {
+    border-color: #777;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.jaanch-form .jaanch-primary-btn {
+    align-self: flex-start;
+    margin-top: 7px;
+}
+
+
+/* ---------- SAVED RESPONSES ---------- */
+
+.saved-response {
+    padding: 17px 18px;
+
+    border-left: 4px solid #222;
+    border-radius: 8px;
+
+    background: #f7f7f7;
+
+    color: #444;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.stage-message {
+    margin-top: 18px;
+    padding: 13px 15px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.success-message {
+    background: #eaf7ef;
+    color: #167346;
+}
+
+
+/* ---------- COMPLETION ---------- */
+
+.completion-card {
+    border-color: #dcefe3;
+}
+
+.completion-description {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.completion-form {
+    margin-top: 20px;
+}
+
+.completion-message {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    background: #eaf7ef;
+}
+
+.completion-icon {
+    width: 42px;
+    height: 42px;
+
+    flex: 0 0 42px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #167346;
+    color: #fff;
+
+    font-weight: 800;
+}
+
+.completion-message h3 {
+    margin: 0 0 4px;
+    font-size: 17px;
+}
+
+.completion-message p {
+    margin: 0;
+    color: #4e705d;
+    font-size: 13px;
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 700px) {
+
+    .company-jaanch-page {
+        width: 92%;
+        margin-top: 25px;
+    }
+
+    .jaanch-header {
+        flex-direction: column;
+    }
+
+    .jaanch-header h1 {
+        font-size: 28px;
+    }
+
+    .jaanch-status {
+        align-self: flex-start;
+    }
+
+    .jaanch-card {
+        padding: 20px;
+        border-radius: 14px;
+    }
+
+    .section-heading {
+        flex-direction: column;
+    }
+
+    .section-date {
+        white-space: normal;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-full {
+        grid-column: auto;
+    }
+
+    .packaging-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .packaging-image-card img {
+        height: 330px;
+    }
+
+    .jaanch-primary-btn {
+        width: 100%;
+    }
+
+    .jaanch-form .jaanch-primary-btn {
+        width: 100%;
+    }
+
+    .timeline-item {
+        gap: 13px;
+    }
+} 

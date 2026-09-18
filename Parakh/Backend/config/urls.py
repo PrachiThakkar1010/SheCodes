@@ -23,7 +23,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('products.urls')),
     path('', include('users.urls')),
-    path('', include('complaint.urls')),]
+    path('complaint/', include('complaint.urls')),
+    path('designer/', include('package_designer.urls')),
+]
+
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += staticfiles_urlpatterns()

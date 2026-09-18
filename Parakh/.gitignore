@@ -1,4 +1,4 @@
-settings.py
+Backend/config/settings.py
 venv/
 # Python cache
 __pycache__/

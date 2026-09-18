@@ -1,0 +1,356 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Company Complaints - Parakh</title>
+
+    <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+    <div class="logo-image">
+        <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+    </div>
+
+    <div class="logo">
+        <a href="{% url 'home' %}">PARAKH</a>
+    </div>
+
+    <nav class="nav-links">
+
+        {% if request.user.is_authenticated %}
+
+            <!-- Logged-in view -->
+            <a href="{% url 'home' %}">Home</a>
+
+            <!-- Company users get access to Studio -->
+            {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                <a href="{% url 'studio' %}">Studio</a>
+            {% endif %}
+
+            <a href="{% url 'scan' %}">Scan</a>
+
+            <a href="{% url 'rules' %}">Rules</a>
+
+            <!-- Profile dropdown -->
+            <div class="profile-menu">
+
+                <button
+                    type="button"
+                    class="profile-icon"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-label="Account menu"
+                >
+                    <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle
+                            cx="12"
+                            cy="8"
+                            r="4"
+                            stroke="#073b70"
+                            stroke-width="2"
+                        />
+
+                        <path
+                            d="M4 20c0-4 4-6 8-6s8 2 8 6"
+                            stroke="#073b70"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                </button>
+
+                <div class="profile-dropdown">
+
+                    <!-- Different dashboard for company and normal users -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% else %}
+                        <a href="{% url 'dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% endif %}
+
+                    <a href="{% url 'profile' %}">
+                        Profile
+                    </a>
+
+                    <!-- Complaints -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% else %}
+                        <a href="{% url 'complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% endif %}
+
+                    <a
+                        href="{% url 'logout' %}"
+                        class="btn-logout-dropdown"
+                    >
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <!-- Guest view -->
+            <a href="{% url 'home' %}">Home</a>
+
+            <a href="{% url 'scan' %}">Scan</a>
+
+            <a href="{% url 'rules' %}">Rules</a>
+
+            <a
+                href="{% url 'login' %}"
+                class="login-link"
+            >
+                Login
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+</header>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="company-complaints-main">
+
+        <section class="company-complaints-header">
+
+            <div>
+
+                <p class="page-eyebrow">
+                    COMPANY PORTAL
+                </p>
+
+                <h1>
+                    Complaints
+                </h1>
+
+                <p class="page-subtitle">
+                    Review customer Jaanch reports associated with
+                    {{ company.company_name }}.
+                </p>
+
+            </div>
+
+            <div class="complaint-summary-card">
+
+                <span class="summary-label">
+                    Total Jaanch
+                </span>
+
+                <strong class="summary-number">
+                    {{ complaints|length }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             COMPLAINT LIST
+        ================================================== -->
+
+        <section class="company-complaints-section">
+
+            {% if complaints %}
+
+                <div class="company-complaints-list">
+
+                    {% for complaint in complaints %}
+
+                        <article class="company-complaint-card">
+
+                            <div class="company-complaint-main">
+
+                                <div class="complaint-card-top">
+
+                                    <span class="complaint-number">
+                                        Jaanch #{{ complaint.complaint_number|default:complaint.complaint_id }}
+                                    </span>
+
+                                    <span class="complaint-status
+                                        {% if complaint.status == 'REGISTERED' %}
+                                            status-registered
+                                        {% elif complaint.status == 'FORWARDED' %}
+                                            status-forwarded
+                                        {% elif complaint.status == 'RESPONDED' %}
+                                            status-responded
+                                        {% elif complaint.status == 'VERIFICATION' %}
+                                            status-verification
+                                        {% elif complaint.status == 'COMPLETED' %}
+                                            status-completed
+                                        {% endif %}
+                                    ">
+                                        {{ complaint.get_status_display }}
+                                    </span>
+
+                                </div>
+
+
+                                <h2 class="company-complaint-product">
+                                    {{ complaint.product_name }}
+                                </h2>
+
+
+                                <div class="company-complaint-meta">
+
+                                    <div>
+                                        <span>Violation</span>
+                                        <strong>
+                                            {{ complaint.violation_category }}
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>Submitted by</span>
+                                        <strong>
+                                            {{ complaint.user.username }}
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>Submitted</span>
+                                        <strong>
+                                            {{ complaint.submitted|date:"d M Y, h:i A" }}
+                                        </strong>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 ACTIONS
+                            ================================== -->
+
+                            <div class="company-complaint-actions">
+
+                                {% if complaint.scan %}
+
+                                    <a
+                                        href="{% url 'result' complaint.scan.id %}"
+                                        class="original-report-link"
+                                    >
+                                        View Original Report
+                                    </a>
+
+                                {% endif %}
+
+                                <a
+                                    href="{% url 'company_complaint_detail' complaint.complaint_id %}"
+                                    class="company-view-complaint-btn"
+                                >
+                                    View Jaanch
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="company-empty-state">
+
+                    <div class="empty-icon">
+                        ✓
+                    </div>
+
+                    <h2>
+                        No complaints yet
+                    </h2>
+
+                    <p>
+                        Customer complaints associated with your
+                        company will appear here.
+                    </p>
+
+                    <a
+                        href="{% url 'company_dashboard' %}"
+                        class="company-empty-back-btn"
+                    >
+                        Back to Dashboard
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         SIMPLE PROFILE DROPDOWN
+    ====================================================== -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const button = document.querySelector(".profile-button");
+            const menu = document.querySelector(".profile-menu");
+
+            if (!button || !menu) {
+                return;
+            }
+
+            button.addEventListener("click", function (event) {
+
+                event.stopPropagation();
+
+                menu.classList.toggle("show");
+
+            });
+
+            document.addEventListener("click", function () {
+
+                menu.classList.remove("show");
+
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

@@ -5,8 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils import timezone
 
 from products.models import ProductScan
+from users.models import CompanyProfile
 
 from .forms import ComplaintForm
 from .models import Complaint
@@ -18,11 +20,9 @@ from .models import Complaint
 
 def _profile_is_complete(user):
     """
-    A user must have both:
-        - email address
+    Customer must have:
+        - email
         - mobile number
-
-    before filing a complaint.
     """
 
     if not user.email or not user.email.strip():
@@ -41,29 +41,120 @@ def _profile_is_complete(user):
 
 
 # ============================================================
+# COMPANY NAME NORMALIZATION
+# ============================================================
+
+def _normalize_company_name(value):
+    """
+    Normalize company/manufacturer names before comparison.
+
+    Example:
+
+        BALAJI WAFERS
+        Balaji Wafers
+        Balaji Wafers Pvt. Ltd.
+
+    become easier to compare.
+
+    This is deliberately conservative. We do not want to
+    accidentally assign a complaint to the wrong company.
+    """
+
+    if not value:
+        return ''
+
+    value = str(value).strip().lower()
+
+    replacements = [
+        ('.', ' '),
+        (',', ' '),
+        ('-', ' '),
+        ('_', ' '),
+        ('&', ' and '),
+    ]
+
+    for old, new in replacements:
+        value = value.replace(old, new)
+
+    company_suffixes = [
+        'private limited',
+        'pvt ltd',
+        'pvt. ltd',
+        'pvt ltd.',
+        'limited',
+        'ltd',
+        'ltd.',
+        'llp',
+    ]
+
+    for suffix in company_suffixes:
+        if value.endswith(suffix):
+            value = value[:-len(suffix)]
+
+    return ' '.join(value.split())
+
+
+# ============================================================
+# FIND REGISTERED COMPANY
+# ============================================================
+
+def _find_company(company_name):
+    """
+    Try to associate a complaint with a registered
+    CompanyProfile.
+
+    Returns:
+        CompanyProfile instance
+        OR
+        None
+    """
+
+    normalized_name = _normalize_company_name(
+        company_name
+    )
+
+    if not normalized_name:
+        return None
+
+    companies = CompanyProfile.objects.all()
+
+    for company in companies:
+
+        registered_name = _normalize_company_name(
+            company.company_name
+        )
+
+        if not registered_name:
+            continue
+
+        # Exact normalized match.
+        if normalized_name == registered_name:
+            return company
+
+        # Conservative containment match for cases such as:
+        #
+        # "balaji wafers"
+        # "balaji wafers pvt ltd"
+        #
+        # Only accept this when one is clearly contained in
+        # the other.
+        if (
+            normalized_name in registered_name
+            or registered_name in normalized_name
+        ):
+            return company
+
+    return None
+
+
+# ============================================================
 # COMPLAINT SUBMISSION
 # ============================================================
 
 @login_required(login_url='login')
 def submit_complaint(request):
-    """
-    Display and submit a complaint for a specific non-compliant scan.
-
-    The scan is identified using:
-
-        /complaint/?scan_id=<scan_id>
-
-    The complaint is permanently linked to ProductScan.
-
-    Original ProductScanImage objects automatically become
-    the evidence associated with the complaint.
-    """
 
     user = request.user
-
-    # --------------------------------------------------------
-    # 1. GET SCAN ID FIRST
-    # --------------------------------------------------------
 
     scan_id = (
         request.GET.get('scan_id')
@@ -77,16 +168,6 @@ def submit_complaint(request):
         )
         return redirect('dashboard')
 
-    # --------------------------------------------------------
-    # 2. BUILD RETURN URL
-    # --------------------------------------------------------
-    #
-    # This URL is used when the user's profile is incomplete.
-    #
-    # Profile page will redirect the user back here after
-    # successfully saving their email/mobile number.
-    # --------------------------------------------------------
-
     complaint_url = (
         reverse('complaint_home')
         + '?'
@@ -96,7 +177,7 @@ def submit_complaint(request):
     )
 
     # --------------------------------------------------------
-    # 3. PROFILE COMPLETENESS CHECK
+    # PROFILE CHECK
     # --------------------------------------------------------
 
     if not _profile_is_complete(user):
@@ -118,27 +199,7 @@ def submit_complaint(request):
         return redirect(profile_url)
 
     # --------------------------------------------------------
-    # 4. GET THE SCAN
-    # --------------------------------------------------------
-    #
-    # Normal case:
-    #     scan.user == current user
-    #
-    # Guest-scan case:
-    #     scan.user == None
-    #
-    # A guest scan can be claimed by the authenticated user here.
-    # This allows:
-    #
-    #     Guest Report
-    #          ↓
-    #     File a Complaint
-    #          ↓
-    #     Login
-    #          ↓
-    #     Complaint Form
-    #
-    # without losing the original scan.
+    # GET SCAN
     # --------------------------------------------------------
 
     scan = get_object_or_404(
@@ -153,30 +214,22 @@ def submit_complaint(request):
             'You cannot file a complaint using another user\'s scan.'
         )
 
-        return redirect(
-            'dashboard'
-        )
+        return redirect('dashboard')
 
     # --------------------------------------------------------
-    # 5. CLAIM GUEST SCAN
-    # --------------------------------------------------------
-    #
-    # If the scan was created while the user was logged out,
-    # attach it to the authenticated user now.
-    #
-    # This also means the scan will subsequently appear in
-    # the user's scan history.
+    # CLAIM GUEST SCAN
     # --------------------------------------------------------
 
     if scan.user is None:
 
         scan.user = user
+
         scan.save(
             update_fields=['user']
         )
 
     # --------------------------------------------------------
-    # 6. GET COMPLIANCE REPORT
+    # GET REPORT
     # --------------------------------------------------------
 
     report = getattr(
@@ -198,7 +251,7 @@ def submit_complaint(request):
         )
 
     # --------------------------------------------------------
-    # 7. COMPLAINTS ONLY FOR NON-COMPLIANT PRODUCTS
+    # ONLY NON-COMPLIANT PRODUCTS
     # --------------------------------------------------------
 
     if report.is_compliant:
@@ -214,11 +267,7 @@ def submit_complaint(request):
         )
 
     # --------------------------------------------------------
-    # 8. CHECK FOR EXISTING COMPLAINT
-    # --------------------------------------------------------
-    #
-    # A user should not accidentally file multiple complaints
-    # for the exact same scan.
+    # DUPLICATE CHECK
     # --------------------------------------------------------
 
     existing_complaint = (
@@ -250,7 +299,7 @@ def submit_complaint(request):
         )
 
     # --------------------------------------------------------
-    # 9. GET OCR DATA
+    # OCR DATA
     # --------------------------------------------------------
 
     extracted = getattr(
@@ -260,7 +309,7 @@ def submit_complaint(request):
     )
 
     # --------------------------------------------------------
-    # 10. GET VIOLATIONS
+    # VIOLATIONS
     # --------------------------------------------------------
 
     violations = list(
@@ -270,7 +319,7 @@ def submit_complaint(request):
     )
 
     # --------------------------------------------------------
-    # 11. BUILD VIOLATION CATEGORY
+    # VIOLATION CATEGORY
     # --------------------------------------------------------
 
     violation_titles = []
@@ -297,26 +346,12 @@ def submit_complaint(request):
     )
 
     if not violation_category:
-
         violation_category = (
             'Legal Metrology Compliance Violation'
         )
 
     # --------------------------------------------------------
-    # 12. BUILD COMPLIANCE REPORT TEXT
-    # --------------------------------------------------------
-    #
-    # IMPORTANT:
-    #
-    # This is NOT placed into the user's complaint description.
-    #
-    # It is stored separately in:
-    #
-    #     complaint.compliance_report
-    #
-    # so that the report remains available to the complaint
-    # without forcing Parakh's findings into the user's own
-    # description.
+    # COMPLIANCE REPORT TEXT
     # --------------------------------------------------------
 
     report_sections = []
@@ -356,9 +391,7 @@ def submit_complaint(request):
             f'Applicable Rule: {rule_description}'
         )
 
-        report_sections.append(
-            section
-        )
+        report_sections.append(section)
 
     compliance_report_text = '\n\n'.join(
         report_sections
@@ -368,12 +401,11 @@ def submit_complaint(request):
 
         compliance_report_text = (
             'Parakh identified this product as non-compliant. '
-            'Please review the attached product scan images and '
-            'the compliance findings.'
+            'Please review the original scan and compliance report.'
         )
 
     # --------------------------------------------------------
-    # 13. PRODUCT NAME
+    # PRODUCT NAME
     # --------------------------------------------------------
 
     product_name = (
@@ -393,10 +425,10 @@ def submit_complaint(request):
     )
 
     # --------------------------------------------------------
-    # 14. COMPANY / MANUFACTURER
+    # COMPANY / MANUFACTURER
     # --------------------------------------------------------
 
-    company_name = (
+    detected_company_name = (
         getattr(
             extracted,
             'manufacturer_name',
@@ -406,51 +438,32 @@ def submit_complaint(request):
         else None
     )
 
-    company_name = (
-        company_name.strip()
-        if isinstance(company_name, str)
-        else company_name
-    )
+    if isinstance(detected_company_name, str):
+        detected_company_name = (
+            detected_company_name.strip()
+        )
 
-    company_name = (
-        company_name
+    detected_company_name = (
+        detected_company_name
         or 'Manufacturer not detected'
     )
 
     # --------------------------------------------------------
-    # 15. PREPARE PARAKH DATA FOR FORM
-    # --------------------------------------------------------
-    #
-    # The important change here is:
-    #
-    # description = ''
-    #
-    # The user gets a clean complaint description field
-    # instead of Parakh automatically writing the violation
-    # findings into it.
-    #
-    # The findings are still stored separately in
-    # compliance_report when the complaint is submitted.
+    # PREPARE FORM DATA
     # --------------------------------------------------------
 
     parakh_scan = {
         'scan_id': scan.id,
-
         'product_name': product_name,
-
-        'company_name': company_name,
-
+        'company_name': detected_company_name,
         'violation_category': violation_category,
-
         'subject': 'Non-Compliant Product Report',
-
         'description': '',
-
         'compliance_report': compliance_report_text,
     }
 
     # --------------------------------------------------------
-    # 16. HANDLE FORM SUBMISSION
+    # FORM
     # --------------------------------------------------------
 
     if request.method == 'POST':
@@ -461,23 +474,6 @@ def submit_complaint(request):
         )
 
         if form.is_valid():
-
-            # ------------------------------------------------
-            # PER-USER COMPLAINT NUMBER
-            # ------------------------------------------------
-            #
-            # Example:
-            #
-            # User A:
-            #     Jaanch #1
-            #     Jaanch #2
-            #
-            # User B:
-            #     Jaanch #1
-            #     Jaanch #2
-            #
-            # complaint_id remains globally unique internally.
-            # ------------------------------------------------
 
             last_number = (
                 Complaint.objects
@@ -500,6 +496,13 @@ def submit_complaint(request):
             )
 
             # ------------------------------------------------
+            # SECURITY / OWNERSHIP
+            # ------------------------------------------------
+
+            complaint.user = user
+            complaint.scan = scan
+
+            # ------------------------------------------------
             # COMPLAINT NUMBER
             # ------------------------------------------------
 
@@ -508,22 +511,7 @@ def submit_complaint(request):
             )
 
             # ------------------------------------------------
-            # SECURITY
-            # ------------------------------------------------
-
-            complaint.user = user
-
-            # ------------------------------------------------
-            # LINK TO ACTUAL PRODUCT SCAN
-            # ------------------------------------------------
-
-            complaint.scan = scan
-
-            # ------------------------------------------------
-            # USE PARAKH-DERIVED PRODUCT DATA
-            # ------------------------------------------------
-            #
-            # These values are not trusted from POST data.
+            # PRODUCT
             # ------------------------------------------------
 
             complaint.product_name = (
@@ -533,28 +521,32 @@ def submit_complaint(request):
             # ------------------------------------------------
             # COMPANY NAME
             # ------------------------------------------------
-            #
-            # If Parakh detected the company, use its value.
-            #
-            # If not, use the company entered by the user.
-            # ------------------------------------------------
 
-            if company_name == 'Manufacturer not detected':
+            if (
+                detected_company_name
+                == 'Manufacturer not detected'
+            ):
 
                 complaint.company_name = (
-                    form.cleaned_data[
-                        'company_name'
-                    ]
+                    form.cleaned_data['company_name']
                 )
 
             else:
 
                 complaint.company_name = (
-                    company_name
+                    detected_company_name
                 )
 
             # ------------------------------------------------
-            # VIOLATION CATEGORY
+            # FIND REGISTERED COMPANY
+            # ------------------------------------------------
+
+            complaint.company = _find_company(
+                complaint.company_name
+            )
+
+            # ------------------------------------------------
+            # VIOLATION
             # ------------------------------------------------
 
             complaint.violation_category = (
@@ -562,12 +554,7 @@ def submit_complaint(request):
             )
 
             # ------------------------------------------------
-            # STORE COMPLIANCE FINDINGS SEPARATELY
-            # ------------------------------------------------
-            #
-            # The user's description stays their own text.
-            #
-            # Parakh's findings are stored here.
+            # ORIGINAL PARAKH REPORT
             # ------------------------------------------------
 
             complaint.compliance_report = (
@@ -575,14 +562,10 @@ def submit_complaint(request):
             )
 
             # ------------------------------------------------
-            # INITIAL STATUS
+            # INITIAL STAGE
             # ------------------------------------------------
 
             complaint.status = 'REGISTERED'
-
-            # ------------------------------------------------
-            # SAVE
-            # ------------------------------------------------
 
             complaint.save()
 
@@ -603,30 +586,24 @@ def submit_complaint(request):
         )
 
     # --------------------------------------------------------
-    # 17. ORIGINAL PRODUCT IMAGES = EVIDENCE
+    # ORIGINAL PRODUCT IMAGES
     # --------------------------------------------------------
 
     scan_images = scan.images.all()
 
     # --------------------------------------------------------
-    # 18. PAGE CONTEXT
+    # CONTEXT
     # --------------------------------------------------------
 
     context = {
         'form': form,
-
         'scan': scan,
-
         'scan_images': scan_images,
-
         'parakh_scan': parakh_scan,
-
         'compliance_report': compliance_report_text,
-
         'violations': violations,
-
         'company_detected': (
-            company_name
+            detected_company_name
             != 'Manufacturer not detected'
         ),
     }
@@ -639,16 +616,11 @@ def submit_complaint(request):
 
 
 # ============================================================
-# COMPLAINT TRACKING DASHBOARD
+# CUSTOMER COMPLAINT TRACKING
 # ============================================================
 
 @login_required(login_url='login')
 def complaint_list(request):
-    """
-    Complaint tracking dashboard.
-
-    Users can only see complaints submitted by themselves.
-    """
 
     complaints = (
         Complaint.objects
@@ -656,7 +628,8 @@ def complaint_list(request):
             user=request.user
         )
         .select_related(
-            'scan'
+            'scan',
+            'company'
         )
         .prefetch_related(
             'scan__images'
@@ -676,22 +649,16 @@ def complaint_list(request):
 
 
 # ============================================================
-# COMPLAINT DETAIL
+# CUSTOMER COMPLAINT DETAIL
 # ============================================================
 
 @login_required(login_url='login')
 def complaint_detail(request, complaint_id):
-    """
-    Display one complaint.
-
-    A complaint can only be viewed by the user who submitted it.
-    """
 
     complaint = get_object_or_404(
         Complaint.objects
         .select_related(
             'scan',
-            'user'
         )
         .prefetch_related(
             'scan__images'
@@ -699,10 +666,6 @@ def complaint_detail(request, complaint_id):
         complaint_id=complaint_id,
         user=request.user
     )
-
-    # --------------------------------------------------------
-    # ORIGINAL SCAN IMAGES
-    # --------------------------------------------------------
 
     scan_images = []
 
@@ -770,17 +733,10 @@ def complaint_detail(request, complaint_id):
             index == current_stage_index
         )
 
-    # --------------------------------------------------------
-    # CONTEXT
-    # --------------------------------------------------------
-
     context = {
         'complaint': complaint,
-
         'scan_images': scan_images,
-
         'tracking_stages': stages,
-
         'current_stage_index': current_stage_index,
     }
 
@@ -788,4 +744,357 @@ def complaint_detail(request, complaint_id):
         request,
         'complaint_detail.html',
         context
+    )
+
+
+# ============================================================
+# COMPANY COMPLAINT DASHBOARD
+# ============================================================
+
+@login_required(login_url='login')
+def company_complaint_list(request):
+    """
+    Company users see only complaints associated with
+    their CompanyProfile.
+    """
+
+    if not hasattr(request.user, 'companyprofile'):
+
+        messages.error(
+            request,
+            'Company access is required to view company complaints.'
+        )
+
+        return redirect('dashboard')
+
+    company = request.user.companyprofile
+
+    complaints = (
+        Complaint.objects
+        .filter(
+            company=company
+        )
+        .select_related(
+            'user',
+            'scan',
+            'company'
+        )
+        .order_by(
+            '-submitted'
+        )
+    )
+
+    return render(
+        request,
+        'company_complaints.html',
+        {
+            'complaints': complaints,
+            'company': company,
+        }
+    )
+
+
+# ============================================================
+# COMPANY COMPLAINT DETAIL / JAANCH
+# ============================================================
+
+@login_required(login_url='login')
+def company_complaint_detail(request, complaint_id):
+    """
+    Company-side complaint detail.
+
+    A company can ONLY access complaints assigned to its
+    CompanyProfile.
+    """
+
+    if not hasattr(request.user, 'companyprofile'):
+
+        messages.error(
+            request,
+            'Company access is required.'
+        )
+
+        return redirect('dashboard')
+
+    company = request.user.companyprofile
+
+    complaint = get_object_or_404(
+        Complaint.objects
+        .select_related(
+            'user',
+            'scan',
+            'company'
+        )
+        .prefetch_related(
+            'scan__images'
+        ),
+        complaint_id=complaint_id,
+        company=company
+    )
+
+    scan_images = []
+
+    if complaint.scan:
+
+        scan_images = (
+            complaint.scan
+            .images
+            .all()
+        )
+
+    return render(
+        request,
+        'company_complaint_detail.html',
+        {
+            'complaint': complaint,
+            'company': company,
+            'scan_images': scan_images,
+        }
+    )
+
+
+# ============================================================
+# COMPANY INITIAL RESPONSE
+# ============================================================
+
+@login_required(login_url='login')
+def company_initial_response(request, complaint_id):
+    """
+    Company submits its first response.
+
+    REGISTERED / FORWARDED
+            ↓
+        RESPONDED
+    """
+
+    if not hasattr(request.user, 'companyprofile'):
+
+        messages.error(
+            request,
+            'Company access is required.'
+        )
+
+        return redirect('dashboard')
+
+    company = request.user.companyprofile
+
+    complaint = get_object_or_404(
+        Complaint,
+        complaint_id=complaint_id,
+        company=company
+    )
+
+    if request.method != 'POST':
+
+        return redirect(
+            'company_complaint_detail',
+            complaint_id=complaint.complaint_id
+        )
+
+    response_text = (
+        request.POST.get(
+            'initial_response',
+            ''
+        )
+        .strip()
+    )
+
+    if not response_text:
+
+        messages.error(
+            request,
+            'Please enter your initial response.'
+        )
+
+        return redirect(
+            'company_complaint_detail',
+            complaint_id=complaint.complaint_id
+        )
+
+    complaint.initial_response = response_text
+
+    complaint.initial_response_at = timezone.now()
+
+    complaint.status = 'RESPONDED'
+
+    complaint.save(
+        update_fields=[
+            'initial_response',
+            'initial_response_at',
+            'status',
+        ]
+    )
+
+    messages.success(
+        request,
+        'Initial response submitted successfully.'
+    )
+
+    return redirect(
+        'company_complaint_detail',
+        complaint_id=complaint.complaint_id
+    )
+
+
+# ============================================================
+# COMPANY VERIFICATION
+# ============================================================
+
+@login_required(login_url='login')
+def company_verification(request, complaint_id):
+    """
+    Company submits verification/correction details.
+
+    RESPONDED
+        ↓
+    VERIFICATION
+    """
+
+    if not hasattr(request.user, 'companyprofile'):
+
+        messages.error(
+            request,
+            'Company access is required.'
+        )
+
+        return redirect('dashboard')
+
+    company = request.user.companyprofile
+
+    complaint = get_object_or_404(
+        Complaint,
+        complaint_id=complaint_id,
+        company=company
+    )
+
+    if request.method != 'POST':
+
+        return redirect(
+            'company_complaint_detail',
+            complaint_id=complaint.complaint_id
+        )
+
+    verification_details = (
+        request.POST.get(
+            'verification_details',
+            ''
+        )
+        .strip()
+    )
+
+    if not verification_details:
+
+        messages.error(
+            request,
+            'Please enter the verification details.'
+        )
+
+        return redirect(
+            'company_complaint_detail',
+            complaint_id=complaint.complaint_id
+        )
+
+    complaint.verification_details = (
+        verification_details
+    )
+
+    complaint.verification_at = (
+        timezone.now()
+    )
+
+    complaint.status = 'VERIFICATION'
+
+    complaint.save(
+        update_fields=[
+            'verification_details',
+            'verification_at',
+            'status',
+        ]
+    )
+
+    messages.success(
+        request,
+        'Verification submitted successfully.'
+    )
+
+    return redirect(
+        'company_complaint_detail',
+        complaint_id=complaint.complaint_id
+    )
+
+
+# ============================================================
+# COMPANY COMPLETE COMPLAINT
+# ============================================================
+
+@login_required(login_url='login')
+def company_complete_complaint(
+    request,
+    complaint_id
+):
+    """
+    Company marks a verified complaint as completed.
+
+    VERIFICATION
+        ↓
+    COMPLETED
+    """
+
+    if not hasattr(request.user, 'companyprofile'):
+
+        messages.error(
+            request,
+            'Company access is required.'
+        )
+
+        return redirect('dashboard')
+
+    company = request.user.companyprofile
+
+    complaint = get_object_or_404(
+        Complaint,
+        complaint_id=complaint_id,
+        company=company
+    )
+
+    if request.method != 'POST':
+
+        return redirect(
+            'company_complaint_detail',
+            complaint_id=complaint.complaint_id
+        )
+
+    if not complaint.verification_details:
+
+        messages.error(
+            request,
+            'Verification must be submitted before completion.'
+        )
+
+        return redirect(
+            'company_complaint_detail',
+            complaint_id=complaint.complaint_id
+        )
+
+    complaint.status = 'COMPLETED'
+
+    complaint.completed_at = (
+        timezone.now()
+    )
+
+    complaint.save(
+        update_fields=[
+            'status',
+            'completed_at',
+        ]
+    )
+
+    messages.success(
+        request,
+        'Jaanch marked as completed.'
+    )
+
+    return redirect(
+        'company_complaint_detail',
+        complaint_id=complaint.complaint_id
     )

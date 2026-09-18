@@ -1,4 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
+from django.urls import reverse
+from .models import ProductScan, ScanViolation
+# from .compliance_engine import audit_compliance_vision
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.urls import reverse
@@ -58,23 +62,66 @@ def scan_view(request):
 
     return render(request, 'scan.html')
 
-
 def result_view(request, scan_id):
+
+    scan = None
+
     if request.user.is_authenticated:
-        scan = get_object_or_404(
-            ProductScan,
+
+        # ---------------------------------------------------------
+        # 1. Customer owns the scan
+        # ---------------------------------------------------------
+        scan = ProductScan.objects.filter(
             id=scan_id,
             user=request.user
-        )
-    else:
-        scan = get_object_or_404(
-            ProductScan,
-            id=scan_id
-        )
+        ).first()
 
+        # ---------------------------------------------------------
+        # 2. Company can view a scan if it is linked to a
+        #    complaint belonging to that company
+        # ---------------------------------------------------------
+        if scan is None:
+
+            company_profile = getattr(
+                request.user,
+                'companyprofile',
+                None
+            )
+
+            if company_profile:
+                scan = (
+                    ProductScan.objects
+                    .filter(
+                        id=scan_id,
+                        complaints__company=company_profile
+                    )
+                    .distinct()
+                    .first()
+                )
+
+    else:
+        # ---------------------------------------------------------
+        # Guest access
+        # ---------------------------------------------------------
+        scan = ProductScan.objects.filter(
+            id=scan_id
+        ).first()
+
+    # ---------------------------------------------------------
+    # Scan does not exist OR user/company is not authorized
+    # ---------------------------------------------------------
+    if scan is None:
+        from django.http import Http404
+        raise Http404("No ProductScan matches the given query.")
+    
     context = {
         'scan': scan,
     }
+
+    context['is_company_user'] = (
+    request.user.is_authenticated
+    and hasattr(request.user, 'companyprofile')
+    )
 
     # ---------------------------------------------------------
     # COMPLAINT / REPORT NAVIGATION
@@ -302,3 +349,4 @@ def history_view(request):
 def rules_view(request):
     rules = ComplianceRule.objects.filter(is_active=True)
     return render(request, 'rules.html', {'rules': rules})
+

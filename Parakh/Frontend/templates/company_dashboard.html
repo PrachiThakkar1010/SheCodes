@@ -1,69 +1,593 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Company Dashboard - PARAKH</title>
-<link rel="stylesheet" href="{% static 'css/company_dashboard.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Company Dashboard - Parakh</title>
+
+    <link rel="icon" type="image/png" href="{% static 'images/Logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
-<nav class="navbar">
-<div class="logo">PARAKH</div>
-<div class="nav-links">
-<a href="{% url 'company_dashboard' %}">Dashboard</a>
-<a href="{% url 'profile' %}">Profile</a>
-<a href="{% url 'logout' %}">Logout</a>
-</div>
-</nav>
-<main class="company-dashboard">
-<section class="dashboard-header">
-<h1>Company Dashboard</h1>
-<p>Monitor product compliance and manage your company activities.</p>
-</section>
-<section class="stats-grid">
-<div class="stat-card"><h3>Total Products</h3><p>{{ total_products }}</p></div>
-<div class="stat-card"><h3>Compliant</h3><p>{{ compliant_products }}</p></div>
-<div class="stat-card"><h3>Non-Compliant</h3><p>{{ non_compliant_products }}</p></div>
-<div class="stat-card"><h3>Pending</h3><p>{{ pending_products }}</p></div>
-</section>
-<section class="dashboard-grid">
-<div class="dashboard-card">
-<h2>Product Compliance</h2>
-<table>
-<thead>
-<tr><th>Product</th><th>Product ID</th><th>Status</th><th>Date</th></tr>
-</thead>
-<tbody>
-{% for product in recent_products %}
-<tr>
-<td>{{ product.product_name }}</td>
-<td>{{ product.product_id }}</td>
-<td><span class="status">{{ product.status }}</span></td>
-<td>{{ product.scanned_at|date:"d M Y" }}</td>
-</tr>
-{% empty %}
-<tr><td colspan="4">No products found.</td></tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-<div class="dashboard-card">
-<h2>Quick Actions</h2>
-<a class="action-btn" href="#">Scan Product</a>
-<a class="action-btn" href="#">Compliance Reports</a>
-<a class="action-btn" href="#">Resolve Complaint</a>
-<a class="action-btn" href="#">AI Assistant</a>
-</div>
-</section>
-<section class="dashboard-card assistant-card">
-<h2>AI Assistant</h2>
-<p>Get help with compliance requirements, product information and company queries.</p>
-<button class="primary-btn">Ask AI Assistant</button>
-</section>
-</main>
-<footer>
-<p>© 2026 PARAKH - Company Compliance Dashboard</p>
-</footer>
+
+    {% if messages %}
+    <div id="toast-container" class="toast-container">
+        {% for message in messages %}
+        <div class="toast-popup toast-{{ message.tags }}">
+            <span>{{ message }}</span>
+            <button type="button"
+                    class="toast-close"
+                    onclick="this.parentElement.remove();">
+                &times;
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+<header class="navbar">
+
+    <div class="logo-image">
+        <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+    </div>
+
+    <div class="logo">
+        <a href="{% url 'home' %}">PARAKH</a>
+    </div>
+
+    <nav class="nav-links">
+
+        {% if request.user.is_authenticated %}
+
+            <!-- Logged-in view -->
+            <a href="{% url 'home' %}">Home</a>
+
+            <!-- Company users get access to Studio -->
+            {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                <a href="{% url 'studio' %}">Studio</a>
+            {% endif %}
+
+            <a href="{% url 'scan' %}">Scan</a>
+
+            <a href="{% url 'rules' %}">Rules</a>
+
+            <!-- Profile dropdown -->
+            <div class="profile-menu">
+
+                <button
+                    type="button"
+                    class="profile-icon"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-label="Account menu"
+                >
+                    <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle
+                            cx="12"
+                            cy="8"
+                            r="4"
+                            stroke="#073b70"
+                            stroke-width="2"
+                        />
+
+                        <path
+                            d="M4 20c0-4 4-6 8-6s8 2 8 6"
+                            stroke="#073b70"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                </button>
+
+                <div class="profile-dropdown">
+
+                    <!-- Different dashboard for company and normal users -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% else %}
+                        <a href="{% url 'dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% endif %}
+
+                    <a href="{% url 'profile' %}">
+                        Profile
+                    </a>
+
+                    <!-- Complaints -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% else %}
+                        <a href="{% url 'complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% endif %}
+
+                    <a
+                        href="{% url 'logout' %}"
+                        class="btn-logout-dropdown"
+                    >
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <!-- Guest view -->
+            <a href="{% url 'home' %}">Home</a>
+
+            <a href="{% url 'scan' %}">Scan</a>
+
+            <a href="{% url 'rules' %}">Rules</a>
+
+            <a
+                href="{% url 'login' %}"
+                class="login-link"
+            >
+                Login
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+</header>
+
+
+    <!-- =========================
+         MAIN DASHBOARD
+    ========================== -->
+
+    <main class="dashboard-main">
+
+
+        <!-- =========================
+             DASHBOARD HEADER
+        ========================== -->
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    Company Portal
+                </p>
+
+                <h1 id="greetingText">
+                    Welcome back,
+                    {{ request.user.companyprofile.company_name|default:request.user.username }}
+                </h1>
+
+                <p class="dashboard-subtext"
+                   id="dashboardDate">
+                    {% now "l, d F Y" %}
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             STAT CARDS
+        ========================== -->
+
+        <div class="stats-grid">
+
+
+            <!-- Registered SKUs -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon stat-icon-total">
+
+                    <svg width="20"
+                         height="20"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+
+                        <path d="M9 2H15M12 2V6M5 8H19L18 21H6L5 8Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+
+                    </svg>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <p class="stat-number">
+                        {{ company_skus_count|default:"0" }}
+                    </p>
+
+                    <p class="stat-label">
+                        Registered SKUs
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Compliant Package Audits -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon stat-icon-clean">
+
+                    <svg width="20"
+                         height="20"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+
+                        <path d="M9 12L11 14L15 10
+                                 M21 12
+                                 C21 16.9706 16.9706 21 12 21
+                                 C7.02944 21 3 16.9706 3 12
+                                 C3 7.02944 7.02944 3 12 3
+                                 C16.9706 3 21 7.02944 21 12Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+
+                    </svg>
+
+                </div>
+
+
+                <div class="stat-info">
+
+                    <p class="stat-number">
+                        {{ compliant_skus_count|default:"0" }}
+                    </p>
+
+                    <p class="stat-label">
+                        Compliant Package Audits
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             DASHBOARD LAYOUT
+        ========================== -->
+
+        <div class="dashboard-layout">
+
+
+            <!-- =========================
+                 RECENT PACKAGE AUDITS
+            ========================== -->
+
+            <section class="dashboard-section">
+
+
+                <div class="dashboard-section-header">
+
+                    <h2>
+                        Recent Package Audits
+                    </h2>
+
+                    <a href="{% url 'history' %}"
+                       class="view-all-link">
+                        View All →
+                    </a>
+
+                </div>
+
+
+
+                <div class="recent-list">
+
+                    {% for item in recent_company_items %}
+
+
+                    <!-- Recent scan -->
+
+                    <a href="{% url 'result' item.id %}"
+                       class="recent-card">
+
+
+                        <!-- Product thumbnail -->
+
+                        <div class="recent-card-thumb">
+
+                            {% if item.image %}
+
+                                <img src="{{ item.image.url }}"
+                                     alt="{{ item.product_name|default:'Product Scan' }}">
+
+                            {% else %}
+
+                                <img src="{% static 'Logo.png' %}"
+                                     alt="Product Scan">
+
+                            {% endif %}
+
+                        </div>
+
+
+
+                        <!-- Product information -->
+
+                        <div class="recent-card-info">
+
+                            <h3>
+                                {{ item.product_name|default:"Unnamed Product" }}
+                            </h3>
+
+                            <p class="recent-card-date">
+                                {{ item.scanned_at|date:"d F Y, g:i A" }}
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- Scan status -->
+
+                        <div class="history-card-status
+                            {% if item.status == 'COMPLIANT' %}
+                                status-clean
+                            {% elif item.status == 'NON_COMPLIANT' %}
+                                status-violation
+                            {% else %}
+                                status-pending
+                            {% endif %}">
+
+                            <span class="status-dot"></span>
+
+                            {{ item.get_status_display }}
+
+                        </div>
+
+
+                    </a>
+
+
+                    {% empty %}
+
+
+                    <!-- No scans -->
+
+                    <p style="padding: 1.5rem; color: #666;">
+
+                        No package audits yet.
+                        Click "Scan Package" to audit a package.
+
+                    </p>
+
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================
+                 SIDEBAR
+            ========================== -->
+
+            <aside class="dashboard-sidebar">
+
+
+                <!-- =========================
+                     AI PACKAGING STUDIO CTA
+                ========================== -->
+
+                <div class="scan-cta-card"
+                     style="margin-bottom: 1rem; border: 1px solid #008080;">
+
+                    <div class="scan-cta-card-icon"
+                         style="color: #008080;">
+
+                        <svg width="26"
+                             height="26"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2">
+
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+
+                            <polyline points="2 17 12 22 22 17"/>
+
+                            <polyline points="2 12 12 17 22 12"/>
+
+                        </svg>
+
+                    </div>
+
+
+                    <h3>
+                        AI Packaging Studio
+                    </h3>
+
+
+                    <p>
+                        Design legally compliant packaging with AI co-pilot.
+                    </p>
+
+
+                    <a href="{% url 'studio' %}"
+                       class="btn-primary btn-block"
+                       style="background-color: #008080;">
+
+                        Launch Studio
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =========================
+                     COMPANY PROFILE CARD
+                ========================== -->
+
+                <div class="profile-card">
+
+                    <h3 class="profile-card-heading">
+                        Company Account
+                    </h3>
+
+
+
+                    <div class="profile-fields-grid">
+
+
+                        <!-- Company Name -->
+
+                        <div class="profile-field">
+
+                            <span class="profile-field-label">
+                                Company Name
+                            </span>
+
+                            <span class="profile-field-value">
+                                {{ request.user.companyprofile.company_name|default:request.user.username }}
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- GSTIN -->
+
+                        <div class="profile-field">
+
+                            <span class="profile-field-label">
+                                GSTIN / Reg No.
+                            </span>
+
+                            <span class="profile-field-value">
+                                {{ request.user.companyprofile.gst_number|default:"Not provided" }}
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- Username -->
+
+                        <div class="profile-field">
+
+                            <span class="profile-field-label">
+                                Username
+                            </span>
+
+                            <span class="profile-field-value">
+                                {{ request.user.username }}
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- Email -->
+
+                        <div class="profile-field">
+
+                            <span class="profile-field-label">
+                                Work Email
+                            </span>
+
+                            <span class="profile-field-value">
+                                {{ request.user.email|default:"Not provided" }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- View Profile -->
+
+                    <div style="
+                        margin-top: 1.5rem;
+                        display: flex;
+                        justify-content: flex-end;
+                    ">
+
+                        <a href="{% url 'profile' %}"
+                           class="profile-link"
+                           style="
+                               color: #073b70;
+                               text-decoration: none;
+                               font-weight: 600;
+                               font-size: 0.9rem;
+                           ">
+
+                            View Profile →
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="footer">
+
+        <div class="footer-bottom">
+
+            <p>
+                &copy; 2026 Parakh. All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
 </body>
+
 </html>

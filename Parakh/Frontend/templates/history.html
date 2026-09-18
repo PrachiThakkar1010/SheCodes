@@ -21,35 +21,31 @@
 
     <header class="navbar">
 
-        <!-- Logo Image -->
-        <div class="logo-image">
-            <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
-        </div>
+    <div class="logo-image">
+        <img src="{% static 'Logo.png' %}" alt="Parakh Logo">
+    </div>
 
+    <div class="logo">
+        <a href="{% url 'home' %}">PARAKH</a>
+    </div>
 
-        <!-- Brand -->
-        <div class="logo">
-            <a href="{% url 'home' %}">PARAKH</a>
-        </div>
+    <nav class="nav-links">
 
+        {% if request.user.is_authenticated %}
 
-        <!-- Navigation -->
-        <nav class="nav-links">
+            <!-- Logged-in view -->
+            <a href="{% url 'home' %}">Home</a>
 
-            <a href="{% url 'home' %}">
-                Home
-            </a>
+            <!-- Company users get access to Studio -->
+            {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                <a href="{% url 'studio' %}">Studio</a>
+            {% endif %}
 
-            <a href="{% url 'scan' %}">
-                Scan
-            </a>
+            <a href="{% url 'scan' %}">Scan</a>
 
-            <a href="{% url 'rules' %}">
-                Rules
-            </a>
+            <a href="{% url 'rules' %}">Rules</a>
 
-
-            <!-- Profile Menu -->
+            <!-- Profile dropdown -->
             <div class="profile-menu">
 
                 <button
@@ -59,7 +55,6 @@
                     aria-expanded="false"
                     aria-label="Account menu"
                 >
-
                     <svg
                         width="22"
                         height="22"
@@ -67,7 +62,6 @@
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                     >
-
                         <circle
                             cx="12"
                             cy="8"
@@ -82,26 +76,36 @@
                             stroke-width="2"
                             stroke-linecap="round"
                         />
-
                     </svg>
-
                 </button>
 
-
-                <!-- Dropdown -->
                 <div class="profile-dropdown">
 
-                    <a href="{% url 'dashboard' %}">
-                        Dashboard
-                    </a>
+                    <!-- Different dashboard for company and normal users -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% else %}
+                        <a href="{% url 'dashboard' %}">
+                            Dashboard
+                        </a>
+                    {% endif %}
 
                     <a href="{% url 'profile' %}">
                         Profile
                     </a>
 
-                    <a href="{% url 'complaint_list' %}">
-                        Complaints
-                    </a>
+                    <!-- Complaints -->
+                    {% if request.user.companyprofile or request.user.user_type == 'company' %}
+                        <a href="{% url 'company_complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% else %}
+                        <a href="{% url 'complaint_list' %}">
+                            Complaints
+                        </a>
+                    {% endif %}
 
                     <a
                         href="{% url 'logout' %}"
@@ -114,10 +118,27 @@
 
             </div>
 
-        </nav>
+        {% else %}
 
-    </header>
+            <!-- Guest view -->
+            <a href="{% url 'home' %}">Home</a>
 
+            <a href="{% url 'scan' %}">Scan</a>
+
+            <a href="{% url 'rules' %}">Rules</a>
+
+            <a
+                href="{% url 'login' %}"
+                class="login-link"
+            >
+                Login
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+</header>
 
 
     <!-- =====================================================
