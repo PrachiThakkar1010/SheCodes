@@ -63,6 +63,19 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+# ============================================================
+# CSRF TRUSTED ORIGINS
+# ============================================================
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "DJANGO_CSRF_TRUSTED_ORIGINS",
+        ""
+    ).split(",")
+    if origin.strip()
+]
+
 
 # ============================================================
 # APPLICATIONS
@@ -94,6 +107,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -146,33 +160,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv(
-            'DB_ENGINE',
-            'django.db.backends.postgresql'
-        ),
-        'NAME': os.getenv(
-            'DB_NAME',
-            'sih2026_db'
-        ),
-        'USER': os.getenv(
-            'DB_USER',
-            'postgres'
-        ),
-        'PASSWORD': os.getenv(
-            'DB_PASSWORD',
-            ''
-        ),
-        'HOST': os.getenv(
-            'DB_HOST',
-            'localhost'
-        ),
-        'PORT': os.getenv(
-            'DB_PORT',
-            '5432'
-        ),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('PGDATABASE', os.getenv('DB_NAME', 'sih2026_db')),
+        'USER': os.getenv('PGUSER', os.getenv('DB_USER', 'postgres')),
+        'PASSWORD': os.getenv('PGPASSWORD', os.getenv('DB_PASSWORD', '')),
+        'HOST': os.getenv('PGHOST', os.getenv('DB_HOST', 'localhost')),
+        'PORT': os.getenv('PGPORT', os.getenv('DB_PORT', '5432')),
     }
 }
-
 
 # ============================================================
 # PASSWORD VALIDATION
