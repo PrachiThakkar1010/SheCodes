@@ -132,7 +132,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR.parent / 'Frontend' / 'templates'
+            BASE_DIR / 'Frontend' / 'templates'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -217,8 +217,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR.parent / 'Frontend' / 'static',
-    BASE_DIR.parent / 'Frontend' / 'assets',
+    BASE_DIR / 'Frontend' / 'static',
+    BASE_DIR / 'Frontend' / 'assets',
 ]
 
 # Directory where collectstatic will collect all static files
