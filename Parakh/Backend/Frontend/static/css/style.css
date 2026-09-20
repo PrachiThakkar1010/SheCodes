@@ -199,6 +199,12 @@ section {
     text-decoration: none;
 }
 
+@media (max-width: 768px) {
+    .navbar {
+        position: static;
+    }
+}
+
 /* =========================================================
    HERO SECTION
 ========================================================= */
@@ -1523,7 +1529,10 @@ footer {
  
     .searchbar-wrap {
         padding: 14px 6%;
+        position: static;
     }
+
+
 }
  
 @media (max-width: 600px) {
