@@ -21,14 +21,41 @@ The returned line format is intentionally compatible with:
 """
 
 import os
+import threading
 import time
 
 import cv2
 import numpy as np
+import psutil
 from PIL import Image
 
 _detector_engine = None
 _ocr_engine = None
+
+# Guards model construction. Without this, several gunicorn
+# threads can each see `None` at the same time and build their
+# own full set of models, which blows past the container's
+# memory limit and gets the worker SIGKILLed.
+_model_lock = threading.Lock()
+
+
+# ============================================================
+# MEMORY DIAGNOSTICS
+# ============================================================
+
+def _log_memory(label):
+    """
+    Print current memory usage of this process.
+
+    psutil works on Windows, Linux and Mac alike, so this
+    behaves the same locally and on the server.
+    """
+    mb = psutil.Process().memory_info().rss / (1024 * 1024)
+
+    print(
+        f"[MEM] {label}: {mb:.0f} MB",
+        flush=True,
+    )
 
 
 # ============================================================
@@ -41,19 +68,31 @@ def _get_detector():
 
     Detection only gives us WHERE text exists.
     Recognition is performed later only on selected zones.
+
+    The double `is None` check is deliberate: the outer one
+    keeps the fast path lock-free once the model exists, and
+    the inner one runs while holding the lock so only the
+    first thread through ever builds it.
     """
     global _detector_engine
 
     if _detector_engine is None:
-        from paddleocr import TextDetection
 
-        print("[OCR] Loading lightweight text detector...")
+        with _model_lock:
 
-        _detector_engine = TextDetection(
-            model_name="PP-OCRv6_tiny_det"
-        )
+            if _detector_engine is None:
 
-        print("[OCR] Text detector ready.")
+                from paddleocr import TextDetection
+
+                print("[OCR] Loading lightweight text detector...")
+
+                _detector_engine = TextDetection(
+                    model_name="PP-OCRv6_tiny_det"
+                )
+
+                print("[OCR] Text detector ready.")
+
+                _log_memory("after text detector load")
 
     return _detector_engine
 
@@ -63,23 +102,36 @@ def _get_ocr_engine():
     Load PaddleOCR recognition pipeline once per process.
 
     This is deliberately separate from the detector.
+
+    NOTE: PaddleOCR() is the FULL pipeline, so it builds its
+    own detector alongside the recognizer. That inner detector
+    is what splits each zone crop into individual lines before
+    recognition, so its quality directly affects accuracy -
+    do NOT downgrade it to a tiny model to save memory.
     """
     global _ocr_engine
 
     if _ocr_engine is None:
-        from paddleocr import PaddleOCR
 
-        print("[OCR] Loading recognition engine...")
+        with _model_lock:
 
-        _ocr_engine = PaddleOCR(
-            lang="en",
-            use_doc_orientation_classify=False,
-            use_doc_unwarping=False,
-            use_textline_orientation=False,
-            enable_mkldnn=False,
-        )
+            if _ocr_engine is None:
 
-        print("[OCR] Recognition engine ready.")
+                from paddleocr import PaddleOCR
+
+                print("[OCR] Loading recognition engine...")
+
+                _ocr_engine = PaddleOCR(
+                    lang="en",
+                    use_doc_orientation_classify=False,
+                    use_doc_unwarping=False,
+                    use_textline_orientation=False,
+                    enable_mkldnn=False,
+                )
+
+                print("[OCR] Recognition engine ready.")
+
+                _log_memory("after recognition engine load")
 
     return _ocr_engine
 
@@ -555,6 +607,8 @@ def _extract_lines_from_image(
         f"total={total_time:.2f}s | "
         f"lines={len(lines)}"
     )
+
+    _log_memory(f"after {image_id}")
 
     return lines
 
