@@ -32,6 +32,28 @@ from PIL import Image
 _detector_engine = None
 _ocr_engine = None
 
+
+# ============================================================
+# BACKEND SELECTION
+# ============================================================
+#
+# PaddleOCR needs roughly 1.2 GB of RAM on Linux, which does not
+# fit in Railway's 1 GB container - the worker gets SIGKILLed
+# while the models load. OCR.space does the reading on their
+# servers instead, so the container needs almost nothing.
+#
+#   Railway:  USE_CLOUD_OCR=True   -> OCR.space
+#   Local:    USE_CLOUD_OCR=False  -> PaddleOCR (more accurate)
+#
+# Both backends return identical line dictionaries, so nothing
+# downstream (labeler, aggregator, pipeline) changes either way.
+
+USE_CLOUD_OCR = os.getenv(
+    "USE_CLOUD_OCR",
+    "False",
+).lower() in ("true", "1", "yes")
+
+print(f"[OCR] USE_CLOUD_OCR={USE_CLOUD_OCR!r} raw={os.getenv('USE_CLOUD_OCR')!r}", flush=True)
 # Guards model construction. Without this, several gunicorn
 # threads can each see `None` at the same time and build their
 # own full set of models, which blows past the container's
@@ -519,12 +541,12 @@ def _ocr_zone(
 # ONE IMAGE
 # ============================================================
 
-def _extract_lines_from_image(
+def _extract_lines_paddle(
     image_path,
     image_id,
 ):
     """
-    Fast selective OCR for one image.
+    Fast selective OCR for one image, using local PaddleOCR.
     """
 
     total_start = time.perf_counter()
@@ -611,6 +633,37 @@ def _extract_lines_from_image(
     _log_memory(f"after {image_id}")
 
     return lines
+
+
+# ============================================================
+# BACKEND DISPATCH
+# ============================================================
+
+def _extract_lines_from_image(
+    image_path,
+    image_id,
+):
+    """
+    OCR one image using whichever backend is configured.
+
+    The ocrspace import is deliberately kept inside the branch so
+    that neither backend's dependencies are loaded unless that
+    backend is actually used.
+    """
+
+    if USE_CLOUD_OCR:
+
+        from ocr import ocrspace
+
+        return ocrspace.extract_lines_from_image(
+            image_path,
+            image_id,
+        )
+
+    return _extract_lines_paddle(
+        image_path,
+        image_id,
+    )
 
 
 # ============================================================
