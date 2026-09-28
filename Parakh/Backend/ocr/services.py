@@ -99,11 +99,15 @@ def _get_detector():
 
 def _get_ocr_engine():
     """
-    Load PaddleOCR pipeline once per process.
+    Load PaddleOCR recognition pipeline once per process.
 
-    Mobile models are used because the container has a hard
-    1 GB memory limit and the Linux build of Paddle uses far
-    more memory per model than the Windows build does.
+    This is deliberately separate from the detector.
+
+    NOTE: PaddleOCR() is the FULL pipeline, so it builds its
+    own detector alongside the recognizer. That inner detector
+    is what splits each zone crop into individual lines before
+    recognition, so its quality directly affects accuracy -
+    do NOT downgrade it to a tiny model to save memory.
     """
     global _ocr_engine
 
@@ -119,8 +123,6 @@ def _get_ocr_engine():
 
                 _ocr_engine = PaddleOCR(
                     lang="en",
-                    text_detection_model_name="PP-OCRv6_tiny_det",
-                    text_recognition_model_name="PP-OCRv6_small_rec",
                     use_doc_orientation_classify=False,
                     use_doc_unwarping=False,
                     use_textline_orientation=False,
@@ -522,13 +524,7 @@ def _extract_lines_from_image(
     image_id,
 ):
     """
-    OCR one image in a single pass.
-
-    The standalone tiny detector and the zone-cropping step
-    were removed: PaddleOCR() builds its own detector anyway,
-    so holding a second one pushed the container past its
-    1 GB limit. The pipeline now detects and recognizes the
-    whole image in one call.
+    Fast selective OCR for one image.
     """
 
     total_start = time.perf_counter()
@@ -544,20 +540,54 @@ def _extract_lines_from_image(
     image_height, image_width = image.shape[:2]
 
     # --------------------------------------------------------
-    # Detection + recognition (single pipeline call)
+    # Detection
+    # --------------------------------------------------------
+
+    regions, detection_time = _detect_text_regions(
+        image
+    )
+
+    # --------------------------------------------------------
+    # Zone construction
+    # --------------------------------------------------------
+
+    zone_start = time.perf_counter()
+
+    zones = _build_text_zones(
+        regions,
+        image_width,
+        image_height,
+    )
+
+    zone_time = time.perf_counter() - zone_start
+
+    print(
+        f"[OCR] {image_id}: "
+        f"{len(regions)} text regions → "
+        f"{len(zones)} zones"
+    )
+
+    # --------------------------------------------------------
+    # Recognition
     # --------------------------------------------------------
 
     engine = _get_ocr_engine()
 
     recognition_start = time.perf_counter()
 
-    lines = _ocr_zone(
-        engine,
-        image,
-        {"box": [0, 0, image_width, image_height]},
-        image_scale,
-        image_id,
-    )
+    lines = []
+
+    for zone in zones:
+
+        zone_lines = _ocr_zone(
+            engine,
+            image,
+            zone,
+            image_scale,
+            image_id,
+        )
+
+        lines.extend(zone_lines)
 
     recognition_time = (
         time.perf_counter()
@@ -571,6 +601,8 @@ def _extract_lines_from_image(
 
     print(
         f"[OCR TIMING] {image_id}: "
+        f"detection={detection_time:.2f}s | "
+        f"zones={zone_time:.2f}s | "
         f"recognition={recognition_time:.2f}s | "
         f"total={total_time:.2f}s | "
         f"lines={len(lines)}"
@@ -579,6 +611,7 @@ def _extract_lines_from_image(
     _log_memory(f"after {image_id}")
 
     return lines
+
 
 # ============================================================
 # FULL SCAN
