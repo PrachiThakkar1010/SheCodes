@@ -6,7 +6,7 @@ from .models import ProductScan, ScanViolation
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.urls import reverse
-
+from django.core.files.base import ContentFile 
 from .models import ProductScan, ProductScanImage
 from compliance.models import ComplianceRule
 from compliance.engine.pipeline import run_scan
@@ -51,7 +51,12 @@ def scan_view(request):
             status='PENDING',
         )
         for i, img in enumerate(images):
-            ProductScanImage.objects.create(scan=scan, image=img, order=i)
+            img.seek(0)
+            ProductScanImage.objects.create(
+                scan=scan,
+                image=ContentFile(img.read(), name=img.name),
+                order=i,
+                )
 
         run_scan(scan)
 
